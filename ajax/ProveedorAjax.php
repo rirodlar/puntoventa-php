@@ -14,18 +14,18 @@
 			$nombre = $_POST["txtNombre"];
 			$tipo_documento = $_POST["cboTipo_Documento"];
 			$num_documento = $_POST["txtNum_Documento"];
-			$direccion_departamento = $_POST["txtDireccion_Departamento"];
-			$direccion_provincia = $_POST["txtDireccion_Provincia"];
-			$direccion_distrito = $_POST["txtDireccion_Distrito"];
+			//$direccion_departamento = $_POST["txtDireccion_Departamento"];
+			$ciudad = $_POST["txtCiudad"];
+			$comuna = $_POST["txtComuna"];
 			$direccion_calle = $_POST["txtDireccion_Calle"];
 			$telefono = $_POST["txtTelefono"];
 			$email = $_POST["txtEmail"];
-			$numero_cuenta = $_POST["txtNumero_Cuenta"];
+			//$numero_cuenta = $_POST["txtNumero_Cuenta"];
 			$estado = $_POST["txtEstado"];
 
 			if(empty($_POST["txtIdPersona"])){
-				
-				if($objProveedor->Registrar($tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion_departamento,$direccion_provincia,$direccion_distrito,$direccion_calle,$telefono,$email,$numero_cuenta,$estado)){
+				//                          $tipo_persona,$nombre,$apellidos,$tipo_documento,$num_documento,$ciudad,$direccion_distrito,$direccion_calle,$telefono,$telefono2,$email,$estado
+				if($objProveedor->Registrar($tipo_persona,$nombre,'App',     $tipo_documento,$num_documento,$ciudad,$comuna,$direccion_calle,$telefono,'11',    $email,$estado)){
 					echo "Proveedor registrado correctamente";
 				}else{
 					echo "El Proveedor no ha podido ser registrado.";
@@ -33,7 +33,8 @@
 			}else{
 				
 				$idpersona = $_POST["txtIdPersona"];
-				if($objProveedor->Modificar($idpersona,$tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion_departamento,$direccion_provincia,$direccion_distrito,$direccion_calle,$telefono,$email,$numero_cuenta,$estado)){
+                                                           //$idpersona,$tipo_persona,$nombre,$apellidos,$tipo_documento,$num_documento,$ciudad,$direccion_distrito,$direccion_calle,$telefono,$telefono2,$email,$estado
+				if($objProveedor->Modificar($idpersona,$tipo_persona,$nombre,'' ,$tipo_documento, $num_documento,$ciudad,$comuna,$direccion_calle,$telefono,'',$email,$estado)){
 					echo "La informacion del Proveedor ha sido actualizada";
 				}else{
 					echo "La informacion del Proveedor no ha podido ser actualizada.";
@@ -54,26 +55,40 @@
 		
 		case "list":
 			$query_Tipo = $objProveedor->ListarProveedor();
-            $data = Array();
-            $i = 1;
-     		while ($reg = $query_Tipo->fetch_object()) {
-     			$data[] = array(
-     				"0"=>$i,
-                    "1"=>$reg->nombre,
-                    "2"=>$reg->tipo_documento.'&nbsp;'.$reg->num_documento,
-                    "3"=>$reg->email,
-                    "4"=>$reg->telefono,
-                    "5"=>$reg->direccion_departamento,
-                    "6"=>'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataProveedor('.$reg->idpersona.',\''.$reg->tipo_persona.'\',\''.$reg->nombre.'\',\''.$reg->tipo_documento.'\',\''.$reg->num_documento.'\',\''.$reg->direccion_departamento.'\',\''.$reg->direccion_provincia.'\',\''.$reg->direccion_distrito.'\',\''.$reg->direccion_calle.'\',\''.$reg->telefono.'\',\''.$reg->email.'\',\''.$reg->numero_cuenta.'\',\''.$reg->estado.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
-     				'<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarProveedor('.$reg->idpersona.')"><i class="fa fa-trash"></i> </button>');
-                $i++;
-            }
-            $results = array(
-            "sEcho" => 1,
-        	"iTotalRecords" => count($data),
-        	"iTotalDisplayRecords" => count($data),
-            "aaData"=>$data);
-			echo json_encode($results);
+                        $data = Array();
+                        $i = 1;
+                            while ($reg = $query_Tipo->fetch_object()) {
+                                    $data[] = array(
+                                            "0"=>$i,
+                                            "1"=>utf8_encode($reg->nombre),
+                                            "2"=>$reg->num_documento,
+                                            "3"=>utf8_encode($reg->direccion_calle),
+                                            "4"=>utf8_encode($reg->ciudad),
+
+                                            "6"=>'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" '
+                                           . 'onclick="cargarDataProveedor('.
+                                           $reg->idpersona.',\''.
+                                           $reg->tipo_persona.'\',\''.
+                                           utf8_encode($reg->nombre).'\',\''.
+                                           $reg->tipo_documento.'\',\''.
+                                           $reg->num_documento.'\',\''.
+//
+                                           utf8_encode($reg->ciudad).'\',\''.
+                                           utf8_encode($reg->comuna).'\',\''.
+                                           utf8_encode($reg->direccion_calle).'\',\''.
+                                           $reg->telefono.'\',\''.
+                                           utf8_encode($reg->email).'\',\''.
+
+                                           $reg->estado.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
+                                               '<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarProveedor('.$reg->idpersona.')"><i class="fa fa-trash"></i> </button>');
+                             $i++;
+                         }
+                         $results = array(
+                         "sEcho" => 1,
+                             "iTotalRecords" => count($data),
+                             "iTotalDisplayRecords" => count($data),
+                         "aaData"=>$data);
+                                     echo json_encode($results);
             
 			break;
 

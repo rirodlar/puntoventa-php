@@ -134,8 +134,8 @@ function cargarDataEmpleado(id,apellidos, nombre,tipo_documento,num_documento,di
 		$("#VerListado").hide();// ocultamos el listado
 
 		$("#txtIdEmpleado").val(id);// recibimos la variable id a la caja de texto txtIdCategoria
-	    $("#txtApellidos").val(apellidos);
-	    $("#txtNombre").val(nombre);
+	        $("#txtApellidos").val(apellidos);
+	        $("#txtNombre").val(nombre);
  		$("#cboTipo_Documento").val(tipo_documento);
  		$("#txtNum_Documento").val(num_documento);
  		$("#txtDireccion").val(direccion);
@@ -146,7 +146,7 @@ function cargarDataEmpleado(id,apellidos, nombre,tipo_documento,num_documento,di
  		$("#txtRutaImgEmp").val(foto);
  		$("#txtLogin").val(login);
  		//$("#txtClave").val(clave);
-	    $("#txtRutaImgEmp").show();
+	        $("#txtRutaImgEmp").show();
  		$("#txtEstado").val(estado);
  		$("#txtClaveOtro").val(clave);
  		//$("#txtClaveOtro").show();

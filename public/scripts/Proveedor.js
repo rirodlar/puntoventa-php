@@ -21,15 +21,15 @@ function init(){
 
 	function SaveOrUpdate(e){
 		e.preventDefault();// para que no se recargue la pagina
-        $.post("./ajax/ProveedorAjax.php?op=SaveOrUpdate", $(this).serialize(), function(r){// llamamos la url por post. function(r). r-> llamada del callback
-            
-            Limpiar();
-            ListadoProveedor();
-            //$.toaster({ priority : 'success', title : 'Mensaje', message : r});
-            swal("Mensaje del Sistema", r, "success");
-            OcultarForm();
-	        ListadoProveedor();
-        });
+                $.post("./ajax/ProveedorAjax.php?op=SaveOrUpdate", $(this).serialize(), function(r){// llamamos la url por post. function(r). r-> llamada del callback
+
+                    Limpiar();
+                    ListadoProveedor();
+                    //$.toaster({ priority : 'success', title : 'Mensaje', message : r});
+                    swal("Mensaje del Sistema", r, "success");
+                    OcultarForm();
+                        ListadoProveedor();
+                });
 	};
 
 	function Limpiar(){
@@ -38,8 +38,8 @@ function init(){
 	    $("#txtNombre").val("");
 	    $("#txtNum_Documento").val("");
 	    $("#txtDireccion_Departamento").val("");
-	    $("#txtDireccion_Provincia").val("");
-	    $("#txtDireccion_Distrito").val("");
+	    $("#txtCiudad").val("");
+	    $("#txtComuna").val("");
 	    $("#txtDireccion_Calle").val("");
 	    $("#txtTelefono").val("");
 	    $("#txtEmail").val("");
@@ -78,7 +78,7 @@ function ListadoProveedor(){
                     {   "mDataProp": "2"},
                     {   "mDataProp": "3"},
                     {   "mDataProp": "4"},
-                    {   "mDataProp": "5"},
+                 //   {   "mDataProp": "5"},
                     {   "mDataProp": "6"}
 
             ],"ajax": 
@@ -111,23 +111,23 @@ function eliminarProveedor(id){// funcion que llamamos del archivo ajax/Categori
 	})
 }
 
-function cargarDataProveedor(id, tipo_persona,nombre,tipo_documento,num_documento,direccion_departamento,direccion_provincia,direccion_distrito,direccion_calle,telefono,email,numero_cuenta,estado){// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
+function cargarDataProveedor(id, tipo_persona,nombre,tipo_documento,num_documento,ciudad,comuna,direccion_calle,telefono,email,estado){// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
 		$("#VerForm").show();// mostramos el formulario
 		$("#btnNuevo").hide();// ocultamos el boton nuevo
 		$("#VerListado").hide();
 
 		$("#txtIdPersona").val(id);// recibimos la variable id a la caja de texto
 		$("#cboTipoPersona").val(tipo_persona);
-	    $("#txtNombre").val(nombre);// recibimos la variable nombre a la caja de texto txtNombre
-	    $("#cboTipo_Documento").val(tipo_documento);
+                $("#txtNombre").val(nombre);// recibimos la variable nombre a la caja de texto txtNombre
+                $("#cboTipo_Documento").val(tipo_documento);
  		$("#txtNum_Documento").val(num_documento);
-	    $("#txtDireccion_Departamento").val(direccion_departamento);
-	    $("#txtDireccion_Provincia").val(direccion_provincia);
-	    $("#txtDireccion_Distrito").val(direccion_distrito);
-	    $("#txtDireccion_Calle").val(direccion_calle);
-	    $("#txtTelefono").val(telefono);
+              //  $("#txtDireccion_Departamento").val(direccion_departamento);
+                $("#txtCiudad").val(ciudad);
+                $("#txtComuna").val(comuna);
+                $("#txtDireccion_Calle").val(direccion_calle);
+                $("#txtTelefono").val(telefono);
  		$("#txtEmail").val(email);
- 		$("#txtNumero_Cuenta").val(numero_cuenta);
+ 		//$("#txtNumero_Cuenta").val(numero_cuenta);
  		$("#cboEstado").val(estado);
  	}
 

@@ -34,16 +34,16 @@ function init(){
 
 	function Limpiar(){
 		// Limpiamos las cajas de texto
-		$("#txtIdPersona").val("");
+	    $("#txtIdPersona").val("");
 	    $("#txtNombre").val("");
 	    $("#txtNum_Documento").val("");
-	    $("#txtDireccion_Departamento").val("");
-	    $("#txtDireccion_Provincia").val("");
-	    $("#txtDireccion_Distrito").val("");
+	   // $("#txtDireccion_Departamento").val("");
+	    $("#txtCiudad").val("");
+	    $("#txtComuna").val("");
 	    $("#txtDireccion_Calle").val("");
 	    $("#txtTelefono").val("");
 	    $("#txtEmail").val("");
-	    $("#txtNumero_cuenta").val("");
+	   // $("#txtNumero_cuenta").val("");
 
 	}
 
@@ -72,37 +72,39 @@ function init(){
 
 function ListadoCliente(){ 		
 		var tabla = $('#tblCliente').dataTable(
-		{   "aProcessing": true,
-       		"aServerSide": true,
-       		dom: 'Bfrtip',
-	        buttons: [
-	            'copyHtml5',
-	            'excelHtml5',
-	            'csvHtml5',
-	            'pdfHtml5'
-	        ],
-        	"aoColumns":[
-        	     	{   "mDataProp": "id"},
-                    {   "mDataProp": "1"},
-                    {   "mDataProp": "2"},
-                    {   "mDataProp": "3"},
-                    {   "mDataProp": "4"},
-                    {   "mDataProp": "5"},
-                    {   "mDataProp": "6"}
+                                        {   "aProcessing": true,
+                                            "aServerSide": true,
+                                            dom: 'Bfrtip',
+                                            buttons: [
+                                                'copyHtml5',
+                                                'excelHtml5',
+                                                'csvHtml5',
+                                                'pdfHtml5'
+                                            ],
+                                        "aoColumns":[
+                                                {   "mDataProp": "id"},
+                                                {   "mDataProp": "nombre"},
+                                                {   "mDataProp": "apellidos"},
+                                                {   "mDataProp": "num_documento"},
+                                                {   "mDataProp": "direccion_calle"},
+                                                {   "mDataProp": "telefono"},
+                                                //{   "mDataProp": "ciudad"},
+                                                {   "mDataProp": "opciones"},
+                                               
 
-        	],"ajax": 
-	        	{
-	        		url: './ajax/ClienteAjax.php?op=list',
-					type : "get",
-					dataType : "json",
-					
-					error: function(e){
-				   		console.log(e.responseText);	
-					}
-	        	},
-	        "bDestroy": true
+                                        ],"ajax": 
+                                                {
+                                                        url: './ajax/ClienteAjax.php?op=list',
+                                                                type : "get",
+                                                                dataType : "json",
 
-    	}).DataTable();
+                                                                error: function(e){
+                                                                        console.log(e.responseText);	
+                                                                }
+                                                },
+                                        "bDestroy": true
+
+                                }).DataTable();
     };
 
 function eliminarCliente(id){// funcion que llamamos del archivo ajax/CategoriaAjax.php?op=delete linea 53
@@ -119,23 +121,24 @@ function eliminarCliente(id){// funcion que llamamos del archivo ajax/CategoriaA
 	})
 }
 
-function cargarDataCliente(id, tipo_persona,nombre,tipo_documento,num_documento,direccion_departamento,direccion_provincia,direccion_distrito,direccion_calle,telefono,email,numero_cuenta,estado){// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
+function cargarDataCliente(id, tipo_persona,nombre,tipo_documento,num_documento,ciudad,comuna,direccion_calle,telefono,telefono2,email,apellidos,estado){// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
 		$("#VerForm").show();// mostramos el formulario
 		$("#btnNuevo").hide();// ocultamos el boton nuevo
 		$("#VerListado").hide();
-
-		$("#txtIdPersona").val(id);// recibimos la variable id a la caja de texto
+                $("#txtIdPersona").val(id);// recibimos la variable id a la caja de texto
 		$("#cboTipoPersona").val(tipo_persona);
-	    $("#txtNombre").val(nombre);// recibimos la variable nombre a la caja de texto txtNombre
-	    $("#cboTipo_Documento").val(tipo_documento);
- 		$("#txtNum_Documento").val(num_documento);
-	    $("#txtDireccion_Departamento").val(direccion_departamento);
-	    $("#txtDireccion_Provincia").val(direccion_provincia);
-	    $("#txtDireccion_Distrito").val(direccion_distrito);
-	    $("#txtDireccion_Calle").val(direccion_calle);
-	    $("#txtTelefono").val(telefono);
+                $("#txtNombre").val(nombre);// recibimos la variable nombre a la caja de texto txtNombre
+                $("#txtApellidos").val(apellidos);// recibimos la variable nombre a la caja de texto txtNombre
+                $("#cboTipo_Documento").val(tipo_documento);
+                $("#txtNum_Documento").val(num_documento);
+            //    $("#txtDireccion_Departamento").val(direccion_departamento);
+                $("#txtCiudad").val(ciudad);
+                $("#txtComuna").val(comuna);
+                $("#txtDireccion_Calle").val(direccion_calle);
+                $("#txtTelefono").val(telefono);
+                $("#txtTelefono2").val(telefono2);
  		$("#txtEmail").val(email);
- 		$("#txtNumero_Cuenta").val(numero_cuenta);
+ 		//$("#txtNumero_Cuenta").val(numero_cuenta);
  		$("#cboEstado").val(estado);
  	}
 

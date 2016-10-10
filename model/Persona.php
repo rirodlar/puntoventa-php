@@ -7,20 +7,24 @@
 		public function __construct(){
 		}
 
-		public function Registrar($tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion_departamento,$direccion_provincia,$direccion_distrito,$direccion_calle,$telefono,$email,$numero_cuenta,$estado){
+		public function Registrar($tipo_persona,$nombre,$apellidos,$tipo_documento,$num_documento,$ciudad,$comuna,$direccion_calle,$telefono,$telefono2,$email,$estado){
 			global $conexion;
-			$sql = "INSERT INTO persona(tipo_persona,nombre,tipo_documento,num_documento,direccion_departamento,direccion_provincia,direccion_distrito,direccion_calle,telefono,email,numero_cuenta,estado)
-						VALUES('$tipo_persona','$nombre','$tipo_documento','$num_documento','$direccion_departamento','$direccion_provincia','$direccion_distrito','$direccion_calle','$telefono','$email','$numero_cuenta','$estado')";
+			$sql = "INSERT INTO persona(tipo_persona,nombre,apellidos,tipo_documento,num_documento,ciudad,comuna,direccion_calle,telefono,telefono2,email,estado)
+						VALUES('$tipo_persona','$nombre','$apellidos','$tipo_documento','$num_documento','$ciudad','$comuna','$direccion_calle','$telefono','$telefono2','$email','$estado')";
 			$query = $conexion->query($sql);
+                        echo $query;
+                        echo $query;
 			return $query;
 		}
 		
-		public function Modificar($idpersona,$tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion_departamento,$direccion_provincia,$direccion_distrito,$direccion_calle,$telefono,$email,$numero_cuenta,$estado){
+		public function Modificar($idpersona,$tipo_persona,$nombre,$apellidos,$tipo_documento,$num_documento,$ciudad,$comuna,$direccion_calle,$telefono,$telefono2,$email,$estado){
 			global $conexion;
-			$sql = "UPDATE persona set tipo_persona = '$tipo_persona',nombre = '$nombre',tipo_documento='$tipo_documento',num_documento='$num_documento', direccion_departamento = '$direccion_departamento',direccion_provincia='$direccion_provincia',direccion_distrito='$direccion_distrito',direccion_calle='$direccion_calle' ,telefono='$telefono',email='$email',numero_cuenta='$numero_cuenta',
+                       
+			$sql = "UPDATE persona set tipo_persona = '$tipo_persona',nombre = '$nombre',apellidos='$apellidos',tipo_documento='$tipo_documento',num_documento='$num_documento',ciudad='$ciudad',comuna='$comuna',direccion_calle='$direccion_calle' ,telefono='$telefono',telefono2='$telefono2',email='$email',
 					estado='$estado'
 						WHERE idpersona = $idpersona";
 			$query = $conexion->query($sql);
+                        echo $query;
 			return $query;
 		}
 		
