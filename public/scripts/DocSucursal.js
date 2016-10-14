@@ -40,7 +40,7 @@ function init() {
             AgregarDetalleDocSuc(idsucursal, idtipo_doc, tipo_doc, serie, numero);
         }
         ConsultarDetallesDocSuc();
-        $("#txtSerie").val("");
+        $("#txtSerie").val("0");
         $("#txtNumero").val("");
     }
 
@@ -87,7 +87,7 @@ function init() {
                          tabla.fnAddData([
                                     s[i][0],
                                     s[i][1],
-                                    s[i][2],
+                                   // s[i][2],
                                     s[i][3],
                                     s[i][4],
                                     s[i][5],
@@ -118,7 +118,7 @@ function init() {
         $("#VerListado").hide();
         $("#txtIdDocSucursal").val("");
         $("#cboTipoDocumento").val("");
-        $("#txtSerie").val("");
+        $("#txtSerie").val("0");
         $("#txtNumero").val("");
         $("#btnAgregarSN").show();
         $("#tblDetalleDoc").show();
@@ -204,7 +204,9 @@ function ConsultarDetallesDocSuc() {
         var data = JSON.parse(objinit.consultar());
         
         for (var pos in data) {
-            $("table#tblDetalleDoc").append("<tr><td>"+data[pos][2]+"</td><td>"+data[pos][3]+"</td><td>"+data[pos][4]+"</td><td><button type='button' onclick='eliminarDetalleDocSuc(" + pos + ")' class='btn btn-danger'><i class='fa fa-remove' ></i> </button></td></tr>");
+            // $("table#tblDetalleDoc").append("<tr><td>"+data[pos][2]+"</td><td>"+data[pos][3]+"</td><td>"+data[pos][4]+"</td><td><button type='button' onclick='eliminarDetalleDocSuc(" + pos + ")' class='btn btn-danger'><i class='fa fa-remove' ></i> </button></td></tr>");
+
+            $("table#tblDetalleDoc").append("<tr><td>"+data[pos][2]+"</td><td>"+data[pos][4]+"</td><td><button type='button' onclick='eliminarDetalleDocSuc(" + pos + ")' class='btn btn-danger'><i class='fa fa-remove' ></i> </button></td></tr>");
         }
         //calcularIgvPed();
         //calcularSubTotalPed();

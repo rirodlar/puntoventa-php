@@ -14,6 +14,7 @@ function init(){
 
 	ListadoArticulos();
 	ComboCategoria();
+        ComboSubCategoria();
 	ComboUM();
 	$("#VerForm").hide();
 	$("#txtRutaImgArt").hide();
@@ -52,8 +53,14 @@ function init(){
 	};
 
 	function ComboCategoria(){
-			$.post("./ajax/ArticuloAjax.php?op=listCategoria", function(r){
-	            $("#cboCategoria").html(r);
+		$.post("./ajax/ArticuloAjax.php?op=listCategoria", function(r){
+	                $("#cboCategoria").html(r);
+	        });
+	}
+        
+        function ComboSubCategoria(){
+		$.post("./ajax/ArticuloAjax.php?op=listSubCategoria", function(r){
+	                $("#cboSubCategoria").html(r);
 	        });
 	}
 
@@ -82,37 +89,60 @@ function init(){
 }
 function ListadoArticulos(){ 
 	var tabla = $('#tblArticulos').dataTable(
-		{   "aProcessing": true,
-       		"aServerSide": true,
-       		dom: 'Bfrtip',
-	        buttons: [
-	            'copyHtml5',
-	            'excelHtml5',
-	            'csvHtml5',
-	            'pdfHtml5'
-	        ],
-        	"aoColumns":[
-        	     	{   "mDataProp": "id"},
-                    {   "mDataProp": "1"},
-                    {   "mDataProp": "2"},
-                    {   "mDataProp": "3"},
-                    {   "mDataProp": "4"},
-                    {   "mDataProp": "5"},
-                    {   "mDataProp": "6"}
+		{
+                    
+                    "aProcessing": true,
+                    "aServerSide": true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ],
+                      initComplete: function () {
+                         this.api().columns().every( function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo( $(column.footer()).empty() )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
 
-        	],"ajax": 
-	        	{
-	        		url: './ajax/ArticuloAjax.php?op=list',
-					type : "get",
-					dataType : "json",
-					
-					error: function(e){
-				   		console.log(e.responseText);	
-					}
-	        	},
-	        "bDestroy": true
+                                    column
+                                        .search( val ? '^'+val+'$' : '', true, false )
+                                        .draw();
+                                } );
 
-    	}).DataTable();
+                            column.data().unique().sort().each( function ( d, j ) {
+                                select.append( '<option value="'+d+'">'+d+'</option>' )
+                            } );
+                        } );
+                    }
+                    ,
+                    "aoColumns":[
+                            {   "mDataProp": "id"},
+                            {   "mDataProp": "1"},
+                            {   "mDataProp": "2"},
+                            {   "mDataProp": "3"},
+                            {   "mDataProp": "4"},
+                            {   "mDataProp": "5"},
+                            {   "mDataProp": "6"}
+
+                    ],"ajax": 
+                            {
+                                    url: './ajax/ArticuloAjax.php?op=list',
+                                            type : "get",
+                                            dataType : "json",
+
+                                            error: function(e){
+                                                    console.log(e.responseText);	
+                                            }
+                            },
+                    "bDestroy": true
+
+            }).DataTable();
 
     };
 function eliminarArticulo(id){
@@ -129,18 +159,28 @@ function eliminarArticulo(id){
 	})
 }
 
-function cargarDataArticulo(idarticulo, idcategoria, idunidad_medida, nombre, descripcion, imagen){
+function cargarDataArticulo(idarticulo, idcategoria, idunidad_medida, nombre, descripcion, imagen,idSubCategoria){
 		$("#VerForm").show();
 		$("#btnNuevo").hide();
 		$("#VerListado").hide();
 
 		$("#txtIdArticulo").val(idarticulo);
-	    $("#cboCategoria").val(idcategoria);
-	    $("#cboUnidadMedida").val(idunidad_medida);
-	    $("#txtNombre").val(nombre);
-	    $("#txtDescripcion").val(descripcion);
-	   // $("#imagenArt").val(imagen);
-	    $("#txtRutaImgArt").val(imagen);
-	    $("#txtRutaImgArt").show();
+                $("#cboCategoria").val(idcategoria);
+                $("#cboUnidadMedida").val(idunidad_medida);
+                $("#txtNombre").val(nombre);
+                $("#txtDescripcion").val(descripcion);
+               // $("#imagenArt").val(imagen);
+                $("#txtRutaImgArt").val(imagen);
+                
+              
+                $("#cboSubCategoria").val(idSubCategoria);
+                //$("#txtSubCategoria").val(idSubCategoria);
+                $("#txtRutaImgArt").show();
+                
+             
+               $.post("./ajax/SubCategoriaAjax.php?op=listSubCategoria", { elegido: idcategoria }, function(data){
+                    
+                         $("#cboSubCategoria").html(data);
+            }); 
 	    //$("#txtRutaImgArt").prop("disabled", true);
 }

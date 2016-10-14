@@ -112,15 +112,16 @@ function eliminarGlobal(id){// funcion que llamamos del archivo ajax/CategoriaAj
 	})
 }
 
-function cargarDataGlobal(id, empresa,nombre_impuesto,porcentaje_impuesto,simbolo_moneda, logo){// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
+function cargarDataGlobal(id, empresa,nombre_impuesto,porcentaje_impuesto,simbolo_moneda,interes ,logo){// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
 		$("#VerForm").show();// mostramos el formulario
 		$("#btnNuevo").hide();// ocultamos el boton nuevo
 		$("#VerListado").hide();// ocultamos el listado
 		$("#txtIdGlobal").val(id);// recibimos la variable id a la caja de texto txtIdCategoria
-	    $("#txtEmpresa").val(empresa);
-	    $("#txtNombre_Impuesto").val(nombre_impuesto);
-	    $("#txtPorcentaje_Impuesto").val(porcentaje_impuesto);
-	    $("#txtSimbolo_Moneda").val(simbolo_moneda);
-	    $("#txtRutaImgLogo").val(logo);
-	    $("#txtRutaImgLogo").show();
+                $("#txtEmpresa").val(empresa);
+                $("#txtNombre_Impuesto").val(nombre_impuesto);
+                $("#txtPorcentaje_Impuesto").val(porcentaje_impuesto);
+                $("#txtSimbolo_Moneda").val(simbolo_moneda);
+                $("#txtRutaImgLogo").val(logo);
+                $("#txtInteres").val(interes);
+                $("#txtRutaImgLogo").show();
 }

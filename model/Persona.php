@@ -12,8 +12,7 @@
 			$sql = "INSERT INTO persona(tipo_persona,nombre,apellidos,tipo_documento,num_documento,ciudad,comuna,direccion_calle,telefono,telefono2,email,estado)
 						VALUES('$tipo_persona','$nombre','$apellidos','$tipo_documento','$num_documento','$ciudad','$comuna','$direccion_calle','$telefono','$telefono2','$email','$estado')";
 			$query = $conexion->query($sql);
-                        echo $query;
-                        echo $query;
+                      
 			return $query;
 		}
 		
@@ -24,7 +23,7 @@
 					estado='$estado'
 						WHERE idpersona = $idpersona";
 			$query = $conexion->query($sql);
-                        echo $query;
+                      
 			return $query;
 		}
 		

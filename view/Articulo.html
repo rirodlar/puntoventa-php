@@ -1,7 +1,27 @@
+<script language="javascript">
+    
+$(document).ready(function(){
+    
+ 
+   $("#cboCategoria").change(function () {
+           $("#cboCategoria option:selected").each(function () {
+            elegido=$(this).val();
+         //   alert(elegido);
+            $.post("./ajax/SubCategoriaAjax.php?op=listSubCategoria", { elegido: elegido }, function(data){
+            
+                $("#cboSubCategoria").html(data);
+            });            
+        });
+   })
+ 
+   
+});
+</script>
+
 <div class="panel panel-default">
         <div class="panel-heading">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Catálogo de Artículos</h3>
+                  <h3 class="box-title">Catálogo de Productos</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     
@@ -24,9 +44,20 @@
                     <div class="form-group  has-success">
                         <input id="txtIdArticulo" type="hidden" maxlength="50" class="form-control" name="txtIdArticulo" required="" placeholder="" autofocus="" />
                         
-                        <select id="cboCategoria" name="cboCategoria" class="form-control">
+                        <select id="cboCategoria"  required="" name="cboCategoria" class="form-control">
+                            
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4 left">
+                    <label for="inputMarca">Sub Categoría:</label>
+                    <div class="form-group  has-success">
+                        
+                        <select id="cboSubCategoria" name="cboSubCategoria" class="form-control">
 
                         </select>
+                     
                     </div>
                 </div>
                 <div class="col-lg-4 left">
@@ -83,24 +114,24 @@
                     <thead>
                         <tr>
                         	<th>#</th>
-                            <th>Categoria</th>
-                            <th>U. Medida</th>
-                            <th>Articulo</th>
-                            <th>Descripcion</th>
-                            <th>Imagen</th>
-                            <th>Opciones</th>
+                                <th>Categoria</th>
+                                <th>Sub Categoria</th>
+                                <th>Articulo</th>
+                                <th>Descripcion</th>
+                                <th>Imagen</th>
+                                <th>Opciones</th>
                         </tr>
                     </thead>
              
                     <tfoot>
                         <tr>
                         	<th>#</th>
-                            <th>Categoria</th>
-                            <th>U. Medida</th>
-                            <th>Articulo</th>
-                            <th>Descripcion</th>
-                            <th>Imagen</th>
-                            <th>Opciones</th>
+                                <th>Categoria</th>
+                                <th>Sub Categoria</th>
+                                <th>Articulo</th>
+                                <th>Descripcion</th>
+                                <th>Imagen</th>
+                                <th>Opciones</th>
                         </tr>
                     </tfoot>
              

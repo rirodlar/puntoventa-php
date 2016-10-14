@@ -162,7 +162,7 @@ function init() {
         $("#txtIdProveedor").val("");
         $("#txtProveedor").val("");
        // $("#cboTipoComprobanteIng").val("");
-        $("#txtSerie").val("");
+        $("#txtSerie").val("0");
         $("#txtNumero").val("");
         $("#txtSubTotal").val("");
         $("#txtIgv").val("");
@@ -205,9 +205,9 @@ function init() {
     function AbrirModalProveedor(){
 		$("#modalListadoProveedor").modal("show");
 		$.post("./ajax/IngresoAjax.php?op=listProveedor", function(r){
-            $("#Proveedor").html(r);
-            $("#tblProveedores").DataTable();
-        });
+                        $("#Proveedor").html(r);
+                        $("#tblProveedores").DataTable();
+                });
 	}
 
     function AbrirModalSucursal(){

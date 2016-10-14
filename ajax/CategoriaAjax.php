@@ -49,8 +49,8 @@
 			while ($reg = $query_Tipo->fetch_object()) {
 				$data[] = array(
 					"id"=>$i,
-					"1"=>$reg->nombre,
-					"2"=>'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataCategoria('.$reg->idcategoria.',\''.$reg->nombre.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
+					"1"=>utf8_encode($reg->nombre),
+					"2"=>'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataCategoria('.$reg->idcategoria.',\''.utf8_encode($reg->nombre).'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
 					'<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarCategoria('.$reg->idcategoria.')"><i class="fa fa-trash"></i> </button>');
 				$i++;
 			}

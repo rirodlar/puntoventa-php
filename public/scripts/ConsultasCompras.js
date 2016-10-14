@@ -129,43 +129,43 @@ function init(){
 		var idsucursal = $("#txtIdSucursal").val();
 
 			var tabla = $('#tblStockArticulos').dataTable(
-		{   "aProcessing": true,
-       		"aServerSide": true,
-       		dom: 'Bfrtip',
-	        buttons: [
-	            'copyHtml5',
-	            'excelHtml5',
-	            'csvHtml5',
-	            'pdfHtml5'
-	        ],
-        	"aoColumns":[        	     	
-        			{   "mDataProp": "0"},
-                    {   "mDataProp": "1"},
-                    {   "mDataProp": "2"},
-                    {   "mDataProp": "3"},
-                    {   "mDataProp": "4"},
-                    {   "mDataProp": "5"},
-                    {   "mDataProp": "6"},
-                    {   "mDataProp": "7"},
-                    {   "mDataProp": "8"},
-                    {   "mDataProp": "9"},
-                    {   "mDataProp": "10"},
-                    {   "mDataProp": "11"}
+                            {   "aProcessing": true,
+                            "aServerSide": true,
+                            dom: 'Bfrtip',
+                            buttons: [
+                                'copyHtml5',
+                                'excelHtml5',
+                                'csvHtml5',
+                                'pdfHtml5'
+                            ],
+                            "aoColumns":[        	     	
+                                {   "mDataProp": "0"},
+                                {   "mDataProp": "1"},
+                                {   "mDataProp": "2"},
+                                {   "mDataProp": "3"},
+                                {   "mDataProp": "4"},
+                                {   "mDataProp": "5"},
+                                {   "mDataProp": "6"},
+                                {   "mDataProp": "7"},
+                                {   "mDataProp": "8"},
+                                {   "mDataProp": "9"},
+                                {   "mDataProp": "10"},
+                                {   "mDataProp": "11"}
 
-        	],"ajax": 
-	        	{
-	        		url: './ajax/ConsultasComprasAjax.php?op=listStockArticulos',
-					type : "get",
-					data:{idsucursal: idsucursal},
-					dataType : "json",
-					
-					error: function(e){
-				   		console.log(e.responseText);	
-					}
-	        	},
-	        "bDestroy": true
+                            ],"ajax": 
+                                    {
+                                            url: './ajax/ConsultasComprasAjax.php?op=listStockArticulos',
+                                                    type : "get",
+                                                    data:{idsucursal: idsucursal},
+                                                    dataType : "json",
 
-    	}).DataTable();
+                                                    error: function(e){
+                                                            console.log(e.responseText);	
+                                                    }
+                                    },
+                            "bDestroy": true
+
+                    }).DataTable();
 	}
 
 	function ListadoComprasFechas(){

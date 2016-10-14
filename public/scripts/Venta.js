@@ -153,7 +153,7 @@ function init(){
                     $("#txtNumeroVent").val(r.ultimo_numero);
                 } else {
                     $("#txtIdTipoDoc").val("");
-                	$("#txtSerieVent").val("");
+                	$("#txtSerieVent").val("0");
                     $("#txtNumeroVent").val("");
                 }
             });
@@ -194,7 +194,7 @@ function init(){
         $("#txtNumeroPed").val("");
         elementos.length = 0;
         $("#tblDetallePedido tbody").html("");
-        $("#txtSerieVent").val("");
+        $("#txtSerieVent").val("0");
         $("#txtNumeroVent").val("");
         GetNextNumero();
     }

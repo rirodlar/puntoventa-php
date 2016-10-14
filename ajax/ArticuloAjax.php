@@ -10,7 +10,7 @@
 
 		case 'SaveOrUpdate':			
 
-			$idcategoria = $_POST["cboCategoria"];
+			$idSubCategoria = $_POST["cboSubCategoria"];
 			$idunidad_medida = $_POST["cboUnidadMedida"];
 			$nombre = $_POST["txtNombre"];
 			$descripcion = $_POST["txtDescripcion"];
@@ -21,7 +21,7 @@
 
 				if(empty($_POST["txtIdArticulo"])){
 					
-					if($objArticulo->Registrar($idcategoria, $idunidad_medida, $nombre, $descripcion, "Files/Articulo/".$ruta)){
+					if($objArticulo->Registrar($idunidad_medida, $nombre, $descripcion, "Files/Articulo/".$ruta,$idSubCategoria)){
 						echo "Articulo Registrado";
 					}else{
 						echo "Articulo no ha podido ser registado.";
@@ -29,7 +29,7 @@
 				}else{
 					
 					$idarticulo = $_POST["txtIdArticulo"];
-					if($objArticulo->Modificar($idarticulo, $idcategoria, $idunidad_medida, $nombre, $descripcion, "Files/Articulo/".$ruta)){
+					if($objArticulo->Modificar($idarticulo, $idunidad_medida, $nombre, $descripcion, "Files/Articulo/".$ruta,$idSubCategoria)){
 						echo "Informacion del Articulo ha sido actualizada";
 					}else{
 						echo "Informacion del Articulo no ha podido ser actualizada.";
@@ -39,7 +39,7 @@
 				$ruta_img = $_POST["txtRutaImgArt"];
 				if(empty($_POST["txtIdArticulo"])){
 					
-					if($objArticulo->Registrar($idcategoria, $idunidad_medida, $nombre, $descripcion, $ruta_img)){
+					if($objArticulo->Registrar($idunidad_medida, $nombre, $descripcion, $ruta_img,$idSubCategoria)){
 						echo "Articulo Registrado";
 					}else{
 						echo "Articulo no ha podido ser registado.";
@@ -47,7 +47,7 @@
 				}else{
 					
 					$idarticulo = $_POST["txtIdArticulo"];
-					if($objArticulo->Modificar($idarticulo, $idcategoria, $idunidad_medida, $nombre, $descripcion, $ruta_img)){
+					if($objArticulo->Modificar($idarticulo, $idunidad_medida, $nombre, $descripcion, $ruta_img,$idSubCategoria)){
 						echo "Informacion del Articulo ha sido actualizada";
 					}else{
 						echo "Informacion del Articulo no ha podido ser actualizada.";
@@ -71,65 +71,78 @@
 		case "list":
 			$query_Tipo = $objArticulo->Listar();
 			$data = Array();
-            $i = 1;
-     		while ($reg = $query_Tipo->fetch_object()) {
+                        $i = 1;
+                        while ($reg = $query_Tipo->fetch_object()) {
 
-     			$data[] = array("id"=>$i,
-					"1"=>$reg->categoria,
-					"2"=>$reg->unidadMedida,
-					"3"=>$reg->nombre,
-					"4"=>$reg->descripcion,
-					"5"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />',
-					'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataArticulo('.$reg->idarticulo.',\''.$reg->idcategoria.'\',\''.$reg->idunidad_medida.'\',\''.$reg->nombre.'\',\''.$reg->descripcion.'\',\''.$reg->imagen.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
-					'<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarArticulo('.$reg->idarticulo.')"><i class="fa fa-trash"></i> </button>');
-				$i++;
+                            $data[] = array("id"=>$i,
+                                           "1"=>$reg->categoria,
+                                           "2"=>$reg->nombreSubcategoria,
+                                            "3"=>$reg->nombre,
+                                            "4"=>$reg->descripcion,
+                                            "5"=>'<img align="center" width=100px height=100px src="./'.$reg->imagen.'" />',
+                                            '<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataArticulo('.$reg->idarticulo.',\''.$reg->idcategoria.'\',\''.$reg->idunidad_medida.'\',\''.$reg->nombre.'\',\''.$reg->descripcion.'\',\''.$reg->imagen.'\',\''.$reg->idsubcategoria .'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
+                                            '<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarArticulo('.$reg->idarticulo.')"><i class="fa fa-trash"></i> </button>'
+                                        );
+                                    $i++;
 			}
 			$results = array(
-            "sEcho" => 1,
-        	"iTotalRecords" => count($data),
-        	"iTotalDisplayRecords" => count($data),
-            "aaData"=>$data);
+                        "sEcho" => 1,
+                        "iTotalRecords" => count($data),
+                        "iTotalDisplayRecords" => count($data),
+                        "aaData"=>$data);
 			echo json_encode($results);
             
 			break;
 		case "listArtElegir":
 			$query_Tipo = $objArticulo->Listar();
 			$data = Array();
-            $i = 1;
-     		while ($reg = $query_Tipo->fetch_object()) {
+                        $i = 1;
+                        while ($reg = $query_Tipo->fetch_object()) {
 
-     			$data[] = array(
-     				"0"=>'<button type="button" class="btn btn-warning" data-toggle="tooltip" title="Agregar al detalle" onclick="Agregar('.$reg->idarticulo.',\''.$reg->nombre.'\')" name="optArtBusqueda[]" data-nombre="'.$reg->nombre.'" id="'.$reg->idarticulo.'" value="'.$reg->idarticulo.'" ><i class="fa fa-check" ></i> </button>',
-     				"1"=>$i,
-					"2"=>$reg->categoria,
-					"3"=>$reg->unidadMedida,
-					"4"=>$reg->nombre,
-					"5"=>$reg->descripcion,
-					"6"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />');
+                                $data[] = array(
+                                    "0"=>'<button type="button" class="btn btn-warning" data-toggle="tooltip" title="Agregar al detalle" onclick="Agregar('.$reg->idarticulo.',\''.$reg->nombre.'\')" name="optArtBusqueda[]" data-nombre="'.$reg->nombre.'" id="'.$reg->idarticulo.'" value="'.$reg->idarticulo.'" ><i class="fa fa-check" ></i> </button>',
+                                    "1"=>$i,
+                                            "2"=>$reg->categoria,
+                                            "3"=>$reg->idunidad_medida,
+                                            "4"=>$reg->nombre,
+                                            "5"=>$reg->descripcion,
+                                            "6"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />');
 				$i++;
-            }
+                         }       
             
-            $results = array(
-            "sEcho" => 1,
-        	"iTotalRecords" => count($data),
-        	"iTotalDisplayRecords" => count($data),
-            "aaData"=>$data);
-			echo json_encode($results);
+                        $results = array(
+                        "sEcho" => 1,
+                            "iTotalRecords" => count($data),
+                            "iTotalDisplayRecords" => count($data),
+                        "aaData"=>$data);
+                                    echo json_encode($results);
             
 			break;
 
 		case "listCategoria":
-	        require_once "../model/Categoria.php";
+                    require_once "../model/Categoria.php";
 
-	        $objCategoria = new Categoria();
+                    $objCategoria = new Categoria();
 
-	        $query_Categoria = $objCategoria->Listar();
-
-	        while ($reg = $query_Categoria->fetch_object()) {
-	            echo '<option value=' . $reg->idcategoria . '>' . $reg->nombre . '</option>';
-	        }
+                    $query_Categoria = $objCategoria->Listar();
+                     echo '<option value=""></option>';
+                    while ($reg = $query_Categoria->fetch_object()) {
+                        echo '<option value=' . $reg->idcategoria . '>' . $reg->nombre . '</option>';
+                    }
 
 	        break;
+                
+                case "listSubCategoria":
+                    require_once "../model/SubCategoria.php";
+                    $idcategoria = $_POST["cboCategoria"];
+                    
+                    $objSubCategoria = new SubCategoria();
+                    $query_SubCategoria = $objSubCategoria->Listar($idcategoria);
+                     echo '<option value=""></option>';
+                    while ($reg = $query_SubCategoria->fetch_object()) {
+                        echo '<option value=' . $reg->idsubcategoria . '>' . $reg->nombreSubCategoria . '</option>';
+                    }
+                break;  
 
 	    case "listUM":
 

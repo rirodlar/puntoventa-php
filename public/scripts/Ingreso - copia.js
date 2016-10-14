@@ -245,9 +245,9 @@ function init() {
 		$("#modalListadoProveedor").modal("show");
 
 		$.post("./ajax/IngresoAjax.php?op=listProveedor", function(r){
-            $("#Proveedor").html(r);
-            $("#tblProveedores").DataTable();
-        });
+                        $("#Proveedor").html(r);
+                        $("#tblProveedores").DataTable();
+                });
 	}
 
     function AbrirModalSucursal(){

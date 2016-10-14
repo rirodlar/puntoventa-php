@@ -194,19 +194,20 @@
                     </div>
                 </div>
                 <div class="col-lg-5 left">
-                    <label for="inputMarca">Serie</label>
-                    <div class="form-group  has-success">
-                        <input id="txtIdTipoDoc" type="hidden" maxlength="50" class="form-control" name="txtIdTipoDoc" required="" autofocus="" placeholder="" readonly="readonly"/>
-                        <input id="txtSerieVent" type="text" maxlength="50" class="form-control" name="txtSerieVent" required="" autofocus="" placeholder=""/>
-                    </div>
-                </div>
-                <div class="col-lg-5 left">
                     <label for="inputInscripcion">Numero</label>
                     <div class="form-group  has-success">
                         
                         <input id="txtNumeroVent" type="text" class="form-control" name="txtNumeroVent" required="" placeholder=""/>
                     </div>
                 </div>
+                <div class="col-lg-5 left">
+                    
+                    <div class="form-group  has-success">
+                        <input id="txtIdTipoDoc" type="hidden" maxlength="50" class="form-control" name="txtIdTipoDoc" required="" autofocus="" placeholder="" readonly="readonly"/>
+                        <input id="txtSerieVent" type="hidden" value="0" maxlength="50" class="form-control" name="txtSerieVent" required="" autofocus="" placeholder=""/>
+                    </div>
+                </div>
+                
                 <div class="col-lg-3 left">
                     <label for="inputInscripcion">Impuesto</label>
                     <div class="form-group  has-success">
@@ -397,7 +398,7 @@
     <div class="modal-content">
   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" >×</button>
-                    <h3 class="myModalLabel">Registrar Credito</h3>
+                    <h3 class="myModalLabel">Registrar Credito (P)</h3>
                 </div>
                 <div class="modal-body">
                     <form role="form" name="frmCreditos" id="frmCreditos" >
@@ -413,8 +414,19 @@
                                     </div>
                                     <div class="col-lg-4 left">
                                        <div class="form-group" >
-                                            <label for="inputApellidos">Total de Pago</label>
+                                            <label for="inputApellidos">Pie</label>
                                             <input id="txtTotalPago"  type="text" class="form-control" name="txtTotalPago" required="" placeholder="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 left">
+                                       <div class="form-group" >
+                                            <label for="inputCuotas">N° Cuotas</label><br/>
+                                            <select class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

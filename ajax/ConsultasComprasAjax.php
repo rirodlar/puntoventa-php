@@ -39,11 +39,11 @@
 			break;
 
 		case "listStockArticulos":
-           if ( !isset($_REQUEST['idsucursal'])) $_REQUEST['idsucursal'] = 1;
-          $idsucursal = $_REQUEST["idsucursal"];
-          $data =Array();
+                        if ( !isset($_REQUEST['idsucursal'])) $_REQUEST['idsucursal'] = 1;
+                       $idsucursal = $_REQUEST["idsucursal"];
+                       $data =Array();
 
-			$query_Tipo = $objCategoria->ListarStockArticulos($idsucursal);
+                                     $query_Tipo = $objCategoria->ListarStockArticulos($idsucursal);
 
 			while ($reg = $query_Tipo->fetch_object()) {
 

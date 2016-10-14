@@ -36,7 +36,7 @@
 
 		public function ListarStockArticulos($idsucursal){
 			global $conexion;
-			$sql = "select s.razon_social as sucursal,a.nombre as articulo,
+                        $sql  =  "select s.razon_social as sucursal,a.nombre as articulo,
 				c.nombre as categoria,di.codigo,di.serie,
 				u.nombre as unidad,
 				sum(di.stock_ingreso) as totalingreso,
@@ -49,12 +49,32 @@
 				from articulo a inner join detalle_ingreso di on di.idarticulo=a.idarticulo
 				inner join ingreso i on di.idingreso=i.idingreso
 				inner join sucursal s on i.idsucursal=s.idsucursal
-				inner join categoria c on a.idcategoria=c.idcategoria
+				inner join subcategoria sub on sub.idsubcategoria = a.idsubcategoria
+				inner join categoria c on sub.idcategoria=c.idcategoria
 				inner join unidad_medida u on a.idunidad_medida=u.idunidad_medida
 				where di.stock_actual>'0' and s.idsucursal=$idsucursal and i.estado='A'
 				group by a.nombre,c.nombre,u.nombre,di.serie,di.codigo
-				order by a.nombre asc
-				";
+				order by a.nombre asc";
+                        
+//			$sql = "select s.razon_social as sucursal,a.nombre as articulo,
+//				c.nombre as categoria,di.codigo,di.serie,
+//				u.nombre as unidad,
+//				sum(di.stock_ingreso) as totalingreso,
+//				sum(di.stock_ingreso*di.precio_compra) as valorizadoingreso,
+//				sum(di.stock_actual) as totalstock,
+//				sum(di.stock_actual*di.precio_compra) as valorizadostock,
+//				sum(di.stock_ingreso-di.stock_actual) as totalventa,
+//				sum((di.stock_ingreso-di.stock_actual)*di.precio_ventapublico) as valorizadoventa,
+//				sum((di.precio_ventapublico-di.precio_compra)*di.stock_ingreso) as utilidadvalorizada
+//				from articulo a inner join detalle_ingreso di on di.idarticulo=a.idarticulo
+//				inner join ingreso i on di.idingreso=i.idingreso
+//				inner join sucursal s on i.idsucursal=s.idsucursal
+//				inner join categoria c on a.idcategoria=c.idcategoria
+//				inner join unidad_medida u on a.idunidad_medida=u.idunidad_medida
+//				where di.stock_actual>'0' and s.idsucursal=$idsucursal and i.estado='A'
+//				group by a.nombre,c.nombre,u.nombre,di.serie,di.codigo
+//				order by a.nombre asc
+//				";
 			$query = $conexion->query($sql);
 			return $query;
 		}

@@ -137,7 +137,7 @@ switch ($_GET["op"]) {
                         <td>'.$reg->tipo_documento.'</td>
                         <td>'.$reg->num_documento.'</td>
                         <td>'.$reg->email.'</td>
-                        <td>'.$reg->numero_cuenta.'</td>
+                        
                        </tr>';
                  $i++; 
             }

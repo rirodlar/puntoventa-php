@@ -4,7 +4,8 @@ var objC = new init();
 
 function init(){
 
-
+     
+     
 	var tabla = $('#tblCategorias').dataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -79,8 +80,8 @@ function ListadoCategorias(){
 	        ],
         	"aoColumns":[
         	     	{   "mDataProp": "id"},
-                    {   "mDataProp": "1"},
-                    {   "mDataProp": "2"}
+                        {   "mDataProp": "1"},
+                        {   "mDataProp": "2"}
 
         	],"ajax": 
 	        	{
@@ -120,5 +121,5 @@ function cargarDataCategoria(id, nombre){// funcion que llamamos del archivo aja
 		$("#VerListado").hide();
 
 		$("#txtIdCategoria").val(id);// recibimos la variable id a la caja de texto txtIdCategoria
-	    $("#txtNombre").val(nombre);// recibimos la variable nombre a la caja de texto txtNombre
+	        $("#txtNombre").val(nombre);// recibimos la variable nombre a la caja de texto txtNombre
 }

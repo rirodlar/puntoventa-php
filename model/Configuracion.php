@@ -7,17 +7,17 @@
 		public function __construct(){
 		}
 
-		public function Registrar($empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, $logo){
+		public function Registrar($empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda,$interes, $logo){
 			global $conexion;
-			$sql = "INSERT INTO global(empresa,nombre_impuesto,porcentaje_impuesto,simbolo_moneda, logo)
-						VALUES('$empresa','$nombre_impuesto','$porcentaje_impuesto','$simbolo_moneda', '$logo')";
+			$sql = "INSERT INTO global(empresa,nombre_impuesto,porcentaje_impuesto,simbolo_moneda,interes, logo)
+						VALUES('$empresa','$nombre_impuesto','$porcentaje_impuesto','$simbolo_moneda','$interes', '$logo')";
 			$query = $conexion->query($sql);
 			return $query;
 		}
 		
-		public function Modificar($idglobal, $empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, $logo){
+		public function Modificar($idglobal, $empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, $interes,$logo){
 			global $conexion;
-			$sql = "UPDATE global set empresa = '$empresa',nombre_impuesto='$nombre_impuesto',porcentaje_impuesto='$porcentaje_impuesto',simbolo_moneda='$simbolo_moneda', logo = '$logo'
+			$sql = "UPDATE global set empresa = '$empresa',nombre_impuesto='$nombre_impuesto',porcentaje_impuesto='$porcentaje_impuesto',simbolo_moneda='$simbolo_moneda', interes ='$interes', logo = '$logo'
 						WHERE idglobal = $idglobal";
 			$query = $conexion->query($sql);
 			return $query;

@@ -14,13 +14,14 @@
 			$nombre_impuesto = $_POST["txtNombre_Impuesto"];
 			$porcentaje_impuesto = $_POST["txtPorcentaje_Impuesto"];
 			$simbolo_moneda = $_POST["txtSimbolo_Moneda"];
+                        $interes = $_POST["txtInteres"];
 			$imagen = $_FILES["imagenGlobal"]["tmp_name"];
 			$ruta = $_FILES["imagenGlobal"]["name"];
 
 			if(move_uploaded_file($imagen, "../Files/Global/".$ruta)){
 				if(empty($_POST["txtIdGlobal"])){
 					
-					if($objGlobal->Registrar($empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, "Files/Global/".$ruta)){
+					if($objGlobal->Registrar($empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda,$interes, "Files/Global/".$ruta)){
 						echo "Configuración Global registrada, se utilizará esta configuración.";
 					}else{
 						echo "La configuración global no ha podido ser registada.";
@@ -28,7 +29,7 @@
 				}else{
 					
 					$idglobal = $_POST["txtIdGlobal"];
-					if($objGlobal->Modificar($idglobal, $empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, "Files/Global/".$ruta)){
+					if($objGlobal->Modificar($idglobal, $empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda,$interes, "Files/Global/".$ruta)){
 						echo "La configuración Global ha sido actualizada";
 					}else{
 						echo "la Informacion de la configuración global no ha podido ser actualizada.";
@@ -38,7 +39,7 @@
 				$ruta_img = $_POST["txtRutaImgLogo"];
 				if(empty($_POST["txtIdGlobal"])){
 					
-					if($objGlobal->Registrar($empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, $ruta_img)){
+					if($objGlobal->Registrar($empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda,$interes, $ruta_img)){
 						echo "Configuración Global registrada, se utilizará esta configuración.";
 					}else{
 						echo "La configuración global no ha podido ser registada.";
@@ -46,7 +47,7 @@
 				}else{
 					
 					$idglobal = $_POST["txtIdGlobal"];
-					if($objGlobal->Modificar($idglobal, $empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda, $ruta_img)){
+					if($objGlobal->Modificar($idglobal, $empresa,$nombre_impuesto,$porcentaje_impuesto,$simbolo_moneda,$interes, $ruta_img)){
 						echo "La configuración Global ha sido actualizada";
 					}else{
 						echo "la Informacion de la configuración global no ha podido ser actualizada.";
@@ -69,15 +70,16 @@
 		case "list":
 			$query_Tipo = $objGlobal->Listar();
 
-            $i = 1;
-     		while ($reg = $query_Tipo->fetch_object()) {
+                        $i = 1;
+                        while ($reg = $query_Tipo->fetch_object()) {
      			$data[] = array($i,
 					$reg->empresa,
 					$reg->nombre_impuesto,
 					$reg->porcentaje_impuesto,
 					$reg->simbolo_moneda,
+                                        $reg->interes,
 					'<img width=100px height=100px src="./'.$reg->logo.'" />',
-					'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataGlobal('.$reg->idglobal.',\''.$reg->empresa.'\',\''.$reg->nombre_impuesto.'\',\''.$reg->porcentaje_impuesto.'\',\''.$reg->simbolo_moneda.'\',\''.$reg->logo.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'
+					'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataGlobal('.$reg->idglobal.',\''.$reg->empresa.'\',\''.$reg->nombre_impuesto.'\',\''.$reg->porcentaje_impuesto.'\',\''.$reg->simbolo_moneda.'\',\''.$reg->interes.'\',\''.$reg->logo.'\'    )"><i class="fa fa-pencil"></i> </button>&nbsp;'
 					);
 				$i++;
 			}
@@ -88,9 +90,9 @@
 		case "GetImpuesto":
 			$query_Tipo = $objGlobal->Listar();
 
-            $reg = $query_Tipo->fetch_object();
+                         $reg = $query_Tipo->fetch_object();
      		
-     		echo json_encode($reg);
+                        echo json_encode($reg);
             
 			break;
 
