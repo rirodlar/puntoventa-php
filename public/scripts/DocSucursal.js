@@ -221,7 +221,7 @@ function ConsultarDetallesDocSuc() {
        // $("#VerMod").show();
         $("#txtIdDocSucursal").val(iddetalle_documento_sucursal);
         $("#cboTipoDocumento").val(idtipo_documento);
-        $("#txtSerie").val(ultima_serie);
+       // $("#txtSerie").val(ultima_serie);
         $("#txtNumero").val(ultimo_numero);
         $("#btnAgregarSN").hide();
         $("#tblDetalleDoc").hide();

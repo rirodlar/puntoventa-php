@@ -13,7 +13,7 @@
 			$razon_social = $_POST["txtRazon_Social"];
 			$tipo_documento = $_POST["cboTipo_Documento"];
 			$num_documento = $_POST["txtNum_Documento"];
-			$direccion = $_POST["txtDireccion"];
+			$direccion = utf8_encode($_POST["txtDireccion"]);
 			$telefono = $_POST["txtTelefono"];
 			$email = $_POST["txtEmail"];
 			$representante = $_POST["txtRepresentante"];
@@ -85,7 +85,7 @@
 					$reg->direccion,
 					$reg->email,
 					'<img width=100px height=100px src="./'.$reg->logo.'" />',
-					'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataSucursal('.$reg->idsucursal.',\''.$reg->razon_social.'\',\''.$reg->tipo_documento.'\',\''.$reg->num_documento.'\',\''.$reg->direccion.'\',\''.$reg->telefono.'\',\''.$reg->email.'\',\''.$reg->representante.'\',\''.$reg->logo.'\',\''.$reg->estado.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
+					'<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataSucursal('.$reg->idsucursal.',\''.$reg->razon_social.'\',\''.$reg->tipo_documento.'\',\''.$reg->num_documento.'\',\''.addslashes(utf8_encode($reg->direccion)).'\',\''.$reg->telefono.'\',\''.$reg->email.'\',\''.$reg->representante.'\',\''.$reg->logo.'\',\''.$reg->estado.'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
 					'<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarSucursal('.$reg->idsucursal.')"><i class="fa fa-trash"></i> </button>');
 				$i++;
 			}

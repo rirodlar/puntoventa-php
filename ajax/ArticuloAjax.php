@@ -12,11 +12,11 @@
 
 			$idSubCategoria = $_POST["cboSubCategoria"];
 			$idunidad_medida = $_POST["cboUnidadMedida"];
-			$nombre = $_POST["txtNombre"];
-			$descripcion = $_POST["txtDescripcion"];
+			$nombre =      utf8_encode($_POST["txtNombre"]);
+			$descripcion = utf8_encode($_POST["txtDescripcion"]);
 			$imagen = $_FILES["imagenArt"]["tmp_name"];
 			$ruta = $_FILES["imagenArt"]["name"];
-
+                        
 			if(move_uploaded_file($imagen, "../Files/Articulo/".$ruta)){
 
 				if(empty($_POST["txtIdArticulo"])){
@@ -37,6 +37,9 @@
 				}
 			} else {
 				$ruta_img = $_POST["txtRutaImgArt"];
+                                if (empty($ruta_img)){
+                                    $ruta_img = "./Files/Articulo/imagennodisponible.png";
+                                }
 				if(empty($_POST["txtIdArticulo"])){
 					
 					if($objArticulo->Registrar($idunidad_medida, $nombre, $descripcion, $ruta_img,$idSubCategoria)){
@@ -75,12 +78,12 @@
                         while ($reg = $query_Tipo->fetch_object()) {
 
                             $data[] = array("id"=>$i,
-                                           "1"=>$reg->categoria,
-                                           "2"=>$reg->nombreSubcategoria,
-                                            "3"=>$reg->nombre,
-                                            "4"=>$reg->descripcion,
+                                           "1"=>utf8_encode($reg->categoria),
+                                           "2"=>utf8_encode($reg->nombreSubcategoria),
+                                            "3"=>utf8_encode($reg->nombre),
+                                            "4"=>utf8_encode($reg->descripcion),
                                             "5"=>'<img align="center" width=100px height=100px src="./'.$reg->imagen.'" />',
-                                            '<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataArticulo('.$reg->idarticulo.',\''.$reg->idcategoria.'\',\''.$reg->idunidad_medida.'\',\''.$reg->nombre.'\',\''.$reg->descripcion.'\',\''.$reg->imagen.'\',\''.$reg->idsubcategoria .'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
+                                            '<button class="btn btn-warning" data-toggle="tooltip" title="Editar" onclick="cargarDataArticulo('.$reg->idarticulo.',\''.$reg->idcategoria.'\',\''.$reg->idunidad_medida.'\',\''.addslashes(utf8_encode($reg->nombre)).'\',\''.addslashes(utf8_encode($reg->descripcion)).'\',\''.$reg->imagen.'\',\''.$reg->idsubcategoria .'\')"><i class="fa fa-pencil"></i> </button>&nbsp;'.
                                             '<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar" onclick="eliminarArticulo('.$reg->idarticulo.')"><i class="fa fa-trash"></i> </button>'
                                         );
                                     $i++;
@@ -100,12 +103,12 @@
                         while ($reg = $query_Tipo->fetch_object()) {
 
                                 $data[] = array(
-                                    "0"=>'<button type="button" class="btn btn-warning" data-toggle="tooltip" title="Agregar al detalle" onclick="Agregar('.$reg->idarticulo.',\''.$reg->nombre.'\')" name="optArtBusqueda[]" data-nombre="'.$reg->nombre.'" id="'.$reg->idarticulo.'" value="'.$reg->idarticulo.'" ><i class="fa fa-check" ></i> </button>',
+                                    "0"=>'<button type="button" class="btn btn-warning" data-toggle="tooltip" title="Agregar al detalle" onclick="Agregar('.$reg->idarticulo.',\''.addslashes(utf8_encode($reg->nombre)).'\')" name="optArtBusqueda[]" data-nombre="'.addslashes(utf8_encode($reg->nombre)).'" id="'.$reg->idarticulo.'" value="'.$reg->idarticulo.'" ><i class="fa fa-check" ></i> </button>',
                                     "1"=>$i,
-                                            "2"=>$reg->categoria,
-                                            "3"=>$reg->idunidad_medida,
-                                            "4"=>$reg->nombre,
-                                            "5"=>$reg->descripcion,
+                                            "2"=>utf8_encode($reg->categoria),
+                                            "3"=>utf8_encode($reg->idunidad_medida),
+                                            "4"=>utf8_encode($reg->nombre),
+                                            "5"=>utf8_encode($reg->descripcion),
                                             "6"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />');
 				$i++;
                          }       
@@ -127,7 +130,7 @@
                     $query_Categoria = $objCategoria->Listar();
                      echo '<option value=""></option>';
                     while ($reg = $query_Categoria->fetch_object()) {
-                        echo '<option value=' . $reg->idcategoria . '>' . $reg->nombre . '</option>';
+                        echo '<option value=' . $reg->idcategoria . '>' . utf8_encode($reg->nombre) . '</option>';
                     }
 
 	        break;
@@ -140,7 +143,7 @@
                     $query_SubCategoria = $objSubCategoria->Listar($idcategoria);
                      echo '<option value=""></option>';
                     while ($reg = $query_SubCategoria->fetch_object()) {
-                        echo '<option value=' . $reg->idsubcategoria . '>' . $reg->nombreSubCategoria . '</option>';
+                        echo '<option value=' . $reg->idsubcategoria . '>' . utf8_encode($reg->nombreSubCategoria) . '</option>';
                     }
                 break;  
 
@@ -153,7 +156,7 @@
 	        $query_Categoria = $objCategoria->ListarUM();
 
 	        while ($reg = $query_Categoria->fetch_object()) {
-	            echo '<option value=' . $reg->idunidad_medida . '>' . $reg->nombre . '</option>';
+	            echo '<option value=' . $reg->idunidad_medida . '>' . utf8_encode($reg->nombre) . '</option>';
 	        }
 
 	        break;

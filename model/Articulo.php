@@ -9,15 +9,25 @@
 
 		public function Registrar($idunidad_medida, $nombre, $descripcion, $imagen,$idsubcategoria){
 			global $conexion;
+                        
+                        $nombre = mysql_real_escape_string($nombre);
+                         $descripcion = mysql_real_escape_string($descripcion);//mysql_real_escape_string($descripcion);
+                         
 			$sql = "INSERT INTO articulo( idunidad_medida, nombre, descripcion, imagen, estado,idsubcategoria)
 						VALUES($idunidad_medida, '$nombre', '$descripcion', '$imagen', 'A',$idsubcategoria)";
-			$query = $conexion->query($sql);
+			
+                       
+                        $query = $conexion->query($sql);
 			return $query;
 		}
 		
 		public function Modificar($idarticulo, $idunidad_medida, $nombre, $descripcion, $imagen,$idSubCategoria){
 			global $conexion;
-			$sql = "UPDATE articulo  set idunidad_medida = $idunidad_medida, nombre = '$nombre',
+                        
+                        $nombre = mysql_real_escape_string($nombre);
+                         $descripcion = mysql_real_escape_string($descripcion);
+			
+                         $sql = "UPDATE articulo  set idunidad_medida = $idunidad_medida, nombre = '$nombre',
 						descripcion = '$descripcion', imagen = '$imagen', idSubCategoria = '$idSubCategoria'
 						WHERE idarticulo = $idarticulo";
 			

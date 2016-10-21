@@ -9,6 +9,7 @@
 
 		public function Registrar($razon_social,$tipo_documento,$num_documento,$direccion,$telefono,$email,$representante,$logo,$estado){
 			global $conexion;
+                           $direccion = mysql_real_escape_string($direccion);
 			$sql = "INSERT INTO sucursal(razon_social,tipo_documento,num_documento,direccion,telefono,email,representante,logo,estado)
 						VALUES('$razon_social','$tipo_documento','$num_documento','$direccion','$telefono','$email','$representante','$logo','$estado')";
 			$query = $conexion->query($sql);
@@ -17,6 +18,7 @@
 		
 		public function Modificar($idsucursal,$razon_social, $tipo_documento,$num_documento,$direccion,$telefono,$email,$representante,$logo,$estado){
 			global $conexion;
+                        $direccion = mysql_real_escape_string($direccion);
 			$sql = "UPDATE sucursal set razon_social = '$razon_social',direccion='$direccion',tipo_documento='$tipo_documento',num_documento='$num_documento',telefono	='$telefono',email='$email',representante='$representante',logo='$logo',estado='$estado'
 						WHERE idsucursal = $idsucursal";
 			$query = $conexion->query($sql);

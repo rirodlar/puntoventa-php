@@ -75,7 +75,7 @@
                     $query_Categoria = $objSubCategoria->ListarFilterSubcategoria($idCategoria);
 
                     while ($reg = $query_Categoria->fetch_object()) {
-                        echo '<option value=' . $reg->idsubcategoria . '>' . $reg->nombre . '</option>';
+                        echo '<option value=' . $reg->idsubcategoria . '>' .utf8_encode($reg->nombre) . '</option>';
                     }
 
 	        break;
