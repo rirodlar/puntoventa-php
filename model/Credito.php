@@ -32,18 +32,31 @@
 
 		public function Listar($idsucursal){
 			global $conexion;
-			$sql = "select * from venta v inner join pedido p 
-			on v.idpedido=p.idpedido where v.tipo_venta = 'Credito' and p.idsucursal='$idsucursal' order by v.idventa desc";
-			$query = $conexion->query($sql);
+			//$sql = "select * from venta v inner join pedido p 
+			//on v.idpedido=p.idpedido where v.tipo_venta = 'Credito' and p.idsucursal='$idsucursal' order by v.idventa desc";
+			
+                        $sql = "select * from venta v 
+                            inner join pedido p    on v.idpedido    = p.idpedido 
+                            inner join persona per on per.idpersona = p.idcliente
+                            where v.tipo_venta = 'Credito' and p.idsucursal='$idsucursal' order by v.idventa desc";
+                                
+                        $query = $conexion->query($sql);
 			return $query;
 		}
 		public function ListarDeuda($idsucursal){
 			global $conexion;
-			$sql = "select v.* from venta v inner join pedido p on v.idpedido=p.idpedido
-			where tipo_venta = 'Credito'
-			and v.total>ifnull((select sum(c.total_pago) from credito c where c.idventa = v.idventa),0)
-			and p.idsucursal='$idsucursal'
-			order by v.idventa desc";
+                        $sql = "select v.*, per.nombre, per.num_documento from venta v 
+                                inner join pedido p on v.idpedido=p.idpedido
+                                inner join persona per on per.idpersona=p.idcliente
+                                where tipo_venta = 'Credito'
+                                and v.total>ifnull((select sum(c.total_pago) from credito c where c.idventa = v.idventa),0)
+                                and p.idsucursal='$idsucursal'
+                                order by v.idventa desc";
+//			$sql = "select v.* from venta v inner join pedido p on v.idpedido=p.idpedido
+//			where tipo_venta = 'Credito'
+//			and v.total>ifnull((select sum(c.total_pago) from credito c where c.idventa = v.idventa),0)
+//			and p.idsucursal='$idsucursal'
+//			order by v.idventa desc";
 			$query = $conexion->query($sql);
 			return $query;
 		}
@@ -65,16 +78,15 @@
 
 		public function VerDetalleCredito($idventa){
 			global $conexion;
-			$sql = "select fecha_pago, total_pago 
-	from credito where idventa = $idventa";
+			$sql = "select fecha_pago, total_pago,idventa from credito where idventa = $idventa";
 			$query = $conexion->query($sql);
 			return $query;
 		}
 		
 		public function MontoTotalPagados($idventa){
 			global $conexion;
-			$sql = "select v.total - sum(c.total_pago) as MontoTotalPagados
-	from credito c inner join venta v on c.idventa = v.idventa where c.idventa = $idventa";
+			$sql = "select v.total - sum(c.total_pago) as MontoTotalPagados, v.num_cuotas, v.valor_cuota,count(idcredito) as cuotaPagada
+                                from credito c inner join venta v on c.idventa = v.idventa where c.idventa = $idventa";
 			$query = $conexion->query($sql);
 			return $query;
 		}

@@ -231,10 +231,11 @@ switch ($_GET["op"]) {
                  echo '<tr>
                         <td><input type="radio" name="optClienteBusqueda" data-nombre="'.$reg->nombre.'" data-email="'.$reg->email.'" id="'.$reg->idpersona.'" value="'.$reg->idpersona.'" /></td>
                         <td>'.$i.'</td>
-                        <td>'.$reg->tipo_persona.'</td>
-                        <td>'.$reg->nombre.'</td>
-                        <td>'.$reg->num_documento.'</td>
-                        <td>'.$reg->email.'</td>
+                       
+                        <td>'.utf8_encode($reg->nombre).'</td>
+                         <td>'.utf8_encode($reg->apellidos).'</td>
+                        <td>'.utf8_encode($reg->num_documento).'</td>
+                        <td>'.utf8_encode($reg->direccion_calle).'</td>
                        </tr>';
                  $i++; 
             }
@@ -258,12 +259,13 @@ switch ($_GET["op"]) {
                     onclick="AgregarPedCarrito('.$reg->iddetalle_ingreso.',\''.$reg->stock_actual.'\',\''.$reg->Articulo.'\',\''.$reg->codigo.'\',\''.$reg->serie.'\',\''.$reg->precio_ventapublico.'\')" >
                     <i class="fa fa-check" ></i> </button>',
                     "1"=>$reg->Articulo,
+                    "descripcion"=>utf8_encode($reg->descripcion),
                     "2"=>$reg->codigo,
                     "3"=>$reg->serie,
                     "4"=>$reg->stock_actual,
                     "5"=>$reg->precio_ventapublico,
-                    "6"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />',
-                    "7"=>$reg->fecha
+                    "6"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />'
+                    //"7"=>$reg->fecha
                     );
                 $i++;
             }

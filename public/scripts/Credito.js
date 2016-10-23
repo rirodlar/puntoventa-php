@@ -32,6 +32,7 @@ function init(){
 	$("form#frmCreditosV").submit(SaveOrUpdate);
 
 	function SaveOrUpdate(e){
+           // alert("registrar Crdito")
 		e.preventDefault();
 		//alert(montoPendiente + " " + )
 		if (parseFloat($("#txtTotalPago").val()) > "0.0") {
@@ -76,17 +77,23 @@ function init(){
 	            'pdfHtml5'
 	        ],
         	"aoColumns":[
-        	     	{   "mDataProp": "0"},
+        	     {   "mDataProp": "0"},
+                     {   "mDataProp": "rut"},
+                      {   "mDataProp": "cliente"},
                     {   "mDataProp": "1"},
                     {   "mDataProp": "2"},
-                    {   "mDataProp": "3"},
+                    //{   "mDataProp": "3"},
                     {   "mDataProp": "4"},
                     {   "mDataProp": "5"},
                     {   "mDataProp": "6"},
                     {   "mDataProp": "7"},
+                      {   "mDataProp": "num_cuota"},
+                        {   "mDataProp": "valor_cuota"},
                     {   "mDataProp": "8"},
                     {   "mDataProp": "9"},
+                    
                     {   "mDataProp": "10"},
+                   
 
         	],"ajax": 
 	        	{
@@ -118,16 +125,22 @@ function init(){
 	        ],
         	"aoColumns":[
         	     	{   "mDataProp": "0"},
-                    {   "mDataProp": "1"},
-                    {   "mDataProp": "2"},
-                    {   "mDataProp": "3"},
-                    {   "mDataProp": "4"},
-                    {   "mDataProp": "5"},
-                    {   "mDataProp": "6"},
-                    {   "mDataProp": "7"},
-                    {   "mDataProp": "8"},
-                    {   "mDataProp": "9"},
-                    {   "mDataProp": "10"},
+                        {   "mDataProp": "rut"},
+                        {   "mDataProp": "cliente"},
+                        {   "mDataProp": "1"},
+                        {   "mDataProp": "2"},
+                      //  {   "mDataProp": "3"},
+                        {   "mDataProp": "4"},
+                        {   "mDataProp": "5"},
+                        {   "mDataProp": "6"},
+                        {   "mDataProp": "7"},
+                         {   "mDataProp": "num_cuota"},
+                        {   "mDataProp": "valor_cuota"},
+                        {   "mDataProp": "8"},
+                        {   "mDataProp": "9"},
+                       
+                       
+                         {   "mDataProp": "10"},
 
         	],"ajax": 
 	        	{
@@ -150,11 +163,14 @@ function init(){
 
 }
 
-function AgregarCredito(idVenta, total){
+function AgregarCredito(idVenta,num_documento ,total,nombre){
 	$("#VerListado").hide();
 	$("#VerForm").show();
 	$("#txtIdVenta").val(idVenta);
 	$("#txtMontoTotal").val(total);
+        
+        $("#txtCliente").val("("+num_documento+")"+" - "+nombre);
+        
 
 	$.post("./ajax/CreditoAjax.php?op=VerDetCredito", {idVenta: idVenta}, function(r) {
                 $("table#tblVerDetalle tbody").html(r);
@@ -163,7 +179,12 @@ function AgregarCredito(idVenta, total){
 
 	$.getJSON("./ajax/CreditoAjax.php?op=MontoTotalPagados", {idVenta: idVenta}, function(r) {
                 if (r) {
+                    console.log(r);
                 	$("#txtMontoPendiente").val(r.MontoTotalPagados);
+                        var cuotaPagada = parseInt(r.cuotaPagada)-1; //se le resta 1 (por el pie inicial)
+                        $("#txtNumeroCuota").val(cuotaPagada+" / "+r.num_cuotas);
+                        $("#txtValorCuota").val(r.valor_cuota);
+                       // alert(r.cuotaPagada+" - "+(parseInt(r.num_cuotas)-1));
                 	montoPendiente = r.MontoTotalPagados;
                 }
             

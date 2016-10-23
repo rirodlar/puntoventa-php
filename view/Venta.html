@@ -141,7 +141,7 @@
         <form role="form" name="frmVentas" id="frmVentas" >
             <div class="row">
                 <div class="col-lg-4 left">
-                    <label for="inputMarca">Tipo de Venta</label>
+                    <label for="inputMarca">Tipo de Venta1</label>
                     <div class="form-group  has-success">
                         <input id="txtIdVenta" type="hidden" maxlength="50" class="form-control" name="txtIdVenta" required="" placeholder="" autofocus="" />
                         <input id="txtIdUsuario" type="hidden" value="<?php echo $_SESSION["idusuario"] ?>" maxlength="50" class="form-control" name="txtIdUsuario" required="" placeholder="" autofocus="" />
@@ -161,13 +161,28 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-5 left">
-                    <label for="inputMarca">Borrar este campo</label>
+                  <div class="col-lg-4 left">
+                    <label for="inputMarca">Forma Pago</label>
                     <div class="form-group  has-success">
-                        <input id="txtIdTipoDoc" type="hidden" maxlength="50" class="form-control" name="txtIdTipoDoc" required="" autofocus="" placeholder=""/>
-                        <input id="txtSerieVent" type="text" maxlength="50" class="form-control" name="txtSerieVent" required="" autofocus="" placeholder="" >
+                        
+                        <select id="cboFormaPago" name="cboFormaPago" class="form-control" required="" >
+                            <option value="">--Seleccione forma pago--</option>
+                            <option value="Cheque">Cheque</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Debito">Debito</option>
+                            <option value="Tarjeta">Tarjeta de crédito</option>
+                            <option value="Trasferencia">Trasferencia</option>
+                         
+                        </select>
                     </div>
                 </div>
+<!--                <div class="col-lg-5 left">-->
+<!--                    <label for="inputMarca">Borrar este campo</label>-->
+<!--                    <div class="form-group  has-success">-->
+                        <input id="txtIdTipoDoc" type="hidden" maxlength="50" class="form-control" name="txtIdTipoDoc" required="" autofocus="" placeholder=""/>
+                        <input id="txtSerieVent" type="hidden" maxlength="50" class="form-control" name="txtSerieVent" required="" autofocus="" placeholder="" value="0" >
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="col-lg-5 left">
                     <label for="inputInscripcion">Numero</label>
                     <div class="form-group  has-success">
@@ -275,8 +290,19 @@
                                     </div>
                                     <div class="col-lg-4 left">
                                        <div class="form-group" >
-                                            <label for="inputApellidos">z</label>
+                                            <label for="txtTotalPago">Pie</label>
                                             <input id="txtTotalPago"  type="text" class="form-control" name="txtTotalPago" required="" placeholder="" />
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-4 left">
+                                       <div class="form-group" >
+                                            <label for="inputCuotas">N° Cuotas</label><br/>
+                                            <select id="cboNumCuotas" name="cboNumCuotas" class="form-control">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -303,7 +329,7 @@
         <table id="tblClientees" class="table table-striped table-bordered table-condensed table-hover" cellpadding="0" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Seleccione</th>
+                            <th>Seleccione2</th>
                             <th>#</th>
                             <th>Tipo</th>
                             <th>Cliente</th>
@@ -343,7 +369,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Listado de Articulos Ingresados</h4>
+        <h4 class="modal-title">Listado de Articulos IngresadosV</h4>
       </div>
       <div class="modal-body">
       <div class="table-responsive">

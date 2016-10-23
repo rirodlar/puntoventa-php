@@ -47,7 +47,7 @@ function init() {
    // $("#cboTipoComprobante").change(VerNumSerie);
     $("#btnBuscarCliente").click(AbrirModalCliente);
     $("#btnBuscarDetIng").click(AbrirModalDetPed);
-    $("#btnEnviarCorreo").click(EnviarCorreo);
+   // $("#btnEnviarCorreo").click(EnviarCorreo);
     $("#btnNuevoVent").click(VerForm);
 
     $("form#frmPedidos").submit(GuardarPedido);
@@ -303,9 +303,9 @@ function init() {
 		$("#modalListadoCliente").modal("show");
 
 		$.post("./ajax/PedidoAjax.php?op=listClientes", function(r){
-            $("#Cliente").html(r);
-            $("#tblClientees").DataTable();
-        });
+                             $("#Cliente").html(r);
+                          $("#tblClientees").DataTable();
+                 });
 	}
 
 	function AbrirModalDetPed(){
@@ -317,13 +317,15 @@ function init() {
                 //"aLengthMenu": [0, 4],
                 "aoColumns":[
                         {   "mDataProp": "0"},
+                          
                         {   "mDataProp": "1"},
+                         {   "mDataProp": "descripcion"}, 
                         {   "mDataProp": "2"},
                         {   "mDataProp": "3"},
                         {   "mDataProp": "4"},
                         {   "mDataProp": "5"},
-                        {   "mDataProp": "6"},
-                        {   "mDataProp": "7"}
+                        {   "mDataProp": "6"}
+                      //  {   "mDataProp": "7"}
 
                 ],"ajax": 
                     {
@@ -488,6 +490,7 @@ function ConsultarDetallesPed() {
     }
 
     function cargarDataPedido(idPedido, tipo_pedido, numero, Cliente, total, correo){
+        alert("cargarDataPedido");
         bandera = 2;
         $("#VerForm").show();
         $("#btnNuevoVent").hide();
@@ -495,6 +498,7 @@ function ConsultarDetallesPed() {
         $("#txtIdPedido").val(idPedido);
         $("#txtCliente").hide();
         $("#cboTipoPedido").hide();
+         $("#cboTipoPedido").hide();
         email = correo;
         var igvPed=total * parseInt($("#txtImpuesto").val())/(100+parseInt($("#txtImpuesto").val()));
         $("#txtIgvPed").val(Math.round(igvPed*100)/100);
@@ -507,7 +511,8 @@ function ConsultarDetallesPed() {
         if (tipo_pedido == "Venta") {
             $.getJSON("./ajax/PedidoAjax.php?op=GetVenta", {idPedido:idPedido}, function(r) {
                 if (r) {
-
+                    alert(r);
+                    console.log(r);
                     $("#VerFormVentaPed").show();
                     $("#VerDetallePedido").hide();
                     $("#VerTotalesDetPedido").hide();
@@ -519,6 +524,7 @@ function ConsultarDetallesPed() {
                     $("#txtNumeroVent").val(r.num_comprobante);
                     $("#cboTipoVenta").val(r.tipo_venta);
                     $("#cboTipoComprobante").html("<option>" + r.tipo_comprobante + "</option>");
+                    $("#cboFormaPago").html("<option>" + r.tipo_pago + "</option>");
 
                     var igvPed=r.total * parseInt($("#txtImpuesto").val())/(100+parseInt($("#txtImpuesto").val()));
                     $("#txtIgvPedVer").val(Math.round(igvPed*100)/100);
@@ -567,6 +573,7 @@ function ConsultarDetallesPed() {
         $("#lblHasta").hide();
         $("#btnNuevoPedido").hide();
         $("#txtTotalVent").val(total);
+      
     }
 
     function CargarDetallePedido(idPedido) {
@@ -781,6 +788,7 @@ function ConsultarDetallesPed() {
         
     }
     function GetPrimerCliente() {
+       // alert("GetPrimerCliente");
         $.getJSON("./ajax/PedidoAjax.php?op=GetPrimerCliente", function(r) {
                 if (r) {
                     $("#txtIdCliente").val(r.idpersona);

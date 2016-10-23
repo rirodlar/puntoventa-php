@@ -7,16 +7,18 @@
 		public function __construct(){
 		}
 
-		public function Registrar($idpedido,$idusuario,$tipo_venta,$tipo_comprobante,$serie_comprobante,$num_comprobante,$impuesto,$total,$estado, $numero, $iddetalle_documento_sucursal, $detalle){
+		public function Registrar($idpedido,$idusuario,$tipo_venta,$tipo_comprobante,$serie_comprobante,$num_comprobante,$impuesto,$total,$estado, $numero, $iddetalle_documento_sucursal, $detalle,$forma_pago){
 			global $conexion;
 			$sw = true;
 			try {
 				
 			
-				$sql = "INSERT INTO venta(idpedido,idusuario,tipo_venta,tipo_comprobante,serie_comprobante,num_comprobante, fecha ,impuesto,total,estado)
-						VALUES('$idpedido','$idusuario','$tipo_venta','$tipo_comprobante','$serie_comprobante','$num_comprobante', curdate(),'$impuesto','$total','$estado')";
+				$sql = "INSERT INTO venta(idpedido,idusuario,tipo_venta,tipo_comprobante,serie_comprobante,num_comprobante, fecha ,impuesto,total,estado,tipo_pago)
+						VALUES('$idpedido','$idusuario','$tipo_venta','$tipo_comprobante','$serie_comprobante','$num_comprobante', curdate(),'$impuesto','$total','$estado','$forma_pago')";
 				//var_dump($sql);
+                               // echo $sql;
 				$conexion->query($sql);	
+                                
 
 				$sql_detalle_doc = "UPDATE detalle_documento_sucursal set ultimo_numero = '$numero' where iddetalle_documento_sucursal = $iddetalle_documento_sucursal";
 				//var_dump($sql);
@@ -32,7 +34,7 @@
 					$conexion->query($sql_detalle) or $sw = false;
 				}
 				if ($conexion != null) {
-                	$conexion->close();
+                                    $conexion->close();
             	}
 			} catch (Exception $e) {
 				$conexion->rollback();
@@ -45,6 +47,14 @@
 			global $conexion;
 			$sql = "UPDATE venta set idpedido = '$idpedido',idusuario='$idusuario',tipo_venta='$tipo_venta',serie_comprobante	='$serie_comprobante',num_comprobante='$num_comprobante', fecha = curdate(), impuesto='$impuesto',total='$total',estado='$estado'
 						WHERE idventa = $idventa";
+			$query = $conexion->query($sql);
+			return $query;
+		}
+                
+                public function UpdateCredito($idventa,$num_cuotas,$pie,$montoVenta ){
+			global $conexion;
+                        $valor_cuota = ($montoVenta - $pie)/$num_cuotas;
+			$sql = "UPDATE venta set num_cuotas = '$num_cuotas',valor_cuota='$valor_cuota' WHERE idventa = $idventa";
 			$query = $conexion->query($sql);
 			return $query;
 		}

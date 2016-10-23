@@ -65,7 +65,7 @@ function init(){
 	}
 
 	function ComboUM(){
-			$.post("./ajax/ArticuloAjax.php?op=listUM", function(r){
+                $.post("./ajax/ArticuloAjax.php?op=listUM", function(r){
 	            $("#cboUnidadMedida").html(r);
 	        });
 	}

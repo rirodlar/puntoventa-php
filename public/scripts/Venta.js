@@ -17,13 +17,13 @@ function init(){
 
 	ListadoVenta();// Ni bien carga la pagina que cargue el metodo
 	ComboTipo_Documento();
-    $("#VerFormPed").hide();
+        $("#VerFormPed").hide();
 	$("#VerForm").hide();// Ocultamos el formulario
 	$("form#frmVentas").submit(SaveOrUpdate);// Evento submit de jquery que llamamos al metodo SaveOrUpdate para poder registrar o modificar datos
 	$("#cboTipoComprobante").change(VerNumSerie);
 	$("#btnNuevo").click(VerForm);// evento click de jquery que llamamos al metodo VerForm
-    $("#btnNuevoPedido").click(VerFormPedido);
-    $("form#frmCreditos").submit(SaveCredito);
+        $("#btnNuevoPedido").click(VerFormPedido);
+        $("form#frmCreditos").submit(SaveCredito);
 
     function ComboTipo_Documento() {
 
@@ -35,78 +35,90 @@ function init(){
 
 	function SaveOrUpdate(e){
 		e.preventDefault();// para que no se recargue la pagina
+                  if($("#txtClienteVent").val() == "PUBLICO GENERAL" && $("#cboTipoVenta").val() == "Credito"  )  {
+                      bootbox.alert("No puede realizar una venta, debe seleccionar un usuario registrado");
+                      return;
+                  } 
+                  
+                  if ($("#txtSerieVent").val() != "" && $("#txtNumeroVent").val() != "") {
+                          var detalle =  JSON.parse(consultarDet());
 
-        if ($("#txtSerieVent").val() != "" && $("#txtNumeroVent").val() != "") {
-            var detalle =  JSON.parse(consultarDet());
+                            var data = { 
+                                idUsuario : $("#txtIdUsuario").val(),
+                                idPedido : $("#txtIdPedido").val(),
+                                tipo_venta : $("#cboTipoVenta").val(),
+                                iddetalle_doc_suc : $("#txtIdTipoDoc").val(),
+                                tipo_comprobante : $("#cboTipoComprobante").val(),
+                                serie_vent : $("#txtSerieVent").val(),
+                                num_vent : $("#txtNumeroVent").val(),
+                                impuesto : $("#txtImpuesto").val(),
+                                total_vent : $("#txtTotalVent").val(),
+                                detalle : detalle,
+                                cboFormaPago : $("#cboFormaPago").val()
+                                
+                            };
 
-            var data = { 
-                idUsuario : $("#txtIdUsuario").val(),
-                idPedido : $("#txtIdPedido").val(),
-                tipo_venta : $("#cboTipoVenta").val(),
-                iddetalle_doc_suc : $("#txtIdTipoDoc").val(),
-                tipo_comprobante : $("#cboTipoComprobante").val(),
-                serie_vent : $("#txtSerieVent").val(),
-                num_vent : $("#txtNumeroVent").val(),
-                impuesto : $("#txtImpuesto").val(),
-                total_vent : $("#txtTotalVent").val(),
-                detalle : detalle
-            };
+                            $.post("./ajax/VentaAjax.php?op=SaveOrUpdate", data, function(r){// llamamos la url por post. function(r). r-> llamada del callback
+                                if ($("#cboTipoComprobante").val() == "TICKET") {
+                                        //window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val() , "TICKET" , "width=396,height=430,scrollbars=NO");
+                                       // window.open("localhost/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val());
+                                        //location.href = "/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val();
+                                    window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val(), '_blank');
+                                }
+                                if ($("#cboTipoVenta").val() == "Contado") {
 
-            $.post("./ajax/VentaAjax.php?op=SaveOrUpdate", data, function(r){// llamamos la url por post. function(r). r-> llamada del callback
-                if ($("#cboTipoComprobante").val() == "TICKET") {
-                        //window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val() , "TICKET" , "width=396,height=430,scrollbars=NO");
-                       // window.open("localhost/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val());
-                        //location.href = "/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val();
-                    window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val(), '_blank');
-                }
-                if ($("#cboTipoVenta").val() == "Contado") {
+                                    swal("Mensaje del Sistema", r, "success");
 
-                    swal("Mensaje del Sistema", r, "success");
+                                    $("#btnNuevoPedido").show();
+                                    OcultarForm();
+                                    ListadoVenta();
+                                    ListadoPedidos();
+                                    LimpiarPedido();
 
-                    $("#btnNuevoPedido").show();
-                    OcultarForm();
-                    ListadoVenta();
-                    ListadoPedidos();
-                    LimpiarPedido();
+                //                    bootbox.prompt({
+                //                      title: "Ingrese el correo para enviar el detalle de la compra",
+                //                      value: email,
+                //                      callback: function(result) {
+                //                        if (result !== null) {                                             
+                //                           $.post("./ajax/VentaAjax.php?op=EnviarCorreo", {result:result, idPedido : $("#txtIdPedido").val()}, function(r){
+                //                              bootbox.alert(r);
+                //                           })                     
+                //                        } 
+                //                      }
+                //                    });
 
-                    bootbox.prompt({
-                      title: "Ingrese el correo para enviar el detalle de la compra",
-                      value: email,
-                      callback: function(result) {
-                        if (result !== null) {                                             
-                           $.post("./ajax/VentaAjax.php?op=EnviarCorreo", {result:result, idPedido : $("#txtIdPedido").val()}, function(r){
-                              bootbox.alert(r);
-                           })                     
-                        } 
-                      }
-                    });
+                                    //location.reload();
+                                } else {
+                                    $("#btnNuevoPedido").show();
 
-                    //location.reload();
-                } else {
-                    $("#btnNuevoPedido").show();
-                    bootbox.prompt({
-                      title: "Ingrese el correo para enviar el detalle de la compra",
-                      value: email,
-                      callback: function(result) {
-                        if (result !== null) {   
-                            $.post("./ajax/VentaAjax.php?op=EnviarCorreo", {result:result, idPedido : $("#txtIdPedido").val()}, function(r){
-                              bootbox.alert(r);
-                            }) 
+                                    bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
+                                              $("#modalCredito").modal("show");
+                                              GetIdVenta();
+                                            });
 
-                            bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
-                              $("#modalCredito").modal("show");
-                              GetIdVenta();
-                            });
-                        } else {
-                            bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
-                              $("#modalCredito").modal("show");
-                              GetIdVenta();
-                            });
-                        }
-                      }
-                    });
+                //                    bootbox.prompt({
+                //                      title: "Ingrese el correo para enviar el detalle de la compra",
+                //                      value: email,
+                //                      callback: function(result) {
+                //                        if (result !== null) {   
+                //                            $.post("./ajax/VentaAjax.php?op=EnviarCorreo", {result:result, idPedido : $("#txtIdPedido").val()}, function(r){
+                //                              bootbox.alert(r);
+                //                            }) 
+                //
+                //                            bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
+                //                              $("#modalCredito").modal("show");
+                //                              GetIdVenta();
+                //                            });
+                //                        } else {
+                //                            bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
+                //                              $("#modalCredito").modal("show");
+                //                              GetIdVenta();
+                //                            });
+                //                        }
+                //                      }
+                //                    });
 
-                }
+                                }
                 
             });
         } else {
@@ -115,6 +127,7 @@ function init(){
 	};
 
     function SaveCredito(e){
+       // alert("AAAAAAAAAAAA");
         e.preventDefault();// para que no se recargue la pagina
         $.post("./ajax/CreditoAjax.php?op=SaveOrUpdate", $(this).serialize(), function(r){// llamamos la url por post. function(r). r-> llamada del callback
             
@@ -124,6 +137,22 @@ function init(){
                 ListadoVenta();
                 ListadoPedidos();
         });
+        //"txtIdCredito=&txtIdVenta=91&cboFechaPago=2016-10-23&txtTotalPago=100&cboNumCuotas=2"
+        //$("#txtTotalVent").val()
+         var data = { 
+                                txtIdVenta : $("#txtIdVentaCred").val(),
+                                cboNumCuotas : $("#cboNumCuotas").val(),
+                                txtTotalVent :$("#txtTotalVent").val(),
+                                txtTotalPago :$("#txtTotalPago").val()
+                               
+                                
+                            };
+       $.post("./ajax/VentaAjax.php?op=updateCredito", data, function(r) {
+           // alert("Actualizacion OKO");
+           //$("table#tblVerDetalle tbody").html(r);
+            
+        });
+        
     }
 
     function GetIdVenta() {

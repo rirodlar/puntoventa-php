@@ -179,7 +179,7 @@ function fact_dev( $libelle, $num )
     $this->SetFillColor(72,209,204);
     $this->RoundedRect($r1, $y1, ($r2 - $r1), $y2, 2.5, 'DF');
     $this->SetXY( $r1+1, $y1+2);
-    $this->Cell($r2-$r1 -1,5, $texte, 0, 0, "C" );
+    $this->Cell($r2-$r1 -1,5, "CREDITO", 0, 0, "C" );
 }
 
 // Estimate
@@ -198,7 +198,7 @@ function addFacture( $numfact )
 
 function addDate( $date )
 {
-	$r1  = $this->w - 61;
+	$r1  = $this->w - 161;
 	$r2  = $r1 + 49;
 	$y1  = 17;
 	$y2  = $y1 ;
@@ -233,7 +233,8 @@ function addClient( $ref )
 	$this->Cell(10,5,$ref, 0,0, "C");
 }
 
-function addPageNumber( $page )
+
+function test( $page )
 {
 	$r1  = $this->w - 80;
 	$r2  = $r1 + 19;

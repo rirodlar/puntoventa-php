@@ -176,10 +176,11 @@
 
 		public function ListarDetalleIngresos($idsucursal){
 			global $conexion;
-			$sql = "select distinct di.iddetalle_ingreso, di.stock_actual, a.nombre as Articulo, di.codigo, di.serie, di.precio_ventapublico, a.imagen, i.fecha
+			$sql = "select distinct di.iddetalle_ingreso, di.stock_actual, a.nombre as Articulo,a.descripcion, di.codigo, di.serie, di.precio_ventapublico, a.imagen, i.fecha
 	from ingreso i inner join detalle_ingreso di on di.idingreso = i.idingreso
 	inner join articulo a on di.idarticulo = a.idarticulo
 	where i.estado = 'A' and i.idsucursal = $idsucursal and di.stock_actual > 0 order by i.fecha desc";
+                      //  echo $sql;
 			$query = $conexion->query($sql);
 			return $query;
 		}

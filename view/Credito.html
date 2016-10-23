@@ -1,7 +1,7 @@
 <div class="panel panel-default">
         <div class="panel-heading">
                 <div class="box-header with-border">
-                  <h3 class="box-title" id="lblTitle" >Créditos1</h3>
+                  <h3 class="box-title" id="lblTitle" >Créditos</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     
@@ -19,6 +19,10 @@
         <form role="form" name="frmCreditosV" id="frmCreditosV">
             <div class="row">
                 <div class="col-lg-4 left">
+                       <div class="form-group">
+                        <label for="inputMarca">Cliente</label>
+                        <input id="txtCliente" type="text" maxlength="50" class="form-control" name="txtCliente" required=""  disabled />
+                    </div>
                     <div class="form-group">
                         <label for="inputMarca">Monto Total:</label>
                         <input id="txtMontoTotal" type="text" maxlength="50" class="form-control" name="txtMontoTotal" required="" placeholder="Ingrese el monto" autofocus="" disabled />
@@ -26,6 +30,14 @@
                     <div class="form-group">
                         <label for="inputMarca">Monto Pendiente:</label>
                         <input id="txtMontoPendiente" type="text" maxlength="50" class="form-control" name="txtMontoPendiente" autofocus="" disabled />
+                    </div>
+                      <div class="form-group">
+                        <label for="inputMarca">Valor Cuota</label>
+                        <input id="txtValorCuota" type="text" maxlength="50" class="form-control" name="txtValorCuota" autofocus="" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMarca">Numero de cuotas:</label>
+                        <input id="txtNumeroCuota" type="text" maxlength="50" class="form-control" name="txtNumeroCuota" autofocus="" disabled />
                     </div>
                     <div class="form-group">
                         <input id="txtIdCredito" type="hidden" maxlength="50" class="form-control" name="txtIdCredito" required="" placeholder="" autofocus="" />
@@ -50,8 +62,10 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" cellpadding="0" cellspacing="0" border="1" class="display" id="tblVerDetalle">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Fecha de Pagos</th>
                             <th>Montos Pagados</th>
+                            <th>Comprobante</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -69,32 +83,45 @@
         <thead>
             <tr>
                 <th>#</th>
+                 <th>Rut</th>
+                 <th>Cliente</th>
                 <th>Tipo de Venta</th>
                 <th>T. Comprobante</th>
-                <th>Serie</th>
+<!--                <th>Serie</th>-->
                 <th>Numero</th>
                 <th>Fecha</th>
                 <th>Impuesto</th>
                 <th>Total</th>
+                    <th>Num Cuota</th>
+                <th>Valor Cuota</th>
                 <th>Total Pagado</th>
+                
                 <th>Total Deuda</th>
+             
                 <th>Opcion</th>
+                 
             </tr>
         </thead>
  
         <tfoot>
             <tr>
                 <th>#</th>
+                 <th>Rut</th>
+                  <th>Cliente</th>
                 <th>Tipo de Venta</th>
                 <th>T. Comprobante</th>
-                <th>Serie</th>
+<!--                <th>Serie</th>-->
                 <th>Numero</th>
                 <th>Fecha</th>
                 <th>Impuesto</th>
                 <th>Total</th>
+                   <th>Num Cuota</th>
+                <th>Valor Cuota</th>
                 <th>Total Pagado</th>
                 <th>Total Deuda</th>
+              
                 <th>Opcion</th>
+               
             </tr>
         </tfoot>
  

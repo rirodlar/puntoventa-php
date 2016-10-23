@@ -19,6 +19,7 @@
 			$num_comprobante = $_POST["num_vent"];
 			$impuesto = $_POST["impuesto"];
 			$total = $_POST["total_vent"];
+                        $formaPago = $_POST["cboFormaPago"];
 			$estado = "A";	
 
 			$entero = intval($num_comprobante);
@@ -33,7 +34,7 @@
 
 				if(empty($_POST["txtIdVenta"])){
 					
-					if($objVenta->Registrar($idpedido,$idusuario,$tipo_venta,$tipo_comprobante,$serie_comprobante,$num_comprobante,$impuesto,$total,$estado, $numero, $iddetalle_doc_suc, $_POST["detalle"])){
+					if($objVenta->Registrar($idpedido,$idusuario,$tipo_venta,$tipo_comprobante,$serie_comprobante,$num_comprobante,$impuesto,$total,$estado, $numero, $iddetalle_doc_suc, $_POST["detalle"] ,$formaPago) ){
 						
 							echo "Venta Registrada correctamente.";
 					}else{
@@ -163,6 +164,26 @@
 			}
 
 			break;
+                        
+                case "updateCredito":
+                   // updateCredito
+                               // txtIdVenta : $("#txtIdVenta").val(),
+                               // cboNumCuotas : $("#cboNumCuotas").val(),
+                               // txtTotalVent :$("#txtTotalVent").val(),
+                               // txtTotalPago :$("#txtTotalPago").val()
+                        
+                        
+                                $idVenta     = $_POST["txtIdVenta"];
+                                $numeroCuota = $_POST["cboNumCuotas"];
+                                $pie = $_POST["txtTotalPago"];
+                                 $montoVenta = $_POST["txtTotalVent"];
+                   
+					if($objVenta->UpdateCredito($idVenta,$numeroCuota,$pie,$montoVenta)){
+						echo "La información del Venta(UPDATE CREDIRTO) ha sido actualizada.";
+					}else{
+						echo "La información del Venta UPDATE CREDIRTO no ha podido ser actualizada.";
+					}
+                    break;
 
 	}
 	
