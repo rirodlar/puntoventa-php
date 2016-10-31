@@ -11,7 +11,9 @@
 			global $conexion;
 			$sql = "INSERT INTO credito(idventa,fecha_pago, total_pago)
 						VALUES($idventa, curdate(), $total_pago)";
-			$query = $conexion->query($sql);
+			echo $sql;
+                        $query = $conexion->query($sql);
+                        
 			return $query;
 		}
 		
@@ -78,7 +80,7 @@
 
 		public function VerDetalleCredito($idventa){
 			global $conexion;
-			$sql = "select fecha_pago, total_pago,idventa from credito where idventa = $idventa";
+			$sql = "select idcredito, fecha_pago, total_pago,idventa from credito where idventa = $idventa";
 			$query = $conexion->query($sql);
 			return $query;
 		}

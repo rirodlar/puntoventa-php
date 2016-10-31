@@ -227,7 +227,7 @@
 
 		public function GetVenta($idpedido){
 			global $conexion;
-			$sql = "select p.*, ped.fecha, s.razon_social, v.num_comprobante, v.serie_comprobante, s.tipo_documento, s.num_documento as num_sucursal, s.direccion, s.telefono as telefono_suc, s.email as email_suc, s.representante, s.logo, ped.tipo_pedido,v.impuesto,p.tipo_documento as doc
+			$sql = "select p.*, ped.fecha, s.razon_social,v.pie,v.num_cuotas,v.valor_cuota ,v.num_comprobante, v.serie_comprobante, s.tipo_documento, s.num_documento as num_sucursal, s.direccion, s.telefono as telefono_suc, s.email as email_suc, s.representante, s.logo, ped.tipo_pedido,v.impuesto,p.tipo_documento as doc
 	from persona p inner join pedido ped on ped.idcliente = p.idpersona 
 	inner join sucursal s on ped.idsucursal = s.idsucursal
 	inner join venta v on v.idpedido = ped.idpedido
@@ -245,7 +245,7 @@
 
 		public function ImprimirDetallePedido($idpedido){
 			global $conexion;
-			$sql = "select di.codigo,di.serie, a.nombre as articulo, dp.*, (dp.cantidad * dp.precio_venta) - dp.descuento as sub_total
+			$sql = "select di.codigo,di.serie, a.nombre as articulo,  a.descripcion as descripcion, dp.*, (dp.cantidad * dp.precio_venta) - dp.descuento as sub_total
 	from detalle_pedido dp inner join pedido p on dp.idpedido = p.idpedido
 	inner join detalle_ingreso di on dp.iddetalle_ingreso = di.iddetalle_ingreso
 	inner join articulo a on di.idarticulo = a.idarticulo where p.idpedido = $idpedido";

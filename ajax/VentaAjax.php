@@ -21,6 +21,10 @@
 			$total = $_POST["total_vent"];
                         $formaPago = $_POST["cboFormaPago"];
 			$estado = "A";	
+                        
+                        $ncuotas = $_POST["cboNumCuotas"];	
+                       
+                        $pie = $_POST["pie"];
 
 			$entero = intval($num_comprobante);
 
@@ -34,11 +38,11 @@
 
 				if(empty($_POST["txtIdVenta"])){
 					
-					if($objVenta->Registrar($idpedido,$idusuario,$tipo_venta,$tipo_comprobante,$serie_comprobante,$num_comprobante,$impuesto,$total,$estado, $numero, $iddetalle_doc_suc, $_POST["detalle"] ,$formaPago) ){
+					if($objVenta->Registrar($idpedido,$idusuario,$tipo_venta,$tipo_comprobante,$serie_comprobante,$num_comprobante,$impuesto,$total,$estado, $numero, $iddetalle_doc_suc, $_POST["detalle"] ,$formaPago,$ncuotas,$pie) ){
 						
 							echo "Venta Registrada correctamente.";
 					}else{
-							echo "Venta no ha podido ser registado.";
+					echo "Venta no ha podido ser registado.";
 					}
 						
 				}else{

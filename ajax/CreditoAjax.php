@@ -148,7 +148,7 @@
                                 <td>'.$i.'</td>
 	             		<td>'.$reg->fecha_pago.'</td>
 	             		<td>$'.$reg->total_pago.'</td>
-                                <td><a href="Reportes/exComprobanteCredito.php?id='.$reg->idventa.'">Imprimir Comprobante</a></td>   
+                                <td><a target="_blank" href="Reportes/exComprobanteCredito.php?id='.$reg->idventa.'&idcredito='.$reg->idcredito.'">Imprimir Comprobante</a></td>   
                     ';}
                 $i++;
             }

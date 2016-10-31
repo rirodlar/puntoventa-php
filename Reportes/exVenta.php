@@ -19,7 +19,7 @@ ElseIf($reg_cli->tipo_comprobante=="Ticket" || $reg_cli->tipo_comprobante=="TICK
 
 ElseIf($reg_cli->tipo_comprobante=="Boleta" || $reg_cli->tipo_comprobante=="BOLETA" || $reg_cli->tipo_comprobante=="BOLETAS" || $reg_cli->tipo_comprobante=="Boleta" )
 {
-  header('Location: exBoleta.php?id='.$id);  
+  header('Location: exBoleta2.php?id='.$id);  
 }
 Else{
   header('Location: exGuia.php?id='.$id);

@@ -105,10 +105,10 @@ switch ($_GET["op"]) {
         $i = 1;
             while ($reg = $query_prov->fetch_object()) {
                  echo '<tr>
-                        <td>'.$reg->articulo.'</td>
+                        <td>'.utf8_encode($reg->articulo).'</td>
                         <td>'.$reg->codigo.'</td>
                         <td>'.$reg->serie.'</td>
-                        <td>'.$reg->descripcion.'</td>
+                        <td>'.utf8_encode($reg->descripcion).'</td>
                         <td>'.$reg->stock_ingreso.'</td>
                         <td>'.$reg->precio_compra.'</td>
                         <td>'.$reg->precio_ventadistribuidor.'</td>
@@ -133,10 +133,10 @@ switch ($_GET["op"]) {
                  echo '<tr>
                         <td><input type="radio" name="optProveedorBusqueda" data-nombre="'.$reg->nombre.'" id="'.$reg->idpersona.'" value="'.$reg->idpersona.'" /></td>
                         <td>'.$i.'</td>
-                        <td>'.$reg->nombre.'</td>
+                        <td>'.utf8_encode($reg->nombre).'</td>
                         <td>'.$reg->tipo_documento.'</td>
                         <td>'.$reg->num_documento.'</td>
-                        <td>'.$reg->email.'</td>
+                        <td>'.utf8_encode($reg->email).'</td>
                         
                        </tr>';
                  $i++; 
@@ -158,8 +158,8 @@ switch ($_GET["op"]) {
                         <td>'.$i.'</td>
                         <td>'.$reg->razon_social.'</td>
                         <td>'.$reg->tipo_documento.' - '.$reg->num_documento.'</td>
-                        <td>'.$reg->direccion.'</td>
-                        <td>'.$reg->email.'</td>
+                        <td>'.utf8_encode($reg->direccion).'</td>
+                        <td>'.utf8_encode($reg->email).'</td>
                         <td> <img width=100px height=100px src='.$reg->logo.' /></td>
                        </tr>';
                  $i++; 
@@ -177,7 +177,7 @@ switch ($_GET["op"]) {
 
             //echo '<option value="">--Seleccione Comprobante--</option>';
             while ($reg = $query_Categoria->fetch_object()) {
-                echo '<option value=' . $reg->nombre . '>' . $reg->nombre . '</option>';
+                echo '<option value=' . utf8_encode($reg->nombre) . '>' . utf8_encode($reg->nombre) . '</option>';
             }
 
             break;

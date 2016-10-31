@@ -36,7 +36,7 @@ $reg_igv = $query_global->fetch_object();
 <div class="zona_impresion">
         <!-- codigo imprimir -->
 <br>
-<table border="0" align="center" width="300px">
+<table border="0" align="center" width="600px">
     <tr>
         <td align="center">
         .::<strong> <?php echo $reg_cli->razon_social; ?></strong>::.<br>
@@ -61,50 +61,111 @@ $reg_igv = $query_global->fetch_object();
     </tr>    
 </table>
 <br>
-<table border="0" align="center" width="300px">
+<table border="0" width="600px">
     <tr>
-        <td>CANT.</td>
-        <td>DESCRIPCIÓN</td>
-        <td align="right">IMPORTE</td>
+        <td>Sr(a)</td>
+        <td>ZUÑIGA LOPEZ YALILE MONICA</td>
     </tr>
     <tr>
-      <td colspan="3">==========================================</td>
+        <td>R.U.T</td>
+        <td>8.591.401-4</td>
+    </tr>
+    <tr>
+        <td>Domicilio</td>
+        <td>CALLE JOSE MIGUEL CARRERA 480</td>
+    </tr>
+    <tr>
+        <td>Ciudad: Panguipulli </td>
+        <td>Motivo: Pago Cuotas</td>
+    </tr>
+    <tr>
+        <td>Recibido Por:</td>
+         <td>Flores Viveros Richard </td>
+    </tr>
+    
+</table>
+<br>
+<table border="0" align="center" width="600px">
+    <tr>
+        <td>Tipo.</td>
+        <td>Numero</td>
+        <td>Cuota</td>
+        <td>valor</td>
+        <td>Total</td>
+        <td>Abono</td>
+        <td>Intereses</td>
+        <td>Saldo</td>
+    </tr>
+    <tr>
+        <td>Boleta</td>
+        <td>1232323</td>
+        <td>3/4</td>
+        <td>1000</td>
+        <td>5000</td>
+        <td>300</td>
+        <td>20</td>
+        <td>3500</td>
     </tr>
     <?php
-    $query_ped = $objPedido->ImprimirDetallePedido($_GET["id"]);
-
-        while ($reg = $query_ped->fetch_object()) {
-        echo "<tr>";
-        echo "<td>".$reg->cantidad."</td>";
-        echo "<td>".$reg->articulo. "Serie:".$reg->serie."</td>";
-        echo "<td align='right'>". $reg_igv->simbolo_moneda." ".$reg->precio_venta."</td>";
-        echo "</tr>";
-        $cantidad+=$reg->cantidad;
-    }
-    $query_total = $objPedido->TotalPedido($_GET["id"]);
-
-    $reg_total = $query_total->fetch_object();
+//    $query_ped = $objPedido->ImprimirDetallePedido($_GET["id"]);
+//
+//        while ($reg = $query_ped->fetch_object()) {
+//        echo "<tr>";
+//        echo "<td>".$reg->cantidad."</td>";
+//        echo "<td>".$reg->articulo. "Serie:".$reg->serie."</td>";
+//        echo "<td align='right'>". $reg_igv->simbolo_moneda." ".$reg->precio_venta."</td>";
+//        echo "</tr>";
+//        $cantidad+=$reg->cantidad;
+//    }
+//    $query_total = $objPedido->TotalPedido($_GET["id"]);
+//
+//    $reg_total = $query_total->fetch_object();
     ?>
 
     <tr>
-    <td>&nbsp;</td>
-    <td align="right"><b>TOTAL:</b></td>
-    <td align="right"><b><?php echo $reg_igv->simbolo_moneda;?>  <?php echo $reg_total->Total;  ?></b></td>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
     </tr>
     <tr>
-      <td colspan="3">Nº de artículos: <?php echo $cantidad ?></td>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
     </tr>
     <tr>
-      <td colspan="3">&nbsp;</td>
-    </tr>      
-    <tr>
-      <td colspan="3" align="center">¡Gracias por su compra!</td>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
     </tr>
     <tr>
-      <td colspan="3" align="center">Tienda Llaima</td>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
+    </tr>
+     <tr>
+        <td></td>
     </tr>
     <tr>
-      <td colspan="3" align="center">Panguipulli - Chile</td>
+      <td colspan="8" align="center">¡Gracias por su compra!</td>
+    </tr>
+    <tr>
+      <td colspan="8" align="center">Comercial Llaima</td>
+    </tr>
+    <tr>
+      <td colspan="8" align="center">Panguipulli - Chile</td>
     </tr>
     
 </table>

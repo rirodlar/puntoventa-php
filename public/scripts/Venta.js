@@ -3,6 +3,28 @@ $(document).on("ready", init);// Inciamos el jquery
 var email = "";
 
 function init(){
+    //venta a credito y contado
+    $("#pie").hide();
+    $("#ncuotas").hide();
+    $( "#cboTipoVenta" ).change(function() {
+               if($( "#cboTipoVenta" ).val() == "Credito"){
+                     $("#cboFormaPago").prop('disabled', true);
+                     $("#txtTotalPago").prop('disabled', false);
+                     $("#cboNumCuotas").prop('disabled', false);
+                     
+                     $("#formaPago").hide();
+                     $("#pie").show();
+                     $("#ncuotas").show();
+               }
+               if($( "#cboTipoVenta" ).val() == "Contado"){
+                      $("#cboFormaPago").prop('disabled', false);
+                      $("#txtTotalPago").prop('disabled', true);
+                      $("#cboNumCuotas").prop('disabled', true);
+                      $("#formaPago").show();
+                      $("#pie").hide();
+                      $("#ncuotas").hide();
+               }
+    });
 
     //Ver();
 	$('#tblVentaPedido').dataTable({
@@ -23,7 +45,7 @@ function init(){
 	$("#cboTipoComprobante").change(VerNumSerie);
 	$("#btnNuevo").click(VerForm);// evento click de jquery que llamamos al metodo VerForm
         $("#btnNuevoPedido").click(VerFormPedido);
-        $("form#frmCreditos").submit(SaveCredito);
+       // $("form#frmCreditos").submit(SaveCredito);
 
     function ComboTipo_Documento() {
 
@@ -35,11 +57,21 @@ function init(){
 
 	function SaveOrUpdate(e){
 		e.preventDefault();// para que no se recargue la pagina
+                
+                //NO se permite generar una venta a credito al publico en  gemeral
                   if($("#txtClienteVent").val() == "PUBLICO GENERAL" && $("#cboTipoVenta").val() == "Credito"  )  {
                       bootbox.alert("No puede realizar una venta, debe seleccionar un usuario registrado");
                       return;
                   } 
                   
+                  if($("#cboTipoVenta").val() == "Credito"){
+                       $("#cboFormaPago").val("");
+                  }
+                  if($("#cboTipoVenta").val() == "Contado"){
+                      $("#txtTotalPago").val("");
+                      $("#cboNumCuotas").val("");
+                      
+                  }
                   if ($("#txtSerieVent").val() != "" && $("#txtNumeroVent").val() != "") {
                           var detalle =  JSON.parse(consultarDet());
 
@@ -53,8 +85,10 @@ function init(){
                                 num_vent : $("#txtNumeroVent").val(),
                                 impuesto : $("#txtImpuesto").val(),
                                 total_vent : $("#txtTotalVent").val(),
-                                detalle : detalle,
-                                cboFormaPago : $("#cboFormaPago").val()
+                                detalle :     detalle,
+                                cboFormaPago : $("#cboFormaPago").val(),
+                                cboNumCuotas : $("#cboNumCuotas").val(),
+                                pie          : $("#txtTotalPago").val()
                                 
                             };
 
@@ -89,14 +123,35 @@ function init(){
 
                                     //location.reload();
                                 } else {
-                                    $("#btnNuevoPedido").show();
+                                  // alert("CARGAR PIE")
+                                   
+                                    swal("Mensaje del Sistema", r, "success");
+                                      OcultarForm();
+                                    ListadoVenta();
+                                    ListadoPedidos();
+                                    LimpiarPedido();
+                                   // $("#btnNuevoPedido").show();
 
-                                    bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
-                                              $("#modalCredito").modal("show");
-                                              GetIdVenta();
-                                            });
-
-                //                    bootbox.prompt({
+//                                    bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
+//                                              $("#modalCredito").modal("show");
+//                                              GetIdVenta();
+//                                            });
+                              
+//                                 $.get("./ajax/CreditoAjax.php?op=GetIdVenta", function(r) {
+//                                        $("#txtIdVentaCred").val(r);
+//                                        
+//                                     var data = { 
+//                                           txtIdVenta   : $("#txtIdVentaCred").val(),
+//                                           cboNumCuotas : $("#cboNumCuotas").val(),
+//                                           txtTotalVent : $("#txtTotalVent").val(),
+//                                           txtTotalPago : $("#txtTotalPago").val()
+//                                       }
+//                                      //  SaveCredito2(data);
+//                                })
+                         
+                            
+                                     
+                //                   bootbox.prompt({
                 //                      title: "Ingrese el correo para enviar el detalle de la compra",
                 //                      value: email,
                 //                      callback: function(result) {
@@ -120,16 +175,16 @@ function init(){
 
                                 }
                 
-            });
+            });//AJAX VENTA
         } else {
             bootbox.alert("Debe seleccionar un comprobante");
         }
 	};
-
-    function SaveCredito(e){
-       // alert("AAAAAAAAAAAA");
-        e.preventDefault();// para que no se recargue la pagina
-        $.post("./ajax/CreditoAjax.php?op=SaveOrUpdate", $(this).serialize(), function(r){// llamamos la url por post. function(r). r-> llamada del callback
+        
+     function SaveCredito2(data){
+       //alert("SaveCredito");
+       // e.preventDefault();// para que no se recargue la pagina
+        $.post("./ajax/CreditoAjax.php?op=SaveOrUpdate", data, function(r){// llamamos la url por post. function(r). r-> llamada del callback
             
                 swal("Mensaje del Sistema", r, "success");
                 $("#modalCredito").modal("hide");
@@ -147,13 +202,42 @@ function init(){
                                
                                 
                             };
-       $.post("./ajax/VentaAjax.php?op=updateCredito", data, function(r) {
-           // alert("Actualizacion OKO");
-           //$("table#tblVerDetalle tbody").html(r);
-            
-        });
+//       $.post("./ajax/VentaAjax.php?op=updateCredito", data, function(r) {
+//           // alert("Actualizacion OKO");
+//           //$("table#tblVerDetalle tbody").html(r);
+//            
+//        });
         
     }
+    //TODO: borrar
+//    function SaveCredito(e){
+//       alert("SaveCredito");
+//        e.preventDefault();// para que no se recargue la pagina
+//        $.post("./ajax/CreditoAjax.php?op=SaveOrUpdate", $(this).serialize(), function(r){// llamamos la url por post. function(r). r-> llamada del callback
+//            
+//                swal("Mensaje del Sistema", r, "success");
+//                $("#modalCredito").modal("hide");
+//                OcultarForm();
+//                ListadoVenta();
+//                ListadoPedidos();
+//        });
+//        //"txtIdCredito=&txtIdVenta=91&cboFechaPago=2016-10-23&txtTotalPago=100&cboNumCuotas=2"
+//        //$("#txtTotalVent").val()
+//         var data = { 
+//                                txtIdVenta : $("#txtIdVentaCred").val(),
+//                                cboNumCuotas : $("#cboNumCuotas").val(),
+//                                txtTotalVent :$("#txtTotalVent").val(),
+//                                txtTotalPago :$("#txtTotalPago").val()
+//                               
+//                                
+//                            };
+//       $.post("./ajax/VentaAjax.php?op=updateCredito", data, function(r) {
+//           // alert("Actualizacion OKO");
+//           //$("table#tblVerDetalle tbody").html(r);
+//            
+//        });
+//        
+//    }
 
     function GetIdVenta() {
 

@@ -1,18 +1,9 @@
-<!--<script type="text/javascript">
-$( document ).ready(function() {
-   $( "#cboTipoVenta" ).change(function() {
-               if($( "#cboTipoVenta" ).val() == "credito"){
-                   alert("credito");
-               }
-               if($( "#cboTipoVenta" ).val() == "Contado"){
-                   alert("contado");
-               }
-    });
-});
+<script type="text/javascript">
 
 
 
-</script>-->
+
+</script>
 <div class="panel panel-default">
         <div class="panel-heading">
                 <div class="box-header with-border">
@@ -92,7 +83,7 @@ $( document ).ready(function() {
                         <table class="table table-striped table-bordered table-condensed table-hover" cellpadding="0" cellspacing="0" border="1" class="display" id="tblDetallePedido">
                             <thead>
                                 <tr>
-                                    <th>Articulo</th>
+                                    <th>Articulo1</th>
                                     <th>Codigo</th>
                                     <th>Serie</th>
                                     <th>Stock</th>
@@ -184,10 +175,10 @@ $( document ).ready(function() {
 </div>
 
 <div class="col-sm-14"  id="VerFormVentaPed">
-<form role="form" name="frmVentas" id="frmVentas" >
-            <div class="row">
+    <form role="form" name="frmVentas" id="frmVentas" >
+        <div class="row">
                 <h3 class="col-lg-12" id="txtVenta" ></h3>
-                <div class="col-lg-4 left">
+                <div class="col-lg-6 left">
                     <label for="inputMarca">Tipo de Venta2</label>
                     <div class="form-group  has-success">
                         <input id="txtIdVenta" type="hidden"  class="form-control" name="txtIdVenta"    />
@@ -195,11 +186,11 @@ $( document ).ready(function() {
                         <input id="txtIdPedido" type="hidden" class="form-control" name="txtIdPedido"  />
                         <select id="cboTipoVenta" name="cboTipoVenta" class="form-control">
                             <option value="Contado">Contado</option>
-                            <option value="Credito">Crédito</option>
+                            <option value="Credito">Credito</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-4 left">
+                <div class="col-lg-6 left">
                     <label for="inputMarca">T. Comprobante</label>
                     <div class="form-group  has-success">
                         
@@ -208,11 +199,13 @@ $( document ).ready(function() {
                         </select>
                     </div>
                 </div>
-                 <div class="col-lg-4 left">
-                    <label for="inputMarca">Forma Pago</label>
+                
+                
+                 <div class="col-lg-3 left" id="formaPago">
+                    <label for="cboFormaPago">Forma Pago</label>
                     <div class="form-group  has-success">
                         
-                        <select id="cboFormaPago" name="cboFormaPago" class="form-control" required="" >
+                        <select id="cboFormaPago" name="cboFormaPago" class="form-control" >
                             <option value="">--Seleccione forma pago--</option>
                             <option value="Cheque">Cheque</option>
                             <option value="Efectivo">Efectivo</option>
@@ -223,8 +216,26 @@ $( document ).ready(function() {
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-5 left">
-                    <label for="inputInscripcion">Numero</label>
+                 <div class="col-lg-4 left" id="pie">
+                                       <div class="form-group" >
+                                            <label for="txtTotalPago">Pie</label>
+                                            <input id="txtTotalPago"  type="text" class="form-control" name="txtTotalPago" required="" value="0" placeholder="" />
+                                        </div>
+               </div>
+               <div class="col-lg-4 left" id="ncuotas">
+                                       <div class="form-group" >
+                                            <label for="cboNumCuotas">N° Cuotas</label><br/>
+                                            <select id="cboNumCuotas" required="" name="cboNumCuotas" class="form-control">
+                                                 <option value="0"></option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                </div>
+                <div class="col-lg-3 left">
+                    <label for="txtNumeroVent">Numero</label>
                     <div class="form-group  has-success">
                         
                         <input id="txtNumeroVent" type="text" class="form-control" name="txtNumeroVent" required="" placeholder=""/>
@@ -242,7 +253,7 @@ $( document ).ready(function() {
                     <label for="inputInscripcion">Impuesto</label>
                     <div class="form-group  has-success">
                         
-                        <input id="txtImpuesto" type="text" class="form-control" name="txtImpuesto" placeholder="" readonly="readonly"/>
+                        <input id="txtImpuesto" type="text" class="form-control" name="inputInscripcion" placeholder="" readonly="readonly"/>
                     </div>
                 </div>
                 <div class="col-lg-3 left">
@@ -301,7 +312,7 @@ $( document ).ready(function() {
                         <div class="col-lg-4 left  has-error">
                             <div class="input-group">
                                 <div id="IGV_Ver" class="input-group-addon"></div>
-                                <input type="text" class="form-control" id="txtIgvPedVer" name="txtIgvPedVer" placeholder="I.G.V" disabled>
+                                <input type="text" class="form-control" id="txtIgvPedVer" name="txtIgvPedVer" placeholder="IVA" disabled>
                                 
                             </div>
                         </div>
@@ -318,7 +329,7 @@ $( document ).ready(function() {
             </div>
 
             </div>
-        </form>
+    </form>
 </div>
 		                    <!--Fin-Contenido-->
                   		</div>
@@ -446,13 +457,13 @@ $( document ).ready(function() {
                                     </div>
                                     <div class="col-lg-4 left">
                                        <div class="form-group" >
-                                            <label for="inputApellidos">Pie</label>
+                                            <label for="txtTotalPago">Pie</label>
                                             <input id="txtTotalPago"  type="text" class="form-control" name="txtTotalPago" required="" placeholder="" />
                                         </div>
                                     </div>
                                     <div class="col-lg-4 left">
                                        <div class="form-group" >
-                                            <label for="inputCuotas">N° Cuotas</label><br/>
+                                            <label for="cboNumCuotas">N° Cuotas</label><br/>
                                             <select id="cboNumCuotas" name="cboNumCuotas" class="form-control">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>

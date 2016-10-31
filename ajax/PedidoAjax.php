@@ -229,7 +229,7 @@ switch ($_GET["op"]) {
         $i = 1;
             while ($reg = $query_cli->fetch_object()) {
                  echo '<tr>
-                        <td><input type="radio" name="optClienteBusqueda" data-nombre="'.$reg->nombre.'" data-email="'.$reg->email.'" id="'.$reg->idpersona.'" value="'.$reg->idpersona.'" /></td>
+                        <td><input type="radio" name="optClienteBusqueda" data-numdocumento="'.$reg->num_documento.'" data-apellidos="'.$reg->apellidos.'" data-nombre="'.$reg->nombre.'" data-email="'.$reg->email.'" id="'.$reg->idpersona.'" value="'.$reg->idpersona.'" /></td>
                         <td>'.$i.'</td>
                        
                         <td>'.utf8_encode($reg->nombre).'</td>

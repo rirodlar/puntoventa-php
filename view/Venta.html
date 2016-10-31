@@ -51,7 +51,7 @@
                                 
                                 <select id="cboTipoPedido" name="cboTipoPedido" class="form-control" required >
                                     <option value="Pedido">Pedido</option>
-                                    <option value="Proforma">Proforma</option>
+<!--                                    <option value="Proforma">Proforma</option>-->
                                 </select>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
 		                    <div class="col-sm-14"  id="VerForm">
         <form role="form" name="frmVentas" id="frmVentas" >
             <div class="row">
-                <div class="col-lg-4 left">
+                <div class="col-lg-6 left">
                     <label for="inputMarca">Tipo de Venta1</label>
                     <div class="form-group  has-success">
                         <input id="txtIdVenta" type="hidden" maxlength="50" class="form-control" name="txtIdVenta" required="" placeholder="" autofocus="" />
@@ -152,7 +152,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-4 left">
+                <div class="col-lg-6 left">
                     <label for="inputMarca">T. Comprobante</label>
                     <div class="form-group  has-success">
                         
@@ -161,7 +161,7 @@
                         </select>
                     </div>
                 </div>
-                  <div class="col-lg-4 left">
+                  <div class="col-lg-3 left">
                     <label for="inputMarca">Forma Pago</label>
                     <div class="form-group  has-success">
                         
@@ -183,6 +183,25 @@
                         <input id="txtSerieVent" type="hidden" maxlength="50" class="form-control" name="txtSerieVent" required="" autofocus="" placeholder="" value="0" >
 <!--                    </div>-->
 <!--                </div>-->
+
+                <div class="col-lg-4 left" id="pie">
+                                       <div class="form-group" >
+                                            <label for="txtTotalPago">Pie</label>
+                                            <input id="txtTotalPago"  type="text" class="form-control" name="txtTotalPago" required="" value="0" placeholder="" />
+                                        </div>
+               </div>
+               <div class="col-lg-4 left" id="ncuotas">
+                                       <div class="form-group" >
+                                            <label for="inputCuotas">N° Cuotas</label><br/>
+                                            <select id="cboNumCuotas" required="" name="cboNumCuotas" class="form-control">
+                                                 <option value=""></option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                </div>
                 <div class="col-lg-5 left">
                     <label for="inputInscripcion">Numero</label>
                     <div class="form-group  has-success">

@@ -114,7 +114,7 @@ function init(){
 					dataType : "json",
 					
 					error: function(e){
-				   		console.log(e.responseText);	
+				   		//console.log(e.responseText);	
 					}
 	        	},
 	        "bDestroy": true
@@ -160,7 +160,7 @@ function init(){
                                                     dataType : "json",
 
                                                     error: function(e){
-                                                            console.log(e.responseText);	
+                                                            //console.log(e.responseText);	
                                                     }
                                     },
                             "bDestroy": true

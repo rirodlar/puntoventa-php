@@ -15,6 +15,28 @@ var email = "";
 //AgregatStockCant(21);
 
 function init() {
+    
+    $("#pie").hide();
+    $("#ncuotas").hide();
+    $( "#cboTipoVenta" ).change(function() {
+               if($( "#cboTipoVenta" ).val() == "Credito"){
+                     $("#cboFormaPago").prop('disabled', true);
+                     $("#txtTotalPago").prop('disabled', false);
+                     $("#cboNumCuotas").prop('disabled', false);
+                     
+                     $("#formaPago").hide();
+                     $("#pie").show();
+                     $("#ncuotas").show();
+               }
+               if($( "#cboTipoVenta" ).val() == "Contado"){
+                      $("#cboFormaPago").prop('disabled', false);
+                      $("#txtTotalPago").prop('disabled', true);
+                      $("#cboNumCuotas").prop('disabled', true);
+                      $("#formaPago").show();
+                      $("#pie").hide();
+                      $("#ncuotas").hide();
+               }
+    });
 
     var total = 0.0;
     GetNextNumero();
@@ -59,8 +81,8 @@ function init() {
 
 		var opt = $("input[type=radio]:checked");
 		$("#txtIdCliente").val(opt.val());
-		$("#txtCliente").val(opt.attr("data-nombre"));
-        email = opt.attr("data-email");
+		$("#txtCliente").val("("+opt.attr("data-numdocumento") +") "+opt.attr("data-nombre") +" "+opt.attr("data-apellidos"));
+                 email = opt.attr("data-email");
 
 		$("#modalListadoCliente").modal("hide");
 	});
@@ -777,7 +799,7 @@ function ConsultarDetallesPed() {
     }
 
     function AgregarPedCarrito(iddet_ing, stock_actual, art, cod, serie, precio_venta){
-       
+     //  alert("AgregarPedCarrito");
             if (stock_actual > 0) {
                 var detalles = new Array(iddet_ing, art, precio_venta, "1", "0.0", stock_actual, cod, serie);
                 elementos.push(detalles);
