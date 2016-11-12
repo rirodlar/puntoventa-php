@@ -40,8 +40,8 @@
 
                              
                                         //SE REGISTRA EL PIE
-                                $sql = "INSERT INTO credito(idventa,fecha_pago, total_pago) VALUES($fetch->id, curdate(), $pie)";
-                                $query = $conexion->query($sql);
+//                                $sql = "INSERT INTO credito(idventa,fecha_pago, total_pago) VALUES($fetch->id, curdate(), $pie)";
+//                                $query = $conexion->query($sql);
                                
                                
 				$conexion->autocommit(true);

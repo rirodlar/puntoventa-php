@@ -1,7 +1,11 @@
 <?php
 
 	session_start();
+        
+        require_once "../model/Configuracion.php";
 
+	$objGlobal = new Configuracion();
+                
 	require_once "../model/Venta.php";
 
 	$objVenta = new Venta();
@@ -100,10 +104,10 @@
      			$fetch = $regTotal->fetch_object();
      			$data[] = array(
      				"0"=>$i,
-                    "1"=>$reg->Cliente,
+                    "1"=>utf8_encode($reg->Cliente),
                     "2"=>$reg->tipo_pedido,
                     "3"=>$reg->fecha,
-                    "4"=>'<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDataPedido('.$reg->idpedido.',\''.$reg->tipo_pedido.'\',\''.$reg->numero.'\',\''.$reg->Cliente.'\',\''.$fetch->total.'\')" ><i class="fa fa-eye"></i> </button>&nbsp'.
+                    "4"=>'<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDataPedido('.$reg->idpedido.',\''.$reg->tipo_pedido.'\',\''.$reg->numero.'\',\''.utf8_encode($reg->Cliente).'\',\''.$fetch->total.'\')" ><i class="fa fa-eye"></i> </button>&nbsp'.
                     '<button class="btn btn-success" onclick="pasarIdPedido('.$reg->idpedido.',\''.$fetch->total.'\',\''.$reg->email.'\')"><i class="fa fa-shopping-cart"></i> </button>&nbsp'.
                     '<a href="./Reportes/exPedido.php?id='.$reg->idpedido.'" class="btn btn-primary" data-toggle="tooltip" title="Imprimir" target="blanck" ><i class="fa fa-file-text"></i> </a>&nbsp;'.
                     '<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar Pedido" onclick="eliminarPedido('.$reg->idpedido.')" ><i class="fa fa-trash"></i> </button>&nbsp'
@@ -133,16 +137,16 @@
 
 		 case "GetTipoDocSerieNum":
 
-            $nombre = $_REQUEST["nombre"];
-            $idsucursal = $_REQUEST["idsucursal"];
+                    $nombre = $_REQUEST["nombre"];
+                    $idsucursal = $_REQUEST["idsucursal"];
 
-            $query_Categoria = $objVenta->GetTipoDocSerieNum($nombre,$idsucursal);
+                    $query_Categoria = $objVenta->GetTipoDocSerieNum($nombre,$idsucursal);
 
-            $reg = $query_Categoria->fetch_object();
+                    $reg = $query_Categoria->fetch_object();
 
-            echo json_encode($reg);
+                    echo json_encode($reg);
 
-            break;
+                    break;
 
         case "EnviarCorreo":
         	require_once "../PHPMailer/class.phpmailer.php";
@@ -169,6 +173,34 @@
 
 			break;
                         
+                
+                case "calculoCuota":
+                              
+                                if(isset($_POST["cboNumCuotas"])){
+                                          $numeroCuota =  $_POST["cboNumCuotas"];
+                                }
+                                
+                                if(isset($_POST["txtTotalPago"])){
+                                          $pie =  $_POST["txtTotalPago"];
+                                }
+                                
+                                if(isset($_POST["txtTotalVent"])){
+                                          $montoVenta =  $_POST["txtTotalVent"];
+                                }
+                                
+                                $query_Tipo = $objGlobal->Listar();
+                                $reg = $query_Tipo->fetch_object();
+                                
+                               
+                                if(intval($numeroCuota) > 2){
+                                       $vCuota  = ($montoVenta-$pie)/$numeroCuota;
+                                     $vCuota =    $vCuota  * ((intval($reg->interes) /100) +1);
+                                }else{
+                                      $vCuota  = ($montoVenta-$pie)/$numeroCuota;
+                                }     		
+                                echo json_encode($vCuota);
+                                
+                    break;
                 case "updateCredito":
                    // updateCredito
                                // txtIdVenta : $("#txtIdVenta").val(),

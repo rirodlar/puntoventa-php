@@ -18,10 +18,15 @@
 <body id="cuerpoPagina">
 <?php
 require_once "../model/Pedido.php";
+require_once "../model/Credito.php";
 
 $objPedido = new Pedido();
-$query_cli = $objPedido->GetVenta($_GET["id"]);
-$reg_cli = $query_cli->fetch_object();
+$query_cli = $objPedido->GetVenta2($_GET["idPedido"]);
+$reg_cli = $query_cli->fetch_object(); 
+
+$objCredito = new Credito();
+$query_cli = $objCredito->MontoTotalPagados($_GET["idVenta"]);
+$reg_deuda = $query_cli->fetch_object(); 
 
 date_default_timezone_set('America/Santiago');
 
@@ -40,8 +45,8 @@ $reg_igv = $query_global->fetch_object();
     <tr>
         <td align="center">
         .::<strong> <?php echo $reg_cli->razon_social; ?></strong>::.<br>
-        <?php echo $reg_cli->direccion; ?><br>
-        <?php echo $reg_cli->telefono_suc; ?> - <?php echo $reg_cli->tipo_documento; ?> <?php echo $reg_cli->num_sucursal; ?>
+         	CALLE JOSE MIGUEL CARRERA 480<br>
+        R.U.T: 8.591.401-4<br/>
         </td>
     </tr>
     <tr>
@@ -54,37 +59,15 @@ $reg_igv = $query_global->fetch_object();
         <td>Cliente: <?php echo $reg_cli->nombre; ?></td>
     </tr>
     <tr>
-        <td>Doc: <?php echo $reg_cli->doc.": ".$reg_cli->num_documento; ?></td>
+        <td>Rut: <?php echo $reg_cli->num_documento; ?></td>
     </tr>
     <tr>
         <td>Nº de venta: <?php echo $reg_cli->num_comprobante ; ?></td>
     </tr>    
 </table>
 <br>
-<table border="0" width="600px">
-    <tr>
-        <td>Sr(a)</td>
-        <td>ZUÑIGA LOPEZ YALILE MONICA</td>
-    </tr>
-    <tr>
-        <td>R.U.T</td>
-        <td>8.591.401-4</td>
-    </tr>
-    <tr>
-        <td>Domicilio</td>
-        <td>CALLE JOSE MIGUEL CARRERA 480</td>
-    </tr>
-    <tr>
-        <td>Ciudad: Panguipulli </td>
-        <td>Motivo: Pago Cuotas</td>
-    </tr>
-    <tr>
-        <td>Recibido Por:</td>
-         <td>Flores Viveros Richard </td>
-    </tr>
-    
-</table>
-<br>
+
+
 <table border="0" align="center" width="600px">
     <tr>
         <td>Tipo.</td>
@@ -98,13 +81,13 @@ $reg_igv = $query_global->fetch_object();
     </tr>
     <tr>
         <td>Boleta</td>
-        <td>1232323</td>
-        <td>3/4</td>
-        <td>1000</td>
-        <td>5000</td>
-        <td>300</td>
+        <td><?php echo $reg_deuda->num_comprobante?></td>
+        <td><?php echo $reg_deuda->cuotaPagada.'/'. $reg_deuda->num_cuotas ?></td>
+        <td><?php echo $reg_deuda->valor_cuota ?></td>
+        <td><?php echo $reg_deuda->total ?></td>
+        <td><?php echo $reg_deuda->pie ?></td>
         <td>20</td>
-        <td>3500</td>
+        <td><?php echo $reg_deuda->MontoTotalPagados?></td>
     </tr>
     <?php
 //    $query_ped = $objPedido->ImprimirDetallePedido($_GET["id"]);
@@ -121,43 +104,11 @@ $reg_igv = $query_global->fetch_object();
 //
 //    $reg_total = $query_total->fetch_object();
     ?>
-
-    <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
-     <tr>
-        <td></td>
-    </tr>
+</table>
+<br/>
+<div align="center">
+<table >
+ 
     <tr>
       <td colspan="8" align="center">¡Gracias por su compra!</td>
     </tr>
@@ -169,6 +120,7 @@ $reg_igv = $query_global->fetch_object();
     </tr>
     
 </table>
+    </div>
 <br>
 </div>
 <p>&nbsp;</p>
@@ -181,10 +133,9 @@ $reg_igv = $query_global->fetch_object();
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+
+
+
 
 <p>
   

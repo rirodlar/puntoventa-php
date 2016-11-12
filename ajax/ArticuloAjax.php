@@ -8,12 +8,13 @@
 
 	switch ($_GET["op"]) {
 
-		case 'SaveOrUpdate':			
+		case 'SaveOrUpdate':
+                    //echo "SAAAA";
 
 			$idSubCategoria = $_POST["cboSubCategoria"];
 			$idunidad_medida = $_POST["cboUnidadMedida"];
-			$nombre =      utf8_encode($_POST["txtNombre"]);
-			$descripcion = utf8_encode($_POST["txtDescripcion"]);
+			$nombre = utf8_decode($_POST["txtNombre"]);
+			$descripcion = utf8_decode($_POST["txtDescripcion"]);
 			$imagen = $_FILES["imagenArt"]["tmp_name"];
 			$ruta = $_FILES["imagenArt"]["name"];
                         
@@ -106,7 +107,7 @@
                                     "0"=>'<button type="button" class="btn btn-warning" data-toggle="tooltip" title="Agregar al detalle" onclick="Agregar('.$reg->idarticulo.',\''.addslashes(utf8_encode($reg->nombre)).'\')" name="optArtBusqueda[]" data-nombre="'.addslashes(utf8_encode($reg->nombre)).'" id="'.$reg->idarticulo.'" value="'.$reg->idarticulo.'" ><i class="fa fa-check" ></i> </button>',
                                     "1"=>$i,
                                             "2"=>utf8_encode($reg->categoria),
-                                            "3"=>utf8_encode($reg->idunidad_medida),
+                                         //   "3"=>utf8_encode($reg->idunidad_medida),
                                             "4"=>utf8_encode($reg->nombre),
                                             "5"=>utf8_encode($reg->descripcion),
                                             "6"=>'<img width=100px height=100px src="./'.$reg->imagen.'" />');

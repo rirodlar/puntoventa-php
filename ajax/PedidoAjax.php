@@ -62,18 +62,20 @@ switch ($_GET["op"]) {
                 $reg_total = $query_total->fetch_object();
 
                 $data[] = array("0"=>$i,
-                    "1"=>$reg->Cliente,
+                    "1"=>utf8_encode($reg->Cliente),
                     "2"=>($reg->tipo_pedido=="Pedido")?'<span class="badge bg-blue">Pedido</span>':(($reg->tipo_pedido=="Venta")?'<span class="badge bg-aqua">Venta</span>':'<span class="badge bg-green">Proforma</span>'),
+                    "tipoVenta"=>utf8_encode($reg->tipo_venta),
+                    "comprobante"=>$reg->num_comprobante,
                     "3"=>$reg->fecha,
                     "4"=>$reg_total->Total,
                     "5"=>($reg->estado=="A")?'<span class="badge bg-green">ACEPTADO</span>':'<span class="badge bg-red">CANCELADO</span>',
-                    "6"=>($reg->tipo_pedido=="Venta")?'<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDataPedido('.$reg->idpedido.',\''.$reg->tipo_pedido.'\',\''.$reg->numero.'\',\''.$reg->Cliente.'\',\''.$reg_total->Total.'\',\''.$reg->email.'\')" ><i class="fa fa-eye"></i> </button>&nbsp'.
+                    "6"=>($reg->tipo_pedido=="Venta")?'<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDataPedido('.$reg->idpedido.',\''.$reg->tipo_pedido.'\',\''.$reg->numero.'\',\''.utf8_encode($reg->Cliente).'\',\''.$reg_total->Total.'\',\''.$reg->email.'\')" ><i class="fa fa-eye"></i> </button>&nbsp'.
                     '<button class="btn btn-warning" data-toggle="tooltip" title="Anular Venta" onclick="cancelarPedido('.$reg->idpedido.')" ><i class="fa fa-times-circle"></i> </button>&nbsp'.
                     '<a href="./Reportes/exVenta.php?id='.$reg->idpedido.'" class="btn btn-primary" data-toggle="tooltip" title="Imprimir" target="blanck" ><i class="fa fa-file-text"></i> </a>':
-                    '<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDataPedido('.$reg->idpedido.',\''.$reg->tipo_pedido.'\',\''.$reg->numero.'\',\''.$reg->Cliente.'\',\''.$reg_total->Total.'\')" ><i class="fa fa-eye"></i> </button>&nbsp'.
+                    '<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDataPedido('.$reg->idpedido.',\''.$reg->tipo_pedido.'\',\''.$reg->numero.'\',\''.utf8_encode($reg->Cliente).'\',\''.$reg_total->Total.'\')" ><i class="fa fa-eye"></i> </button>&nbsp'.
                     '<button class="btn btn-danger" data-toggle="tooltip" title="Eliminar Pedido" onclick="eliminarPedido('.$reg->idpedido.')" ><i class="fa fa-trash"></i> </button>&nbsp'.
                     '<a href="./Reportes/exPedido.php?id='.$reg->idpedido.'" class="btn btn-primary" data-toggle="tooltip" title="Imprimir" target="blanck" ><i class="fa fa-file-text"></i> </a>&nbsp;'.
-                    '<button onclick="FormVenta('.$reg_total->Total.',\''.$reg->idpedido.'\',\''.$reg_total->Total.'\',\''.$reg->Cliente.'\',\''.$reg->email.'\')" class="btn btn-info" data-toggle="tooltip" title="Generar Venta" ><i class="fa fa-shopping-cart"></i> </button>&nbsp');
+                    '<button onclick="FormVenta('.$reg_total->Total.',\''.$reg->idpedido.'\',\''.$reg_total->Total.'\',\''.utf8_encode($reg->Cliente).'\',\''.$reg->email.'\')" class="btn btn-info" data-toggle="tooltip" title="Generar Venta" ><i class="fa fa-shopping-cart"></i> </button>&nbsp');
                 $i++;
             }
             $results = array(
@@ -155,7 +157,7 @@ switch ($_GET["op"]) {
         $i = 1;
             while ($reg = $query_prov->fetch_object()) {
                  echo '<tr>
-                        <td>'.$reg->articulo.'</td>
+                        <td>'.utf8_encode($reg->articulo).'</td>
                         <td>'.$reg->codigo.'</td>
                         <td>'.$reg->serie.'</td>
                         <td>'.$reg->precio_venta.'</td>
@@ -166,7 +168,26 @@ switch ($_GET["op"]) {
             }
 
         break;
-
+    case "GetDetallePedido2":
+          require_once "../model/Pedido.php";
+         $objPedido = new Pedido();
+         $idPedido = $_POST["idPedido"];
+          $query_prov = $objPedido->GetDetallePedido2($idPedido);
+          
+            $i = 1;
+            while ($reg = $query_prov->fetch_object()) {
+                 echo '<tr>
+                        <td>'.utf8_encode($reg->fecha).'</td>
+                        <td>'.$reg->articulo.'</td>
+                        <td>'.$reg->descripcion.'</td>
+                        <td>'.$reg->cantidad.'</td>
+                        <td>'.$reg->precio_venta.'</td>
+                        <td>'.$reg->descuento.'</td>
+                        <td>'.$reg->total.'</td>
+                       </tr>';
+                 $i++; 
+            }
+        break;
     case "TraerCantidad" :
         require_once "../model/Pedido.php";
 

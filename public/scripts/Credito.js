@@ -41,16 +41,22 @@ function init(){
 	            
 		            Limpiar();
 		            ListadoCreditos();
+                            
 		            //$.toaster({ priority : 'success', title : 'Mensaje', message : r});
 		            swal("Mensaje del Sistema", r, "success");
 		            $("#VerListado").show();
 					$("#VerForm").hide();
 		        });
+                          setTimeout(function(){
+                            location.reload();
+                  }, 2500);
 			} else {
 				bootbox.alert("El monto a pagar no puede ser mayor al monto pendiente");
 				$("#txtTotalPago").val("1.0");
 			}
-        } else {
+                
+               
+            } else {
 			bootbox.alert("el monto a pagar no puede ser vacio, menor o igual que 0");
 			$("#txtTotalPago").val("1.0");
 		}
@@ -79,20 +85,20 @@ function init(){
         	"aoColumns":[
         	     {   "mDataProp": "0"},
                      {   "mDataProp": "rut"},
-                      {   "mDataProp": "cliente"},
-                    {   "mDataProp": "1"},
-                    {   "mDataProp": "2"},
+                     {   "mDataProp": "cliente"},
+                     {   "mDataProp": "1"},
+                     {   "mDataProp": "2"},
                     //{   "mDataProp": "3"},
-                    {   "mDataProp": "4"},
-                    {   "mDataProp": "5"},
-                    {   "mDataProp": "6"},
-                    {   "mDataProp": "7"},
-                      {   "mDataProp": "num_cuota"},
-                        {   "mDataProp": "valor_cuota"},
-                    {   "mDataProp": "8"},
-                    {   "mDataProp": "9"},
-                    
-                    {   "mDataProp": "10"},
+                     {   "mDataProp": "4"},
+                     {   "mDataProp": "5"},
+                  //  {   "mDataProp": "6"},
+                     {   "mDataProp": "7"},
+                     {   "mDataProp": "num_cuota"},
+                     {   "mDataProp": "valor_cuota"},
+                     {   "mDataProp": "8"},
+                     {   "mDataProp": "9"},
+                     
+                     {   "mDataProp": "10"},
                    
 
         	],"ajax": 
@@ -132,10 +138,11 @@ function init(){
                       //  {   "mDataProp": "3"},
                         {   "mDataProp": "4"},
                         {   "mDataProp": "5"},
-                        {   "mDataProp": "6"},
+//                        {   "mDataProp": "6"},
                         {   "mDataProp": "7"},
                          {   "mDataProp": "num_cuota"},
                         {   "mDataProp": "valor_cuota"},
+                         {   "mDataProp": "pie"},
                         {   "mDataProp": "8"},
                         {   "mDataProp": "9"},
                        
@@ -163,7 +170,7 @@ function init(){
 
 }
 
-function AgregarCredito(idVenta,num_documento ,total,nombre){
+function AgregarCredito(idVenta,idPedido, num_documento ,total,nombre){
 	$("#VerListado").hide();
 	$("#VerForm").show();
 	$("#txtIdVenta").val(idVenta);
@@ -176,16 +183,24 @@ function AgregarCredito(idVenta,num_documento ,total,nombre){
                 $("table#tblVerDetalle tbody").html(r);
             
         });
+        
+        $.post("./ajax/PedidoAjax.php?op=GetDetallePedido2", {idPedido: idPedido}, function(r) {
+                //$("table#tblVerDetalle tbody").html(r);
+              $("table#tblDetallePedido tbody").html(r);
+            
+        });
 
 	$.getJSON("./ajax/CreditoAjax.php?op=MontoTotalPagados", {idVenta: idVenta}, function(r) {
                 if (r) {
                     console.log(r);
-                	$("#txtMontoPendiente").val(r.MontoTotalPagados);
-                        var cuotaPagada = parseInt(r.cuotaPagada)-1; //se le resta 1 (por el pie inicial)
+                	$("#txtMontoPendiente").val(r.MontoTotalPagados-r.pie);
+                        var cuotaPagada = parseInt(r.cuotaPagada); //se le resta 1 (por el pie inicial)
                         $("#txtNumeroCuota").val(cuotaPagada+" / "+r.num_cuotas);
                         $("#txtValorCuota").val(r.valor_cuota);
+                        
+                        $("#txtPie").val(r.pie);
                        // alert(r.cuotaPagada+" - "+(parseInt(r.num_cuotas)-1));
-                	montoPendiente = r.MontoTotalPagados;
+                	montoPendiente = parseFloat(r.MontoTotalPagados) - parseFloat(r.pie);
                 }
             
     })

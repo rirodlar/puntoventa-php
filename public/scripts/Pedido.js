@@ -16,25 +16,25 @@ var email = "";
 
 function init() {
     
-    $("#pie").hide();
-    $("#ncuotas").hide();
+//    $("#pie").hide();
+//    $("#ncuotas").hide();
     $( "#cboTipoVenta" ).change(function() {
                if($( "#cboTipoVenta" ).val() == "Credito"){
-                     $("#cboFormaPago").prop('disabled', true);
-                     $("#txtTotalPago").prop('disabled', false);
-                     $("#cboNumCuotas").prop('disabled', false);
+//                     $("#cboFormaPago").prop('disabled', true);
+//                     $("#txtTotalPago").prop('disabled', false);
+//                     $("#cboNumCuotas").prop('disabled', false);
                      
-                     $("#formaPago").hide();
-                     $("#pie").show();
-                     $("#ncuotas").show();
+//                     $("#formaPago").hide();
+//                     $("#pie").show();
+//                     $("#ncuotas").show();
                }
                if($( "#cboTipoVenta" ).val() == "Contado"){
-                      $("#cboFormaPago").prop('disabled', false);
-                      $("#txtTotalPago").prop('disabled', true);
-                      $("#cboNumCuotas").prop('disabled', true);
-                      $("#formaPago").show();
-                      $("#pie").hide();
-                      $("#ncuotas").hide();
+//                      $("#cboFormaPago").prop('disabled', false);
+//                      $("#txtTotalPago").prop('disabled', true);
+//                      $("#cboNumCuotas").prop('disabled', true);
+//                      $("#formaPago").show();
+//                      $("#pie").hide();
+//                      $("#ncuotas").hide();
                }
     });
 
@@ -65,7 +65,7 @@ function init() {
     $("#VerForm").hide();
     $("#VerFormVentaPed").hide();
 
-   // $("#btnAgregar").click(AgregarDetallePedPedido)
+   // $("#btnAgregar").D(AgregarDetallePedPedido)
    // $("#cboTipoComprobante").change(VerNumSerie);
     $("#btnBuscarCliente").click(AbrirModalCliente);
     $("#btnBuscarDetIng").click(AbrirModalDetPed);
@@ -85,6 +85,22 @@ function init() {
                  email = opt.attr("data-email");
 
 		$("#modalListadoCliente").modal("hide");
+                
+                //ver si el cliente tiene problema ccon el credito
+                var data = {
+                    rut: opt.attr("data-numdocumento")//'4178030-4'
+                }
+                 $.post("./ajax/CreditoAjax.php?op=numDeudaCliente", data, function(r){// llamamos la url por post. function(r). r-> llamada del callback
+                     //
+                     var numDeudas = parseInt(r);
+                     if(numDeudas > 0){
+                       
+                           bootbox.alert("EL CLIENTE POSEE DEUDAS PENDIENTES ("+numDeudas+")");
+                         $("#clienteDeudas").html("EL CLIENTE POSEE DEUDAS PENDIENTES ("+numDeudas+")");
+                     }else{
+                         $("#clienteDeudas").html("");
+                     }
+                 });
 	});
 
 	$("#btnAgregarArtPed").click(function(e){
@@ -322,11 +338,15 @@ function init() {
     }
 
     function AbrirModalCliente(){
+      
 		$("#modalListadoCliente").modal("show");
 
 		$.post("./ajax/PedidoAjax.php?op=listClientes", function(r){
-                             $("#Cliente").html(r);
-                          $("#tblClientees").DataTable();
+                          
+                    $("#Cliente").html(r);
+                           $("#tblClientees").DataTable(); 
+                           $(".paginate_button").click();
+                          
                  });
 	}
 
@@ -362,6 +382,8 @@ function init() {
                 "bDestroy": true
 
             }).DataTable();
+            
+            
 	}
 
     function AgregatStockCant(idPedido){ 
@@ -436,6 +458,8 @@ function ListadoPedidos(){
                     {   "mDataProp": "0"},
                     {   "mDataProp": "1"},
                     {   "mDataProp": "2"},
+                    {    "mDataProp":"tipoVenta"},
+                    {    "mDataProp":"comprobante"},
                     {   "mDataProp": "3"},
                     {   "mDataProp": "4"},
                     {   "mDataProp": "5"},
@@ -529,12 +553,25 @@ function ConsultarDetallesPed() {
         $("#txtSubTotalPed").val(Math.round(subTotalPed*100)/100);
 
         $("#txtTotalPed").val(Math.round(total*100)/100);
-
+        $('#cboTipoVenta').prop("disabled", true);
+        $("#cboTipoComprobante").prop("disabled", true);
+        $("#cboFormaPago").prop("disabled", true);
+        $("#txtNumeroVent").prop("disabled", true);
+        
+        $("#numVenta").hide();
+        
         if (tipo_pedido == "Venta") {
             $.getJSON("./ajax/PedidoAjax.php?op=GetVenta", {idPedido:idPedido}, function(r) {
                 if (r) {
-                    alert(r);
-                    console.log(r);
+                   if(r.tipo_venta =="Credito"){
+                       $("#formaPago").hide();
+                        $("#pie").show();
+                        $("#txtTotalPago").val(r.pie);
+                          $("#ncuotas").show();
+                          $("#cboNumCuotas").val(r.num_cuotas);
+                        
+                   }
+                  $("#cboTipoVenta").di
                     $("#VerFormVentaPed").show();
                     $("#VerDetallePedido").hide();
                     $("#VerTotalesDetPedido").hide();
@@ -599,6 +636,7 @@ function ConsultarDetallesPed() {
     }
 
     function CargarDetallePedido(idPedido) {
+        alert("CargarDetallePedido");
         //$('th:nth-child(2)').hide();
         //$('th:nth-child(3)').hide();
         $('table#tblDetallePedidoVer th:nth-child(4)').hide();
@@ -611,6 +649,8 @@ function ConsultarDetallesPed() {
                 $("table#tblDetallePedidoVer tbody").html(r);
                 $("table#tblDetallePedido tbody").html(r);
         })
+        
+        
     }
 
     function cancelarPedido(idPedido){

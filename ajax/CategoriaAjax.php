@@ -10,7 +10,7 @@
 
 		case 'SaveOrUpdate':			
 
-			$nombre = $_POST["txtNombre"]; // Llamamos al input txtNombre
+			$nombre = utf8_decode($_POST["txtNombre"]); // Llamamos al input txtNombre
 
 			if(empty($_POST["txtIdCategoria"])){
 				
@@ -55,10 +55,10 @@
 				$i++;
 			}
 			$results = array(
-            "sEcho" => 1,
-        	"iTotalRecords" => count($data),
-        	"iTotalDisplayRecords" => count($data),
-            "aaData"=>$data);
+                        "sEcho" => 1,
+                        "iTotalRecords" => count($data),
+                        "iTotalDisplayRecords" => count($data),
+                        "aaData"=>$data);
 			echo json_encode($results);
             
 			break;

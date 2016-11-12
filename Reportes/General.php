@@ -118,7 +118,7 @@ function addSociete( $nom, $adresse,$logo,$ext_logo )
 	$this->SetXY( $x1, $y1 + 4 );
 	$this->SetFont('Arial','',10);
 	$length = $this->GetStringWidth( $adresse );
-	//Coordonnées de la société
+	//CoordonnÃ©es de la sociÃ©tÃ©
 	$lignes = $this->sizeOfText( $adresse, $length) ;
 	$this->MultiCell($length, 4, $adresse);
 }

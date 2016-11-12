@@ -1,9 +1,3 @@
-<script type="text/javascript">
-
-
-
-
-</script>
 <div class="panel panel-default">
         <div class="panel-heading">
                 <div class="box-header with-border">
@@ -24,6 +18,12 @@
         <form  name="frmPedidos" id="frmPedidos" enctype="multipart/form-data" >
             <div class="row">
                 <div class="col-sm-12 col-sm-offset-0 col-lg-12 col-lg-offset-0 main">
+                    <div   class="row">
+                        <div class="col-lg-12 left">
+                                <span  id="clienteDeudas" class="label label-danger"></span>
+                        </div>
+                    </div>
+                    <br/>
                     <div class="row">
                         <div class="col-lg-12 left">
                             <label id="inputCliente">Cliente1:</label>
@@ -56,14 +56,14 @@
                                 
                                 <select id="cboTipoPedido" name="cboTipoPedido" class="form-control" required >
                                     <option value="Pedido">Pedido</option>
-                                    <option value="Proforma">Proforma</option>
+                                    
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-4 left">
                             <label id="inputNumero">Número:</label>
                             <div class="form-group has-success">
-                                    <input id="txtNumeroPed" type="text" class="form-control" style="text-align:center;" name="txtNumeroPed" required />
+                                <input id="txtNumeroPed" type="text" readonly="" class="form-control" style="text-align:center;" name="txtNumeroPed" required />
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                         <div class="col-lg-4 left  has-error">
                             <div class="input-group">
                                 <div id="IGV" class="input-group-addon"></div>
-                                <input type="text" class="form-control" id="txtIgvPed" name="txtIgvPed" placeholder="I.G.V" disabled>
+                                <input type="text" class="form-control" id="txtIgvPed" name="txtIgvPed" placeholder="IVA" disabled>
                                 
                             </div>
                         </div>
@@ -149,6 +149,8 @@
                 <th>#</th>
                 <th>Cliente</th>
                 <th>T. Pedido</th>
+                <th>T. Venta</th>
+                <th>Comprobante</th>
                 <th>Fecha</th>
                 <th>Total</th>
                 <th>Estado</th>
@@ -161,6 +163,8 @@
                 <th>#</th>
                 <th>Cliente</th>
                 <th>T. Pedido</th>
+                 <th>T. Venta</th>
+                  <th>Comprobante</th>
                 <th>Fecha</th>
                 <th>Total</th>
                 <th>Estado</th>
@@ -178,19 +182,20 @@
     <form role="form" name="frmVentas" id="frmVentas" >
         <div class="row">
                 <h3 class="col-lg-12" id="txtVenta" ></h3>
-                <div class="col-lg-6 left">
+                <div class="col-lg-4 left">
                     <label for="inputMarca">Tipo de Venta2</label>
                     <div class="form-group  has-success">
                         <input id="txtIdVenta" type="hidden"  class="form-control" name="txtIdVenta"    />
                         <input id="txtIdUsuario" type="hidden" value="<?php echo $_SESSION["idusuario"] ?>"  name="txtIdUsuario"  />
                         <input id="txtIdPedido" type="hidden" class="form-control" name="txtIdPedido"  />
-                        <select id="cboTipoVenta" name="cboTipoVenta" class="form-control">
+                        <select id="cboTipoVenta" name="cboTipoVenta" class="form-control" required="" >
+                           
                             <option value="Contado">Contado</option>
                             <option value="Credito">Credito</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-6 left">
+                <div class="col-lg-4 left">
                     <label for="inputMarca">T. Comprobante</label>
                     <div class="form-group  has-success">
                         
@@ -199,13 +204,19 @@
                         </select>
                     </div>
                 </div>
-                
+                 <div class="col-lg-3 left">
+                    <label for="txtNumeroVent">Numero</label>
+                    <div class="form-group  has-success">
+                        
+                        <input id="txtNumeroVent" type="text" readonly="" class="form-control" name="txtNumeroVent" required="" placeholder=""/>
+                    </div>
+                </div>
                 
                  <div class="col-lg-3 left" id="formaPago">
                     <label for="cboFormaPago">Forma Pago</label>
                     <div class="form-group  has-success">
                         
-                        <select id="cboFormaPago" name="cboFormaPago" class="form-control" >
+                        <select id="cboFormaPago" name="cboFormaPago" class="form-control" required="" >
                             <option value="">--Seleccione forma pago--</option>
                             <option value="Cheque">Cheque</option>
                             <option value="Efectivo">Efectivo</option>
@@ -216,17 +227,17 @@
                         </select>
                     </div>
                 </div>
-                 <div class="col-lg-4 left" id="pie">
+                 <div class="col-lg-3 left" id="pie">
                                        <div class="form-group" >
                                             <label for="txtTotalPago">Pie</label>
-                                            <input id="txtTotalPago"  type="text" class="form-control" name="txtTotalPago" required="" value="0" placeholder="" />
+                                            <input id="txtTotalPago" onblur="calcularValorCuota()"; type="text" class="form-control" name="txtTotalPago" required="" value="0" placeholder="" />
                                         </div>
                </div>
-               <div class="col-lg-4 left" id="ncuotas">
+               <div class="col-lg-3 left" id="ncuotas">
                                        <div class="form-group" >
                                             <label for="cboNumCuotas">N° Cuotas</label><br/>
-                                            <select id="cboNumCuotas" required="" name="cboNumCuotas" class="form-control">
-                                                 <option value="0"></option>
+                                            <select id="cboNumCuotas" required="" name="cboNumCuotas" class="form-control"  onchange="calcularValorCuota()">
+                                                <option value=""></option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -234,13 +245,13 @@
                                             </select>
                                         </div>
                 </div>
-                <div class="col-lg-3 left">
-                    <label for="txtNumeroVent">Numero</label>
-                    <div class="form-group  has-success">
-                        
-                        <input id="txtNumeroVent" type="text" class="form-control" name="txtNumeroVent" required="" placeholder=""/>
+                <div class="col-lg-3 left" id="vCuota">
+                    <div class="form-group" >
+                        <label for="cboNumCuotas">valor Cuota</label><br/>
+                        <input type="text" class="form-control" readonly="" value="" id="txtValorCuota" name="vCuota" />
                     </div>
                 </div>
+               
 <!--                <div class="col-lg-5 left">-->
                     
 <!--                    <div class="form-group  has-success">-->
@@ -274,7 +285,7 @@
 
                     <button class="btn btn-success" type="submit"><i class="fa fa-floppy-o"></i> Registrar</button>
                     <a href="Pedido.php" class="btn btn-primary" ><i class="fa fa-remove"></i> Cancelar</a>
-                    <a id="btnEnviarCorreo" class="btn btn-default" ><i class="fa fa-envelope"></i> Enviar por correo</a>
+<!--                    <a id="btnEnviarCorreo" class="btn btn-default" ><i class="fa fa-envelope"></i> Enviar por correo</a>-->
                     <hr>
                     <span class="lead text-primary"></span>
                 </div>

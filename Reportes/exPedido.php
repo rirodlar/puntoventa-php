@@ -1,6 +1,6 @@
 <?php
 // (c) Xavier Nicolay
-// Exemple de génération de devis/facture PDF
+// Exemple de gÃ©nÃ©ration de devis/facture PDF
 
 require('Pedido.php');
 
@@ -19,8 +19,8 @@ $pdf = new PDF_Invoice( 'P', 'mm', 'A4' );
 $pdf->AddPage();
 $pdf->addSociete( $reg_cli->razon_social,
                   "$reg_cli->num_sucursal\n" .
-                  "Dirección: $reg_cli->direccion\n".
-                  "Teléfono: $reg_cli->telefono_suc\n" .
+                  "DirecciÃ³n: $reg_cli->direccion\n".
+                  "TelÃ©fono: $reg_cli->telefono_suc\n" .
                   "email : $reg_cli->email_suc ","../$reg_cli->logo","$extension");
 $pdf->fact_dev( "$reg_cli->tipo_pedido ", "$reg_cli->numero" );
 $pdf->temporaire( "" );
@@ -28,10 +28,10 @@ $pdf->addDate( $reg_cli->fecha);
 //$pdf->addClient("CL01");
 //$pdf->addPageNumber("1");
 
-$pdf->addClientAdresse($reg_cli->nombre,"Domicilio: ".$reg_cli->direccion_calle." - ".$reg_cli->direccion_departamento,$reg_cli->doc.": ".$reg_cli->num_documento,"Email: ".$reg_cli->email,"Telefono: ".$reg_cli->telefono);
-//$pdf->addReglement("Soluciones Innovadoras Perú S.A.C.");
+$pdf->addClientAdresse($reg_cli->nombre,"Domicilio: ".$reg_cli->direccion_calle,$reg_cli->doc.": ".$reg_cli->num_documento,"Email: ".$reg_cli->email,"Telefono: ".$reg_cli->telefono);
+//$pdf->addReglement("Soluciones Innovadoras PerÃº S.A.C.");
 //$pdf->addEcheance("RUC","2147715777");
-//$pdf->addNumTVA("Chongoyape, José Gálvez 1368");
+//$pdf->addNumTVA("Chongoyape, JosÃ© GÃ¡lvez 1368");
 //$pdf->addReference("Devis ... du ....");
 $cols=array( "CODIGO"    => 23,
              "DESCRIPCION"  => 78,

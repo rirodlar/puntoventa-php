@@ -32,8 +32,10 @@
 
 		public function Listar($idsucursal){
 			global $conexion;
-			$sql = "select p.*, c.nombre as Cliente, c.email 
-			from pedido p inner join persona c on p.idcliente = c.idpersona where p.idsucursal = $idsucursal 
+			$sql = "select p.*, c.nombre as Cliente, c.email ,v.tipo_venta,v.num_comprobante
+			from pedido p inner join persona c on p.idcliente = c.idpersona 
+                        inner join venta v on v.idpedido = p.idpedido
+                        where p.idsucursal = $idsucursal 
 			and c.tipo_persona = 'Cliente' and p.tipo_pedido = 'Venta' order by idpedido desc limit 0,2999";
 			$query = $conexion->query($sql);
 			return $query;
@@ -103,8 +105,9 @@
 		public function GetPrimerCliente()
 		{
 			global $conexion;
-			$sql = "select idpersona,nombre from persona where tipo_persona='Cliente' order by idpersona limit 0,1";
-			$query = $conexion->query($sql);
+			//$sql = "select idpersona,nombre from persona where tipo_persona='Cliente' order by idpersona limit 0,1";
+			$sql = "select idpersona,nombre from persona where nombre like 'PUBLICO GENERAL' and tipo_persona='Cliente' ";
+                        $query = $conexion->query($sql);
 			return $query;
 		}
 
@@ -127,6 +130,38 @@
 			$query = $conexion->query($sql);
 			return $query;
 		}
+                
+                public function GetDetallePedido2($idPedido){
+                    global $conexion;
+                    $sql = "select 
+                            v.fecha,s.razon_social as sucursal,
+                            concat(e.apellidos,' ',e.nombre) as empleado,
+                            pe.nombre as cliente,v.tipo_comprobante as comprobante,
+
+                            v.impuesto,
+                            a.nombre as articulo,
+                            a.descripcion as descripcion,
+
+                            dp.cantidad,
+                            dp.precio_venta,
+                            dp.descuento,
+                            (dp.cantidad*(dp.precio_venta-dp.descuento))as total
+                            from detalle_pedido dp 
+                            inner join detalle_ingreso di on dp.iddetalle_ingreso=di.iddetalle_ingreso
+                            inner join articulo a on di.idarticulo=a.idarticulo
+                            inner join pedido p on dp.idpedido=p.idpedido 
+                            inner join venta v on v.idpedido=p.idpedido
+                            inner join sucursal s on p.idsucursal=s.idsucursal
+                            inner join usuario u on p.idusuario=u.idusuario
+                            inner join empleado e on u.idempleado=e.idempleado
+                            inner join persona pe on p.idcliente=pe.idpersona
+                            where dp.idpedido = $idPedido and
+                            v.estado='A'
+                            order by v.fecha desc";
+                            
+                            $query = $conexion->query($sql);
+                            return $query;
+                }
 
 		public function GetDetalleCantStock($idpedido){
 			global $conexion;
@@ -232,6 +267,35 @@
 	inner join sucursal s on ped.idsucursal = s.idsucursal
 	inner join venta v on v.idpedido = ped.idpedido
 	where ped.idpedido = $idpedido";
+			$query = $conexion->query($sql);
+			return $query;
+		}
+                
+       public function GetVenta2($idpedido){
+			global $conexion;
+			$sql = "select 
+                                p.*, ped.fecha, 
+                                s.razon_social,
+                                v.pie,
+                                v.num_cuotas,
+                                v.valor_cuota ,
+                                v.num_comprobante,
+                                 v.serie_comprobante, 
+                                 s.tipo_documento, 
+                                 s.num_documento as num_sucursal,
+                                 s.direccion, s.telefono as telefono_suc,
+                                 s.email as email_suc, 
+                                 s.representante, s.logo,
+                                 ped.tipo_pedido,
+                                 v.impuesto,
+                                 p.tipo_documento as doc,
+                                e.nombre, e.apellidos
+                                        from persona p inner join pedido ped on ped.idcliente = p.idpersona 
+                                        inner join sucursal s on ped.idsucursal = s.idsucursal
+                                        inner join venta v on v.idpedido = ped.idpedido
+                                        inner join usuario u on u.idusuario = ped.idusuario
+                                        inner join empleado e on e.idempleado = u.idempleado
+                                        where ped.idpedido =  $idpedido";
 			$query = $conexion->query($sql);
 			return $query;
 		}

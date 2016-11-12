@@ -203,7 +203,7 @@
                          "2"=>$reg->empleado,
                          "3"=>$reg->cliente,
                          "4"=>$reg->comprobante,
-                         "5"=>$reg->serie,
+                       //  "5"=>$reg->serie,
                          "6"=>$reg->numero,
                          "7"=>$reg->impuesto,
                          "8"=>$reg->subtotal,

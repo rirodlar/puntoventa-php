@@ -61,7 +61,7 @@
 
                         $data[] = array("0"=>$i,
                                 "rut"=>$reg->num_documento,
-                                "cliente"=>$reg->nombre, 
+                                "cliente"=>utf8_encode($reg->nombre), 
                                 "1"=>$reg->tipo_venta,
                                 "2"=>$reg->tipo_comprobante,
                               //  "3"=>$reg->serie_comprobante,
@@ -69,12 +69,12 @@
                                 "5"=>$reg->fecha,
                                 "6"=>$reg->impuesto,
                                 "7"=>$reg->total,
-                              "num_cuota"=>$reg->num_cuotas,
+                                "num_cuota"=>$reg->num_cuotas,
                                 "valor_cuota"=>$reg->valor_cuota, 
-                                "8"=>$reg_total->total_pago,
-                                "9"=>$reg->total-$reg_total->total_pago,
+                                "8"=>$reg_total->total_pago+$reg->pie,
+                                "9"=>$reg->total-$reg_total->total_pago-$reg->pie,
                                  
- "10"=>($reg->total-$reg_total->total_pago>0)?'<button class="btn btn-success" data-toggle="tooltip" title="Agregar Credito" onclick="AgregarCredito('.$reg->idventa.',\''.$reg->num_documento.'\','.$reg->total.',\''.$reg->nombre.'\')"><i class="fa fa-usd"></i> </button>':'<button class="btn btn-warning" data-toggle="tooltip" title="Total Pagado, Puede ver el detalle de credito haciendo click aqui" onclick="AgregarCredito('.$reg->idventa.',\''.$reg->num_documento.'\','.$reg->total.',\''.$reg->nombre.'\')"><i class="fa fa-eye"></i> </button>'
+ "10"=>($reg->total-$reg_total->total_pago - $reg->pie   >0)?'<button class="btn btn-success" data-toggle="tooltip" title="Agregar Credito" onclick="AgregarCredito('.$reg->idventa.','.$reg->idpedido.',\''.$reg->num_documento.'\','.$reg->total.',\''.utf8_encode($reg->nombre).'\')"><i class="fa fa-usd"></i> </button>':'<button class="btn btn-warning" data-toggle="tooltip" title="Total Pagado, Puede ver el detalle de credito haciendo click aqui" onclick="AgregarCredito('.$reg->idventa.','.$reg->idpedido.',\''.$reg->num_documento.'\','.$reg->total.',\''.utf8_encode($reg->nombre).'\')"><i class="fa fa-eye"></i> </button>'
 
                        );
                 $i++;
@@ -88,7 +88,16 @@
             
 			break;
 
-		case "listDeudas":
+		
+                case "numDeudaCliente":
+                    $rut = $_POST["rut"];
+                    $query_Tipo = $objCredito->ClienteTieneDeuda($rut);
+                     $reg = $query_Tipo->fetch_object();
+                   
+                  
+                    echo json_encode(intval($reg->num_venta_credito));
+                        break;
+                case "listDeudas":
 			$query_Tipo = $objCredito->ListarDeuda($_SESSION["idsucursal"]);
 			$data= Array();
                         $i = 1;
@@ -97,9 +106,9 @@
 
                              $reg_total = $query_total->fetch_object();
 
-                             $data[] = array("0"=>$i,
-                             "rut"=>$reg->num_documento,
-                             "cliente"=>$reg->nombre, 
+                            $data[] = array("0"=>$i,
+                            "rut"=>$reg->num_documento,
+                            "cliente"=>utf8_encode($reg->nombre), 
                             "1"=>$reg->tipo_venta,
                             "2"=>$reg->tipo_comprobante,
                            // "3"=>$reg->serie_comprobante,
@@ -107,12 +116,13 @@
                             "5"=>$reg->fecha,
                             "6"=>$reg->impuesto,
                             "7"=>$reg->total,
-                                    "num_cuota"=>$reg->num_cuotas,
-                             "valor_cuota"=>$reg->valor_cuota,
+                            "num_cuota"=>$reg->num_cuotas,
+                            "valor_cuota"=>$reg->valor_cuota,
+                            "pie"=>$reg->pie,    
                             "8"=>$reg_total->total_pago,
-                            "9"=>$reg->total-$reg_total->total_pago,
+                            "9"=>$reg->total-$reg_total->total_pago-$reg->pie,
                              
-"10"=>($reg->total-$reg_total->total_pago>0)?'<button class="btn btn-success" data-toggle="tooltip" title="Agregar Credito" onclick="AgregarCredito('.$reg->idventa.',\''.$reg->num_documento.'\','.$reg->total.',\''.$reg->nombre.'\')"><i class="fa fa-usd"></i> </button>':'<button class="btn btn-warning" data-toggle="tooltip" title="Total Pagado, Puede ver el detalle de credito haciendo click aqui" onclick="AgregarCredito('.$reg->idventa.',\''.$reg->num_documento.'\','.$reg->total.',\''.$reg->nombre.'\')"><i class="fa fa-eye"></i> </button>'
+"10"=>($reg->total-$reg_total->total_pago>0)?'<button class="btn btn-success" data-toggle="tooltip" title="Agregar Credito" onclick="AgregarCredito('.$reg->idventa.','.$reg->idpedido.',\''.$reg->num_documento.'\','.$reg->total.',\''.utf8_encode($reg->nombre).'\')"><i class="fa fa-usd"></i> </button>':'<button class="btn btn-warning" data-toggle="tooltip" title="Total Pagado, Puede ver el detalle de credito haciendo click aqui" onclick="AgregarCredito('.$reg->idventa.','.$reg->pedido.',\''.$reg->num_documento.'\','.$reg->total.',\''.utf8_encode($reg->nombre).'\')"><i class="fa fa-eye"></i> </button>'
 
                             );
                 $i++;
@@ -132,26 +142,19 @@
 
 			$query_Tipo = $objCredito->VerDetalleCredito($idVenta);
 
-            $i = 1;
-     		while ($reg = $query_Tipo->fetch_object()) {
-	            if($i == 1){ 
-                    echo '
-	             	<tr>
-                                <td>'.$i.'</td>
-	             		<td>'.$reg->fecha_pago.'</td>
-	             		<td>$'.$reg->total_pago.' (PIE)</td>
-                                 <td></td>   
-                    ';}
-                   else{ 
-                    echo '
-	             	<tr>
-                                <td>'.$i.'</td>
-	             		<td>'.$reg->fecha_pago.'</td>
-	             		<td>$'.$reg->total_pago.'</td>
-                                <td><a target="_blank" href="Reportes/exComprobanteCredito.php?id='.$reg->idventa.'&idcredito='.$reg->idcredito.'">Imprimir Comprobante</a></td>   
-                    ';}
-                $i++;
-            }
+                        $i = 1;
+                        while ($reg = $query_Tipo->fetch_object()) {
+                            
+                            
+                            echo '
+                                <tr>
+                                        <td>'.$i.'</td>
+                                        <td>'.$reg->fecha_pago.'</td>
+                                        <td>$'.$reg->total_pago.'</td>
+                                        <td><a target="_blank" href="Reportes/exComprobanteCredito2.php?idPedido='.$reg->idpedido.'&idVenta='.$reg->idventa.'&idcredito='.$reg->idcredito.'">Imprimir Comprobante</a></td>   
+                            ';
+                        $i++;
+                    }
             
 			break;
 
@@ -161,9 +164,9 @@
 
 			$query_Tipo = $objCredito->MontoTotalPagados($idVenta);
 
-            $reg = $query_Tipo->fetch_object();
+                        $reg = $query_Tipo->fetch_object();
      		
-     		echo json_encode($reg);
+                        echo json_encode($reg);
             
 			break;
 

@@ -1,28 +1,44 @@
 $(document).on("ready", init);// Inciamos el jquery
 
 var email = "";
+var publicoGeneral = "PUBLICO GENERAL";
 
 function init(){
+  
     //venta a credito y contado
+    //default fprma de pago
+    $("#cboNumCuotas").prop('disabled', true);
+    $("#VerFormVentaPed #txtTotalPago").prop('disabled', true);
+    $("#cboFormaPago").prop('disabled', false);
     $("#pie").hide();
     $("#ncuotas").hide();
+    $("#vCuota").hide();
+    
     $( "#cboTipoVenta" ).change(function() {
                if($( "#cboTipoVenta" ).val() == "Credito"){
-                     $("#cboFormaPago").prop('disabled', true);
-                     $("#txtTotalPago").prop('disabled', false);
                      $("#cboNumCuotas").prop('disabled', false);
-                     
+                     $("#txtTotalPago").prop('disabled', false);
+                     $("#cboFormaPago").prop('disabled', true);
+//                     $("#cboFormaPago").prop('disabled', true);
+//                     $("#txtTotalPago").prop('disabled', false);
+//                     $("#cboNumCuotas").prop('disabled', false);
+//                     
                      $("#formaPago").hide();
                      $("#pie").show();
                      $("#ncuotas").show();
+                     $("#vCuota").show();
                }
                if($( "#cboTipoVenta" ).val() == "Contado"){
-                      $("#cboFormaPago").prop('disabled', false);
-                      $("#txtTotalPago").prop('disabled', true);
-                      $("#cboNumCuotas").prop('disabled', true);
+                   $("#cboNumCuotas").prop('disabled', true);
+                   $("#txtTotalPago").prop('disabled', true);
+                   $("#cboFormaPago").prop('disabled', false);
+//                      $("#cboFormaPago").prop('disabled', false);
+//                      $("#txtTotalPago").prop('disabled', true);
+//                      $("#cboNumCuotas").prop('disabled', true);
                       $("#formaPago").show();
                       $("#pie").hide();
                       $("#ncuotas").hide();
+                      $("#vCuota").hide();
                }
     });
 
@@ -59,13 +75,22 @@ function init(){
 		e.preventDefault();// para que no se recargue la pagina
                 
                 //NO se permite generar una venta a credito al publico en  gemeral
-                  if($("#txtClienteVent").val() == "PUBLICO GENERAL" && $("#cboTipoVenta").val() == "Credito"  )  {
+                  if($("#txtClienteVent").val() == publicoGeneral && $("#cboTipoVenta").val() == "Credito"  )  {
                       bootbox.alert("No puede realizar una venta, debe seleccionar un usuario registrado");
                       return;
                   } 
                   
                   if($("#cboTipoVenta").val() == "Credito"){
                        $("#cboFormaPago").val("");
+                       
+                       if(parseInt($("#txtTotalVent").val()) - parseInt($("#txtTotalPago").val() < 0 )){
+                              bootbox.alert("El valor del pie no puede ser mayor que el valor total");
+                              return;
+                       }
+                       if(parseInt($("#txtTotalVent").val()) - parseInt($("#txtTotalPago").val() == 0 )){
+                              bootbox.alert("VENTA CONTADO SIN CUOTAS");
+                              return;
+                       }
                   }
                   if($("#cboTipoVenta").val() == "Contado"){
                       $("#txtTotalPago").val("");
@@ -91,7 +116,9 @@ function init(){
                                 pie          : $("#txtTotalPago").val()
                                 
                             };
-
+                           
+                            
+                            
                             $.post("./ajax/VentaAjax.php?op=SaveOrUpdate", data, function(r){// llamamos la url por post. function(r). r-> llamada del callback
                                 if ($("#cboTipoComprobante").val() == "TICKET") {
                                         //window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val() , "TICKET" , "width=396,height=430,scrollbars=NO");
@@ -389,4 +416,43 @@ function pasarIdPedido(idPedido, total, correo){// funcion que llamamos del arch
         $("#txtSubTotalPed").val(Math.round(subTotalPed*100)/100);
 
         $("#txtTotalPed").val(Math.round(total*100)/100);
- 	}
+}
+
+function validarPie(value){
+  
+    
+   
+}
+
+function calcularValorCuota(){
+    if(parseInt($("#txtTotalVent").val()) - parseInt($("#txtTotalPago").val()) < 0){
+         bootbox.alert("El valor del pie no puede ser mayor que el valor total");
+         $("#txtTotalPago").val(0);
+         $("#txtValorCuota").val(0);
+         $("#cboNumCuotas").val("");
+         //calcularValorCuota();
+         return;
+    }
+     if(parseInt($("#txtTotalVent").val()) - parseInt($("#txtTotalPago").val()) == 0 ){
+                              bootbox.alert("El Valor del Pie no puede ser del mismo valor que el Monto de la Venta");
+                              return;
+    }
+    
+//    if( parseInt($("#txtTotalVent").val()) == parseInt($("#txtTotalPago").val()) ){
+//        $("#cboNumCuotas").html("")
+//    }else{
+//          $("#cboNumCuotas").html("<option value=''></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option>")
+//    }
+    if(parseInt($("#cboNumCuotas").val()) > 0){
+                                var dataCalculoCuota = { 
+                                  
+                                    txtTotalVent : $("#txtTotalVent").val(),
+                                     cboNumCuotas : $("#cboNumCuotas").val(),
+                                    txtTotalPago          : $("#txtTotalPago").val()
+
+                                };
+                                $.post("./ajax/VentaAjax.php?op=calculoCuota", dataCalculoCuota, function(r){
+                                    $("#txtValorCuota").val(r);
+                                });
+                            }
+}

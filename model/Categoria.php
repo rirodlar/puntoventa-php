@@ -9,6 +9,7 @@
 
 		public function Registrar($nombre){
 			global $conexion;
+                        $nombre = mysql_real_escape_string($nombre);
 			$sql = "INSERT INTO categoria(nombre, estado)
 						VALUES('$nombre', 'A')";
 			$query = $conexion->query($sql);
@@ -17,6 +18,7 @@
 		
 		public function Modificar($idcategoria, $nombre){
 			global $conexion;
+                          $nombre = mysql_real_escape_string($nombre);
 			$sql = "UPDATE categoria set nombre = '$nombre'
 						WHERE idcategoria = $idcategoria";
 			$query = $conexion->query($sql);

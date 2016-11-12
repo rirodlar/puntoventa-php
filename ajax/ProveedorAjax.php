@@ -11,15 +11,15 @@
 		case 'SaveOrUpdate':			
 
 			$tipo_persona = $_POST["cboTipo_Persona"];
-			$nombre = $_POST["txtNombre"];
-			$tipo_documento = $_POST["cboTipo_Documento"];
+			$nombre = utf8_decode($_POST["txtNombre"]);
+			$tipo_documento = utf8_decode($_POST["cboTipo_Documento"]);
 			$num_documento = $_POST["txtNum_Documento"];
 			//$direccion_departamento = $_POST["txtDireccion_Departamento"];
-			$ciudad = $_POST["txtCiudad"];
-			$comuna = $_POST["txtComuna"];
-			$direccion_calle = $_POST["txtDireccion_Calle"];
-			$telefono = $_POST["txtTelefono"];
-			$email = $_POST["txtEmail"];
+			$ciudad =utf8_decode($_POST["txtCiudad"]);
+			$comuna = utf8_decode($_POST["txtComuna"]);
+			$direccion_calle = utf8_decode($_POST["txtDireccion_Calle"]);
+			$telefono = utf8_decode($_POST["txtTelefono"]);
+			$email =   utf8_decode($_POST["txtEmail"]);
 			//$numero_cuenta = $_POST["txtNumero_Cuenta"];
 			$estado = $_POST["txtEstado"];
 

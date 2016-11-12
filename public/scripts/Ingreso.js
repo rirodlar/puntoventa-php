@@ -231,7 +231,7 @@ function init() {
                         {   "mDataProp": "0"},
                         {   "mDataProp": "1"},
                         {   "mDataProp": "2"},
-                        {   "mDataProp": "3"},
+                       // {   "mDataProp": "3"},
                         {   "mDataProp": "4"},
                         {   "mDataProp": "5"},
                         {   "mDataProp": "6"}
@@ -491,11 +491,15 @@ function ListadoIngresos(){
         var suma = 0;
 
         var data = JSON.parse(objinit.consultar());
-        
+        console.log(data);
         for (var pos in data) {
             suma += parseFloat(data[pos][5] * data[pos][6]);
         }
+        console.log( parseInt($("#txtImpuesto").val()));
+        console.log(100+parseInt($("#txtImpuesto").val()));
+        console.log("suma "+suma);
         var totalIgv=suma * parseInt($("#txtImpuesto").val()) / (100+parseInt($("#txtImpuesto").val()));
+          //    var totalIgv=suma * parseInt($("#txtImpuesto").val()) / (100+parseInt($("#txtImpuesto").val()));
         $("#txtIgv").val(Math.round(totalIgv*100)/100);
     }
 

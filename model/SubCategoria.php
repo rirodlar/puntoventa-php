@@ -18,6 +18,7 @@
 //		
 		public function Modificar($idSubcategoria, $idCategoria ,$nombre){
 			global $conexion;
+                        $nombre = mysql_real_escape_string($nombre);
 			$sql = "UPDATE subcategoria set nombre = '$nombre', idcategoria='$idCategoria' WHERE idsubcategoria = $idSubcategoria";
 			$query = $conexion->query($sql);
 			return $query;
