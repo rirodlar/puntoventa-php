@@ -86,7 +86,7 @@ $reg_total = $query_total->fetch_object();
 $query_ped = $objPedido->ImprimirDetallePedido($_GET["id"]);
 $numero = $reg_cli->num_comprobante;
 $fecha = $reg_cli->fecha;
-$pdf->detalleVenta($query_ped,$numero,$fecha,$reg_total->Total,$reg_cli->num_documento,$reg_cli->telefono,$reg_cli->pie,$reg_cli->num_cuotas,$reg_cli->valor_cuota);
+$pdf->detalleVenta($query_ped,$numero,$fecha,$reg_total->Total,$reg_cli->num_documento,$reg_cli->telefono,$reg_cli->pie,$reg_cli->num_cuotas,$reg_cli->valor_cuota, $reg_cli->tipo_venta);
 //
 //        while (+$reg+-+ = $query_ped->fetch_object()) {
 //

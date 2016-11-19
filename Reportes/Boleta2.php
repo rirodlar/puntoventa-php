@@ -152,13 +152,13 @@ function addSociete( $nom, $adresse,$logo,$ext_logo )
 	$this->MultiCell($length, 4, $adresse);
 }
 
-function detalleVenta( $query_ped,$numero,$fecha,$reg_total,$nombre,$telefono,$pie,$num_cuotas,$valor_cuota){
+function detalleVenta( $query_ped,$numero,$fecha,$reg_total,$nombre,$telefono,$pie,$num_cuotas,$valor_cuota, $tipo_venta){
     //$this->SetFont('Arial', '', 10);
     
 //    $this->Cell(18, 10, '', 1);
     $this->Cell(140, 20, '', 0);
     $this->SetFont('Arial', '', 10);
-    $this->Cell(50, 10, 'DD'.$numero, 0);
+    $this->Cell(50, 10, $numero, 0);
     
      $this->Ln(4);
       $this->Cell(140, 20, '', 0);
@@ -173,12 +173,13 @@ function detalleVenta( $query_ped,$numero,$fecha,$reg_total,$nombre,$telefono,$p
     $this->Cell(130, 8, '', 0);
     $this->Cell(60, 8, $telefono, 0);
     $this->Ln(4);
-   
+   if($tipo_venta == "Credito"){
     $this->Cell(130, 8, '', 0);
     $this->Cell(60, 8, $pie, 0);
     $this->Ln(4);
       $this->Cell(130, 8, '', 0);
     $this->Cell(60, 8, $num_cuotas.' cuotas de  $'.$valor_cuota, 0);
+   }
     $this->Ln(4);
    
     

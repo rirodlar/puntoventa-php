@@ -124,17 +124,37 @@ function init(){
                                         //window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val() , "TICKET" , "width=396,height=430,scrollbars=NO");
                                        // window.open("localhost/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val());
                                         //location.href = "/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val();
-                                    window.open("/solventas/Reportes/exTicket.php?id=" + $("#txtIdPedido").val(), '_blank');
+                                    window.open("/puntoventa-php/Reportes/exTicket.php?id=" + $("#txtIdPedido").val(), '_blank');
                                 }
                                 if ($("#cboTipoVenta").val() == "Contado") {
 
-                                    swal("Mensaje del Sistema", r, "success");
-
+                                  // swal("Mensaje del Sistema", r, "success");
+                                    
+                swal({
+                  title: r,
+                  text: "¿Desea Imprimir el comprobante?",
+                  type: "info",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Si, Imprimir!",
+                  cancelButtonText: "No,",
+                  closeOnConfirm: false,
+                  closeOnCancel: false
+                },
+                function(isConfirm){
+                  if (isConfirm) {
+                      swal("Impreso!", "El comprobante se generó exitosamente", "success");
+                      window.open("/GIT/puntoventa-php/Reportes/exBoleta2.php?id=" + $("#txtIdPedido").val(), '_blank');
+                  } else {
+                    swal("Cancelado", "Impresión Pendiente!", "info");
+                  }
+                });                                 
                                     $("#btnNuevoPedido").show();
                                     OcultarForm();
                                     ListadoVenta();
                                     ListadoPedidos();
                                     LimpiarPedido();
+                                  //    window.open("/GIT/puntoventa-php/Reportes/exBoleta2.php?id=" + $("#txtIdPedido").val(), '_blank');
 
                 //                    bootbox.prompt({
                 //                      title: "Ingrese el correo para enviar el detalle de la compra",
@@ -152,11 +172,33 @@ function init(){
                                 } else {
                                   // alert("CARGAR PIE")
                                    
-                                    swal("Mensaje del Sistema", r, "success");
+                                   // swal("Mensaje del Sistema", r, "success");
+                                   
+                                     swal({
+                  title: r,
+                  text: "¿Desea Imprimir el comprobante?",
+                  type: "info",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Si, Imprimir!",
+                  cancelButtonText: "No,",
+                  closeOnConfirm: false,
+                  closeOnCancel: false
+                },
+                function(isConfirm){
+                  if (isConfirm) {
+                      swal("Impreso!", "El comprobante se generó exitosamente", "success");
+                      window.open("/GIT/puntoventa-php/Reportes/exBoleta2.php?id=" + $("#txtIdPedido").val(), '_blank');
+                  } else {
+                    swal("Cancelado", "Impresión Pendiente!", "info");
+                  }
+                });  
                                       OcultarForm();
                                     ListadoVenta();
                                     ListadoPedidos();
                                     LimpiarPedido();
+                                    
+                                    //window.open("/GIT/puntoventa-php/Reportes/exBoleta2.php?id=" + $("#txtIdPedido").val(), '_blank');
                                    // $("#btnNuevoPedido").show();
 
 //                                    bootbox.alert(r + ", Pasaremos a Registrar el Credito", function() {
@@ -201,6 +243,7 @@ function init(){
                 //                    });
 
                                 }
+                                
                 
             });//AJAX VENTA
         } else {

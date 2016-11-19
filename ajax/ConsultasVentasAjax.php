@@ -203,13 +203,17 @@
                          "2"=>$reg->empleado,
                          "3"=>$reg->cliente,
                          "4"=>$reg->comprobante,
-                       //  "5"=>$reg->serie,
+                         "tipo_venta"=>$reg->tipo_venta,
                          "6"=>$reg->numero,
                          "7"=>$reg->impuesto,
                          "8"=>$reg->subtotal,
                          "9"=>$reg->totalimpuesto,
-                         "10"=>$reg->total
-                    );
+                         "10"=>$reg->total,
+                         "detalle"=>'<button class="btn btn-success" data-toggle="tooltip" title="Ver Detalle" onclick="cargarDetalleCliente('.$reg->idventa.','.$reg->idpedido.')">Detalle</button>'
+                        );
+                                   
+                        
+                
                }
             
                $results = array(

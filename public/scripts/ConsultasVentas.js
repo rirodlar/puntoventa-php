@@ -3,7 +3,17 @@ $(document).on("ready", init);// Inciamos el jquery
 var objC = new init();
 
 function init(){
-
+    
+    //ocultar informacion del detalle de venta, esta aparecera al momeento de pinchar una venta (datatable)
+    $("#titledetalleVenta2").hide();
+    $("#tblDetallePedido2").hide();
+    $("#tblVerDetalle2").hide(); 
+    $("#infoDataCuotas").hide();
+    $("#titledetalleCuotas2").hide();
+    
+     
+    
+    
 	$("#tblVentaFechas").dataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -50,6 +60,7 @@ function init(){
         ]
     });
 	$("#tblVentasCliente").dataTable({
+            
         dom: 'Bfrtip',
         buttons: [
             'copyHtml5',
@@ -351,12 +362,13 @@ function init(){
 		                    {   "mDataProp": "2"},
 		                    {   "mDataProp": "3"},
 		                    {   "mDataProp": "4"},
-		                   // {   "mDataProp": "5"},
+		                    {   "mDataProp": "tipo_venta"},
 		                    {   "mDataProp": "6"},
 		                    {   "mDataProp": "7"},
 		                    {   "mDataProp": "8"},
 		                    {   "mDataProp": "9"},
-		                    {   "mDataProp": "10"}
+		                    {   "mDataProp": "10"},
+                                     {   "mDataProp": "detalle"}
 
 		        	],"ajax": 
 			        	{
@@ -515,5 +527,91 @@ function init(){
 			
 		}
 	}
+        
+        function cargarDetalleCliente(idVenta,idPedido){
+           
+              $.post("./ajax/PedidoAjax.php?op=GetDetallePedido2", {idPedido: idPedido}, function(r) {
+                //$("table#tblVerDetalle tbody").html(r);
+                 $("#titledetalleVenta2").show();
+                  $("#tblDetallePedido2").show();
+                  $("table#tblDetallePedido2 tbody").html(r);
+            
+             });
+            $.post("./ajax/CreditoAjax.php?op=VerDetCredito", {idVenta: idVenta}, function(r) {
+             $("#tblVerDetalle2").show();
+                $("table#tblVerDetalle2 tbody").html(r);
+//            
+            });
+            
+            $.getJSON("./ajax/CreditoAjax.php?op=MontoTotalPagados", {idVenta: idVenta}, function(r) {
+                if (r) {
+                    if(r.tipo_venta == "Contado"){
+                         $("#titledetalleCuotas2").hide()
+                           $("#infoDataCuotas").hide();
+                           $("#tblVerDetalle2").hide();
+                          
+                           
+                    }
+                    if(r.tipo_venta == "Credito"){
+                        
+                   
+                    $("#infoDataCuotas").show();
+                    console.log(r);
+                     $("#titledetalleCuotas2").show();
+//                	$("#txtMontoPendiente").val(r.MontoTotalPagados-r.pie);
+                        var cuotaPagada = parseInt(r.cuotaPagada); //se le resta 1 (por el pie inicial)
+//                        $("#txtNumeroCuota").val(cuotaPagada+" / "+r.num_cuotas);
+//                        $("#txtValorCuota").val(r.valor_cuota);
+//                        
+//                        $("#txtPie").val(r.pie);
+                       // alert(r.cuotaPagada+" - "+(parseInt(r.num_cuotas)-1));
+                	montoPendiente = parseFloat(r.MontoTotalPagados) - parseFloat(r.pie);
+                        
+                        //alert("montoPendiente :"+montoPendiente);
+                        $("#valorPie").html(r.valor_cuota);
+                       $("#valorCuota").html(r.pie);
+                       $("#numCuotas").html(cuotaPagada+" / "+r.num_cuotas);
+                        $("#valorMontoPendiente").html(montoPendiente);
+                    }
+                }
+            
+    })
+        }
 
 
+//function AgregarCredito(idVenta,idPedido, num_documento ,total,nombre){
+//	$("#VerListado").hide();
+//	$("#VerForm").show();
+//	$("#txtIdVenta").val(idVenta);
+//	$("#txtMontoTotal").val(total);
+//        
+//        $("#txtCliente").val("("+num_documento+")"+" - "+nombre);
+//        
+//
+//	$.post("./ajax/CreditoAjax.php?op=VerDetCredito", {idVenta: idVenta}, function(r) {
+//                $("table#tblVerDetalle tbody").html(r);
+//            
+//        });
+//        
+//        $.post("./ajax/PedidoAjax.php?op=GetDetallePedido2", {idPedido: idPedido}, function(r) {
+//                //$("table#tblVerDetalle tbody").html(r);
+//              $("table#tblDetallePedido tbody").html(r);
+//            
+//        });
+//
+//	$.getJSON("./ajax/CreditoAjax.php?op=MontoTotalPagados", {idVenta: idVenta}, function(r) {
+//                if (r) {
+//                    console.log(r);
+//                	$("#txtMontoPendiente").val(r.MontoTotalPagados-r.pie);
+//                        var cuotaPagada = parseInt(r.cuotaPagada); //se le resta 1 (por el pie inicial)
+//                        $("#txtNumeroCuota").val(cuotaPagada+" / "+r.num_cuotas);
+//                        $("#txtValorCuota").val(r.valor_cuota);
+//                        
+//                        $("#txtPie").val(r.pie);
+//                       // alert(r.cuotaPagada+" - "+(parseInt(r.num_cuotas)-1));
+//                	montoPendiente = parseFloat(r.MontoTotalPagados) - parseFloat(r.pie);
+//                }
+//            
+//    })
+//
+//}

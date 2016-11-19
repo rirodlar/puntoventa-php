@@ -129,7 +129,7 @@
 
 		public function ListarVentasCliente($idsucursal, $idcliente, $fecha_desde, $fecha_hasta){
 			global $conexion;
-			$sql = "select v.fecha,s.razon_social as sucursal,
+			$sql = "select  v.tipo_venta, v.idventa, v.idpedido, v.fecha,s.razon_social as sucursal,
 				concat(e.apellidos,' ',e.nombre) as empleado,
 				pe.nombre as cliente,v.tipo_comprobante as comprobante,
 				v.serie_comprobante as serie,v.num_comprobante as numero,

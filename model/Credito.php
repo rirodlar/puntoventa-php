@@ -93,7 +93,7 @@
 		
 		public function MontoTotalPagados($idventa){
 			global $conexion;
-			$sql = "select v.total - ifnull(sum(c.total_pago),0) as MontoTotalPagados, v.num_cuotas, v.valor_cuota,count(idcredito) as cuotaPagada, v.pie, v.num_comprobante, v.total
+			$sql = "select v.tipo_venta, v.total - ifnull(sum(c.total_pago),0) as MontoTotalPagados, v.num_cuotas, v.valor_cuota,count(idcredito) as cuotaPagada, v.pie, v.num_comprobante, v.total
                                 from credito c inner join venta v on c.idventa = v.idventa where c.idventa = $idventa";
                         
 //                        $sql = "select v.total - sum(c.total_pago) as MontoTotalPagados, v.num_cuotas, v.valor_cuota,count(idcredito) as cuotaPagada, v.pie

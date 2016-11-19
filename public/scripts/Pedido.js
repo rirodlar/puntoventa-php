@@ -15,6 +15,7 @@ var email = "";
 //AgregatStockCant(21);
 
 function init() {
+    $("#clienteDeudas").html("");
     
 //    $("#pie").hide();
 //    $("#ncuotas").hide();
@@ -536,7 +537,7 @@ function ConsultarDetallesPed() {
     }
 
     function cargarDataPedido(idPedido, tipo_pedido, numero, Cliente, total, correo){
-        alert("cargarDataPedido");
+       // alert("cargarDataPedido");
         bandera = 2;
         $("#VerForm").show();
         $("#btnNuevoVent").hide();
@@ -636,7 +637,7 @@ function ConsultarDetallesPed() {
     }
 
     function CargarDetallePedido(idPedido) {
-        alert("CargarDetallePedido");
+        //alert("CargarDetallePedido");
         //$('th:nth-child(2)').hide();
         //$('th:nth-child(3)').hide();
         $('table#tblDetallePedidoVer th:nth-child(4)').hide();

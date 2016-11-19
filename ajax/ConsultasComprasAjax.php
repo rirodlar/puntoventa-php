@@ -17,8 +17,8 @@
 			while ($reg = $query_Tipo->fetch_object()) {
 				$data[] = array(
                     "0"=>$reg->sucursal,
-                    "1"=>$reg->articulo,
-                    "2"=>$reg->categoria,
+                    "1"=>utf8_encode($reg->articulo),
+                    "2"=>utf8_encode($reg->categoria),
                     "3"=>$reg->unidad,
                     "4"=>$reg->totalingreso,
                     "5"=>$reg->valorizadoingreso,
@@ -49,8 +49,8 @@
 
 				$data[] = array(
                     "0"=>$reg->sucursal,
-                    "1"=>$reg->articulo,
-                    "2"=>$reg->categoria,
+                    "1"=>utf8_encode($reg->articulo),
+                    "2"=>utf8_encode($reg->categoria),
                     "3"=>$reg->codigo,
                     "4"=>$reg->serie,
                     "5"=>$reg->totalingreso,
